@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,10 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/accueil', function () {
-    return view('index');
-})->name('index');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('login',[UserAuthController::class, 'login']);
+Route::get('register',[UserAuthController::class, 'register']);
+Route::get('logout',[UserAuthController::class, 'logout']);
+Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');
+Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');

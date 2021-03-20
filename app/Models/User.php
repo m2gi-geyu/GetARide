@@ -11,15 +11,19 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+
+    public $timestamps = false; //thanks StackOverflow!!!!
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'phone',
+        'vehicle'
     ];
 
     /**
