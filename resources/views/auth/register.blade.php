@@ -27,7 +27,7 @@
                      @endif
                 </div>
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Pseudo</label>
                     <input type="text" class="form-control" name="username" placeholder="Enter username" value="{{old('username')}}">
                     <span class="text-danger">@error('username'){{$message}}@enderror</span>
                 </div>
@@ -37,12 +37,12 @@
                     <span class="text-danger">@error('email'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Mot de passe</label>
                     <input type="password" class="form-control" name="password" placeholder="Enter password" >
                     <span class="text-danger">@error('password'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Phone number</label>
+                    <label for="phone">Numéro de téléphone</label>
                     <input type="tel" class="form-control" name="phone" placeholder="Enter phone number" value="{{old('phone')}}">
                     <span class="text-danger">@error('phone'){{$message}}@enderror</span>
                 </div>
@@ -55,10 +55,10 @@
                     <span class="text-danger">@error('vehicle'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-block btn-primary">Register</button>
+                    <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
                 </div>
                 <br>
-                <a href="login">I already have an account</a>
+                <p>Vous avez-déjà un compte?</p><a href="login">Connectez-vous!</a>
             </form>
         </div>
     </div>
