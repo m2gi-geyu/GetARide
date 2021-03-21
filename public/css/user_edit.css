@@ -1,0 +1,76 @@
+.label-modif {
+    float: left !important;
+    font-size: 24px !important;
+    font-family: "Sedan SC";
+    color: #FFFFFF;
+    padding-bottom: 2% !important;
+    white-space: nowrap;
+}
+
+.input-modif {
+    background: #EDDCD2 !important;
+    border: 1px solid #B7B7A4 !important;
+    border-radius: 32px !important;
+}
+
+.resize {
+    width: 150px; !important;
+    height: auto; !important;
+}
+
+.input-avatar {
+    background: #F4A261 !important;
+    border: 1px solid #B7B7A4 !important;
+    border-radius: 32px !important;
+    font-family: Signika, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    color: #264653;
+}
+
+div .avatar {
+    text-align: center;
+}
+
+.btn-form {
+    background: #F4A261;
+    border: 1px solid #E76F51;
+    border-radius: 32px;
+    font-family: Rubik, serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: #264653;
+}
+
+.radio-bold {
+    font-family: Rubik, serif;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+}
+
+.radio-group {
+    text-align: center;
+}
+
+.custom-radio {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.radio-bold:checked {
+    font-weight: bold;
+}
+
+.radio-before::before,
+.radio-before::after {
+    left: unset!important;
+    right: -1.5rem!important;
+}
