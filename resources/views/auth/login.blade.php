@@ -27,18 +27,26 @@
                            @endif
                        </div>
                         <div class="form-group">
-                            <label for="email">Email/username</label>
+                            <label for="email">Email/Pseudo</label>
                             <input type="text" class="form-control" name="email" placeholder="Enter email">
+                            <span class="text-danger">@error('email'){{$message}}@enderror</span>
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
+                            <label for="password">Mot de passe</label>
                             <input type="password" class="form-control" name="password" placeholder="Enter password">
+                            <span class="text-danger">@error('password'){{$message}}@enderror</span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-block btn-primary">Log-in</button>
                         </div>
+                       <br>
+                       <div class="form-group">
+                           <a href="logout"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
+                       </div>
                         <br>
-                        <a href="register">Create a new account now!</a>
+                        <p>Vous n'avez pas de compte?</p><a href="register">Inscrivez-vous!</a>
+                       <br>
+
                     </form>
                </div>
             </div>
