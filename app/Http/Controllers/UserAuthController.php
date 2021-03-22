@@ -50,7 +50,19 @@ class UserAuthController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
-        $user->vehicle = $request->vehicle;
+        
+        if($request->vehicle == 'non')
+        {
+            $user->vehicle = false;
+        }
+        else
+        {
+            $user->vehicle = true;
+        }
+
+
+
+
         //$user->ratings=NULL;
 
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)

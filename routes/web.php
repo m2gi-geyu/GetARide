@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Security\askForPasswordReset;
+use App\Http\Controllers\Security\PasswordResetting;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login',[UserAuthController::class, 'login']); //route pour la page de connexion
+Route::get('login',[UserAuthController::class, 'login'])->name('logIn'); //route pour la page de connexion
 Route::get('register',[UserAuthController::class, 'register']); //route pour la page d'inscription
 Route::get('logout',[UserAuthController::class, 'logout']);//route pour la "page" de déconnexion
 Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');//route pour la vérification du formulaire d'inscription
@@ -27,3 +30,13 @@ Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//
 Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
 
 Route::get('user/edit',[UserController::class, 'editUser']);
+
+//DEBUT EDIT Retrouver Mot de passe Elliot 20/03/2021
+
+Route::get('change-password', [askForPasswordReset::class, 'form']);
+Route::post('change-password', [askForPasswordReset::class, 'formSubmission']);
+
+Route::get('reset-password/{token}', [PasswordResetting::class, 'form']);
+Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
+
+//FIN EDIT Retrouver Mot de passe Elliot 20/03/2021
