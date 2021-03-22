@@ -29,7 +29,11 @@ Route::post('create',[UserAuthController::class, 'create'])->name('auth/create')
 Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//route pour la vérification du formulaire de connexion
 Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
 
+
+//user data edit
 Route::get('user/edit',[UserController::class, 'editUser']);
+Route::post('user/edit',[UserController::class, 'checkEditUser']);
+Route::get('user/delete',[UserController::class, 'deleteAccountUser']);
 
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)

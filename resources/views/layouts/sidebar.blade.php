@@ -34,7 +34,7 @@
         <div class="sideline"></div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/infos.png') }}" alt="informations">
-            <a href="#"> Mes informations</a>
+            <a href="{{ url('/user/edit') }}"> Mes informations</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/trajet.png') }}" alt="trajets">
@@ -60,6 +60,9 @@
     <main class="py-4">
         <div class="content-container">
             @yield('content')
+            <div class="flash-message">
+                @include('include.flash-message')
+            </div>
         </div>
     </main>
 </div>
