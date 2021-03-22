@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--View of the page used to change his forgotten password-->
+
+<!--TODO 22/03/2021 ADD VALIDATION ERROR SIGNALISATION-->
+
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

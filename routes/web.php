@@ -31,12 +31,10 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 
 Route::get('user/edit',[UserController::class, 'editUser']);
 
-//DEBUT EDIT Retrouver Mot de passe Elliot 20/03/2021
 
+//BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 Route::get('change-password', [askForPasswordReset::class, 'form']);
 Route::post('change-password', [askForPasswordReset::class, 'formSubmission']);
-
 Route::get('reset-password/{token}', [PasswordResetting::class, 'form']);
 Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
-
-//FIN EDIT Retrouver Mot de passe Elliot 20/03/2021
+//END OF 'CHANGE PASSWORD'  ROUTES (Edit by FAUGIER Elliot 22/03/2021)
