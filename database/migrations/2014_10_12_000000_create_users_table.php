@@ -23,12 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->boolean('vehicle')->default(false);
             $table->float('ratings')->nullable();
-            $table->text('profile_pic');
+            $table->text('profile_pic')->nullable();
             $table->text('name');
             $table->text('surname');
             //$table->date('birthdate')->nullable();
             $table->boolean('mail_notifications')->default(true);
-            $table->integer('gender');
+            $table->text('gender');
         });
     }
 
