@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->text('surname');
             //$table->date('birthdate')->nullable();
             $table->boolean('mail_notifications')->default(true);
+            $table->integer('gender');
         });
     }
 
