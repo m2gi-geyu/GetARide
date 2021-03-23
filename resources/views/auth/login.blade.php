@@ -11,7 +11,8 @@
         <div class="container">
             <div class="row">
                <div class="col-md-4 col-md-offset-4">
-                   <h3>User login</h3>
+                   <h3>GET A RIDE</h3>
+                   <br>
                    <form action="{{ route('auth/check') }}" method="post">
                        @csrf
                        <div class="results">
@@ -27,26 +28,22 @@
                            @endif
                        </div>
                         <div class="form-group">
-                            <label for="email">Email/Pseudo</label>
+                            <label for="email" class="login">Email/Pseudo</label>
                             <input type="text" class="form-control" name="email" placeholder="Enter email">
                             <span class="text-danger">@error('email'){{$message}}@enderror</span>
                         </div>
                         <div class="form-group">
-                            <label for="password">Mot de passe</label>
+                            <label for="password" class="login">Mot de passe</label>
                             <input type="password" class="form-control" name="password" placeholder="Enter password">
                             <span class="text-danger">@error('password'){{$message}}@enderror</span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-block btn-primary">Log-in</button>
-                        </div>
-                       <br>
-                       <div class="form-group">
-                           <a href="change-password"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
+                           <a href="logout"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié ?</button></a>
                        </div>
                         <br>
-                        <p>Vous n'avez pas de compte?</p><a href="register">Inscrivez-vous!</a>
+                        <p>Vous n'avez pas de compte ? <a href="register">Inscrivez-vous !</a></p>
                        <br>
-
                     </form>
                </div>
             </div>
