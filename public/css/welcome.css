@@ -2,15 +2,13 @@
 @import url('http://fonts.cdnfonts.com/css/prompt');
 @import url('http://fonts.cdnfonts.com/css/amiko');
 
-html,body,#block-container{
+html,body,#page-structure,#block-container{
     background-color: #264653;
     height:100%;
-}
-#page-structure{
-    height: 100vh;
-    background-color: #264653;
+
 }
 .btn-perso{
+    margin-top: 25px;
     width : 302px;
     height : 52px;
     background-color: #F4A261;
@@ -27,7 +25,10 @@ html,body,#block-container{
     height: 10%;
 }
 #row2{
-    height:90%;
+    height:70%;
+}
+#row3{
+    height:30%;
 }
 #title{
     color: white;
@@ -41,12 +42,8 @@ html,body,#block-container{
     font-family: 'Prompt', sans-serif;
     height: 50px;
 }
-#block6,#block7{
-    bottom:10px;
-}
-
 img{
-    width:100%;
+    width:70%;
     height:auto;
     background-color: transparent;
     padding-bottom: 10px;
