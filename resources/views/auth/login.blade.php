@@ -41,7 +41,7 @@
                         </div>
                        <br>
                        <div class="form-group">
-                           <a href="logout"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
+                           <a href="change-password"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
                        </div>
                         <br>
                         <p>Vous n'avez pas de compte?</p><a href="register">Inscrivez-vous!</a>

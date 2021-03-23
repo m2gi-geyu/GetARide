@@ -1,0 +1,23 @@
+@import url('http://fonts.cdnfonts.com/css/righteous');
+@import url('http://fonts.cdnfonts.com/css/prompt');
+@import url('http://fonts.cdnfonts.com/css/rubik');
+
+
+body{
+    background-color: #264653;
+}
+
+.header h1 {
+    color: white;
+    font-family: 'Righteous', sans-serif;
+    font-size: 96px;
+    text-align: center;
+}
+
+main div.content-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+

@@ -1,0 +1,36 @@
+
+.custom-alert {
+    background-color: #E9C46A !important;
+    border: 3px solid #E76F51 !important;
+    border-radius: 65px !important;
+}
+
+.custom-alert ul {
+    padding-left: 0; !important;
+}
+.custom-alert li:first-child{
+    font-family: Sedan SC, serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px !important;
+    color: #000000;
+}
+
+.custom-alert ul .li-error {
+    font-family: Rubik, serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    color: #000000;
+}
+
+.error_confirmation {
+    background: #2A9D8F;
+    border: 1px solid #264653;
+    border-radius: 100px;
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    color: #FFFFFF;
+}

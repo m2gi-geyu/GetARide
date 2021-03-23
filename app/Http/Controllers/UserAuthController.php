@@ -39,18 +39,36 @@ class UserAuthController extends Controller
     function create (Request $request){
         $request ->validate([
            'username'=> 'required|unique:users',
+            'surname'=> 'required',
+            'name'=> 'required|',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-            'phone' => 'required',
+            'phone' => 'required|unique:users',
+            'gender' => 'required',
             'vehicle' => 'required'
         ]);
 
         $user= new User; //création d'un user et récolte des données entrées
         $user->username = $request->username;
+        $user->surname = $request->surname;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
-        $user->vehicle = $request->vehicle;
+        $user->gender = $request->gender;
+
+        if($request->vehicle == 'non')
+        {
+            $user->vehicle = false;
+        }
+        else
+        {
+            $user->vehicle = true;
+        }
+
+
+
+
         //$user->ratings=NULL;
 
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
