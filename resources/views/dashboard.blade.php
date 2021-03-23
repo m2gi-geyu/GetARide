@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible"  content="ie=edge">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/accueil.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
 </head>
     <body>
         <div class="container">
