@@ -16,11 +16,7 @@
         {{  csrf_field() }}
 
         <input type="email" name="email" id="email">
-
-        <!--Error Message when the mail isn't linked to an account-->
-        @if($errors->get('email'))
-            <div>{{ __('passwords.user') }}</div>
-        @endif
+        <span class="text-danger">@error('email'){{$message}}@enderror</span>
 
         
 

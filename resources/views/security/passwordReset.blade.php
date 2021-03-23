@@ -17,26 +17,22 @@
         {{  csrf_field() }}
 
 
-
+        <span class="text-danger">@error('token'){{$message}}@enderror</span>
         <label>Email</label>
         <input type="email" name="email" id="email">
-        @if($errors->get('token'))
-            <div>TOKEN</div>
-        @endif
-        @if($errors->get('password_confirmation'))
-            <div>TOKEN</div>
-        @endif
+        
+        <span class="text-danger">@error('email'){{$message}}@enderror</span>
+
+       
         <br>
         <label>New Password</label>
         <input type="password" name="password" id="email">
+        <span class="text-danger">@error('password'){{$message}}@enderror</span>
         <br>
         <label>Retype your new Password</label>
         <input type="password" name="password_confirmation" id="email">
         <br>
         <input name="token" type="hidden" value="{{ $token }}">
-        @if($errors->get('token'))
-            <div>{{ __('passwords.token') }}</div>
-        @endif
         <button type="submit"> Reset</button>
 
     </form>

@@ -36,7 +36,7 @@ class PasswordResetting extends Controller
     public function formSubmission(Request $request)
     {
 
-        dd($request);
+        //dd($request->session());
 
         $request->validate([
             'token' => 'required',
