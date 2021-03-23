@@ -20,6 +20,12 @@
 
         <label>Email</label>
         <input type="email" name="email" id="email">
+        @if($errors->get('token'))
+            <div>TOKEN</div>
+        @endif
+        @if($errors->get('password_confirmation'))
+            <div>TOKEN</div>
+        @endif
         <br>
         <label>New Password</label>
         <input type="password" name="password" id="email">
@@ -28,6 +34,9 @@
         <input type="password" name="password_confirmation" id="email">
         <br>
         <input name="token" type="hidden" value="{{ $token }}">
+        @if($errors->get('token'))
+            <div>{{ __('passwords.token') }}</div>
+        @endif
         <button type="submit"> Reset</button>
 
     </form>

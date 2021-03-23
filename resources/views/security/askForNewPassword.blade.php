@@ -15,20 +15,21 @@
     <form action="{{ url('/change-password') }}" method="post">
         {{  csrf_field() }}
 
-        <!--Error Message-->
-        @if(session('error'))
-            <div>{{ session('error') }}</div>
-        @endif
-
         <input type="email" name="email" id="email">
 
         <!--Error Message when the mail isn't linked to an account-->
         @if($errors->get('email'))
             <div>{{ __('passwords.user') }}</div>
-        @else
-            <div><p>An email has been sent</p></div>
         @endif
 
+        
+
+        
+        <!--Success Message-->
+        @if(session('status'))
+            <div>{{ session('status') }}</div>
+        @endif
+        <br>
         <button type="submit"> Retrieve my password</button>
 
     </form>

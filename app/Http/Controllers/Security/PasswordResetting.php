@@ -35,11 +35,16 @@ class PasswordResetting extends Controller
      */
     public function formSubmission(Request $request)
     {
+
+        dd($request);
+
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
+
+
     
 
         $status = Password::reset(
@@ -55,6 +60,7 @@ class PasswordResetting extends Controller
             }
         );
 
+        
     
         return $status == Password::PASSWORD_RESET
                     ? redirect()->route('logIn')
