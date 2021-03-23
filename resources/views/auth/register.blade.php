@@ -10,12 +10,10 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6">
             <h3>GET A RIDE</h3>
-            <br>
             <form action="{{ route('auth/create') }}" method="post">
                 @csrf
-                <fieldset>
                 <div class="results">
                      @if(Session::get('success'))
                          <div class="alert alert-success">
@@ -34,6 +32,16 @@
                     <span class="text-danger">@error('username'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
+                    <label for="surname">Nom</label>
+                    <input type="text" class="form-control" name="surname" placeholder="Enter surname" value="{{old('surname')}}">
+                    <span class="text-danger">@error('surname'){{$message}}@enderror</span>
+                </div>
+                <div class="form-group">
+                    <label for="name">Prénom</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}">
+                    <span class="text-danger">@error('name'){{$message}}@enderror</span>
+                </div>
+                <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{old('email')}}">
                     <span class="text-danger">@error('email'){{$message}}@enderror</span>
@@ -49,21 +57,28 @@
                     <span class="text-danger">@error('phone'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
-                    <p>Possède véhicule
+                    <p>Civilité</p>
+                    <input type="radio" id="masculin" name="gender" value="M">
+                    <label for="oui">M</label><br>
+                    <input type="radio" id="feminin" name="gender" value="F">
+                    <label for="non">F</label><br>
+                    <input type="radio" id="autre" name="gender" value="A">
+                    <label for="non">Autre</label>
+                    <span class="text-danger">@error('gender'){{$message}}@enderror</span>
+                </div>
+                <div class="form-group">
+                    <p>Possède véhicule</p>
                     <input type="radio" id="oui" name="vehicle" value="oui">
-                    <label for="oui">Oui</label>
+                    <label for="oui">Oui</label><br>
                     <input type="radio" id="non" name="vehicle" value="non">
                     <label for="non">Non</label>
                     <span class="text-danger">@error('vehicle'){{$message}}@enderror</span>
-                    </p>
                 </div>
-                </fieldset>
-                <br>
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
                 </div>
                 <br>
-                <p>Vous avez-déjà un compte ? <a href="login">Connectez-vous!</a></p>
+                <p>Vous avez-déjà un compte?</p><a href="login">Connectez-vous!</a>
             </form>
         </div>
     </div>
