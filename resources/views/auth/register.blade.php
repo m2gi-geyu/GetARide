@@ -26,6 +26,7 @@
                          </div>
                      @endif
                 </div>
+                <fieldset>
                 <div class="form-group">
                     <label for="username">Pseudo</label>
                     <input type="text" class="form-control" name="username" placeholder="Enter username" value="{{old('username')}}">
@@ -59,9 +60,9 @@
                 <div class="form-group">
                     <p>Civilité</p>
                     <input type="radio" id="masculin" name="gender" value="M">
-                    <label for="oui">M</label><br>
+                    <label for="oui">M</label>
                     <input type="radio" id="feminin" name="gender" value="F">
-                    <label for="non">F</label><br>
+                    <label for="non">F</label>
                     <input type="radio" id="autre" name="gender" value="A">
                     <label for="non">Autre</label>
                     <span class="text-danger">@error('gender'){{$message}}@enderror</span>
@@ -69,11 +70,12 @@
                 <div class="form-group">
                     <p>Possède véhicule</p>
                     <input type="radio" id="oui" name="vehicle" value="oui">
-                    <label for="oui">Oui</label><br>
+                    <label for="oui">Oui</label>
                     <input type="radio" id="non" name="vehicle" value="non">
                     <label for="non">Non</label>
                     <span class="text-danger">@error('vehicle'){{$message}}@enderror</span>
                 </div>
+                </fieldset>
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
                 </div>
