@@ -1,3 +1,5 @@
+<link href="{{ asset('/css/flash_message.css') }}" rel="stylesheet" type="text/css" >
+
 @if ($message = Session::get('success'))
     <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -27,7 +29,6 @@
 @endif
 
 @if ($errors->any())
-{{--    css custom-alert modifié dans user_edit--}}
     <div class="alert alert-danger custom-alert">
         <ul style="list-style-type:none;">
             <li>Erreur</li>

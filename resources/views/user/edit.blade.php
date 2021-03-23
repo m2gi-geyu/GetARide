@@ -42,12 +42,16 @@
                 <label class="col-md-3 col-form-label label-modif" for="civilite_H">Civilité </label>
                 <div class="col-md-9 radio-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="1" @if(old('civilite')) checked @endif>
+                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="H" @if(old('civilite') == 'H') checked @endif>
                         <label class="custom-control-label radio-before text-left radio-bold" for="civilite_H">Mr</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_F" name="civilite" class="custom-control-input" value="0" @if(!old('civilite')) checked @endif>
-                        <label class="custom-control-label radio-bold" for="civilite_F">Mme</label>
+                        <input type="radio" id="civilite_F" name="civilite" class="custom-control-input" value="F" @if(old('civilite') == 'F') checked @endif>
+                        <label class="custom-control-label radio-before text-left radio-bold" for="civilite_F">Mme</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="civilite_A" name="civilite" class="custom-control-input" value="A" @if(old('civilite') == 'A') checked @endif>
+                        <label class="custom-control-label radio-before text-left radio-bold" for="civilite_A">Autre</label>
                     </div>
                 </div>
 
