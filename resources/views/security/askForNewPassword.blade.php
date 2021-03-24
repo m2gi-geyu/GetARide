@@ -25,17 +25,11 @@
             {{  csrf_field() }}
 
             <!--Error Message-->
-                @if(session('error'))
-                    <div>{{ session('error') }}</div>
-                @endif
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email"class="text-center col align-self-center" placeholder="Enter your email">
-
-                <!--Error Message when the mail isn't linked to an account-->
-                @if($errors->get('email'))
-                    <div>{{ __('passwords.user') }}</div>
-                @else
-                    <div><p>An email has been sent</p></div>
+                <span class="text-danger">@error('email'){{$message}}@enderror</span>
+                @if(session()->get('status'))
+                <span class=".text-success">{{ __('passwords.sent') }}</span>
                 @endif
 
                 <div class="text-center">
