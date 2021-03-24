@@ -6,17 +6,16 @@
             <div class="form-group row">
 
                 <div class="col-md-3 col-form-label my-auto" >
-                        <img src="{{ asset('/images/avatar_gros.png') }}" class="resize" alt="avatar">
+                        <img src="{{ $profile_pic ? $profile_pic : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
                 </div>
                 <div class="custom-file col-md-9 avatar my-auto">
-                    <input type="file" class="custom-file-input" id="avatar" name="avatar">
+                    <input type="file" class="custom-file-input" id="avatar" name="avatar" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
                     <label class="custom-file-label input-avatar" for="avatar"> Changer ma photo de profil @if(old('avatar')) : {{ old('avatar') }} @endif</label>
                 </div>
 
-
                 <label class="col-md-3 col-form-label label-modif" for="email">Adresse E-Mail </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="email" name="email" id="email" value="{{ old('email') }}">
+                    <input class="form-control input-modif" type="email" name="email" id="email" value="{{ old('email', $email) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="mdp">Nouveau mot de passe </label>
@@ -31,47 +30,46 @@
 
                 <label class="col-md-3 col-form-label label-modif" for="nom">Nom </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="text" name="nom" id="nom" value="{{ old('nom') }}">
+                    <input class="form-control input-modif" type="text" name="nom" id="nom" value="{{ old('nom', $surname) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="prenom">Prénom </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="text" name="prenom" id="prenom" value="{{ old('nom', $name) }}">
+                    <input class="form-control input-modif" type="text" name="prenom" id="prenom" value="{{ old('prenom', $name) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="civilite_H">Civilité </label>
                 <div class="col-md-9 radio-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="H" @if(old('civilite') == 'H') checked @endif>
+                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="H" @if(old('civilite', $gender) == 'H') checked @endif>
                         <label class="custom-control-label radio-before text-left radio-bold" for="civilite_H">Mr</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_F" name="civilite" class="custom-control-input" value="F" @if(old('civilite') == 'F') checked @endif>
+                        <input type="radio" id="civilite_F" name="civilite" class="custom-control-input" value="F" @if(old('civilite', $gender) == 'F') checked @endif>
                         <label class="custom-control-label radio-before text-left radio-bold" for="civilite_F">Mme</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_A" name="civilite" class="custom-control-input" value="A" @if(old('civilite') == 'A') checked @endif>
+                        <input type="radio" id="civilite_A" name="civilite" class="custom-control-input" value="A" @if(old('civilite', $gender) == 'A') checked @endif>
                         <label class="custom-control-label radio-before text-left radio-bold" for="civilite_A">Autre</label>
                     </div>
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="tel">Téléphone </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="tel" name="tel" id="tel" value="{{ old('tel') }}">
+                    <input class="form-control input-modif" type="tel" name="tel" id="tel" value="{{ old('tel', $phone) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="voiture_oui">Voiture </label>
                 <div class="col-md-9 radio-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="voiture_oui" name="voiture" class="custom-control-input" value="1" @if(old('voiture')) checked @endif>
+                        <input type="radio" id="voiture_oui" name="voiture" class="custom-control-input" value="1" @if(old('voiture', $vehicle)) checked @endif>
                         <label class="custom-control-label radio-before radio-bold" for="voiture_oui">Oui</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="voiture_non" name="voiture" class="custom-control-input" value="0" @if(!old('voiture')) checked @endif>
+                        <input type="radio" id="voiture_non" name="voiture" class="custom-control-input" value="0" @if(!old('voiture', $vehicle)) checked @endif>
                         <label class="custom-control-label radio-bold" for="voiture_non">Non</label>
                     </div>
                 </div>
-
         </div>
 
         <div class="form-group row">
