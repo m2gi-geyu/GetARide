@@ -24,7 +24,7 @@ class CreateTripsTable extends Migration
             $table->float('price');
             $table->boolean('private')->default(false);
             $table->text('description');
-            $table->integer('id_group')->unsigned();
+            $table->integer('id_group')->unsigned()->default(0);
             $table->foreign('id_group')->references('id')->on('groups');
         });
     }
