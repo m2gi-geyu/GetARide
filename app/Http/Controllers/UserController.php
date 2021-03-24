@@ -34,8 +34,8 @@ class UserController extends Controller
 
 
     /**
-     * Show the basic user informations and modifications fields.
-     *
+     * Renvoie la page du formulaire de modification des données du compte avec les données
+     * actuelles du compte pour les afficher
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function form()
@@ -46,9 +46,9 @@ class UserController extends Controller
     }
 
     /**
-     * Show the basic user informations and modifications fields.
-     * Fonction permettant à l'utilisateur de modifier les données de son compte
-     *
+     * Vérifie que les données du formulaire ne sont pas erronées avant de les envoyer vers
+     * la fonction de mise à jour.
+     * Si données erronées: affiche popup d'erreur avec liste des problèmes
      * @param  \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -88,9 +88,15 @@ class UserController extends Controller
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
         
-        return $this -> updateAccount($request);
+        return $this -> updateAccount($request); // Tout est ok, donc on met à jour les données
     }
 
+    /**
+     * Après la vérification, effectue la mise à jour des données du compte de l'utilisateur avec 
+     * celles rentrées dans le formulaire
+     * @param \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateAccount(Request $request){
         // Récupération des données du compte dans la BDD
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
@@ -108,7 +114,7 @@ class UserController extends Controller
         $user -> vehicle = $request -> voiture;
 
         $user -> save(); // Sauvegarder les changements
-        return Redirect::back();
+        return Redirect::back(); // Rediriger vers la même page (rafraîchir)
     }
 
     /**
