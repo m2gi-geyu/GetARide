@@ -63,7 +63,7 @@ class UserController extends Controller
             'email' => 'required|max:255',
             'nom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
             'prenom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
-            'mdp' => 'nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
+            'mdp' => 'required|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
             'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'mdp_actuel' => 'required',
@@ -119,9 +119,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function deleteAccountUser()
+    public function deleteUserAccount()
     {
-        /*manque confirmation*/
-        return view('user.edit');
+        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page
+        return Redirect::back();
     }
 }
