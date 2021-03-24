@@ -34,7 +34,7 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 //user data edit
 Route::get('user/edit',[UserController::class, 'form']) -> name("editUser");
 Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");
-Route::get('user/delete',[UserController::class, 'deleteAccountUser']) -> name("deleteUser");
+Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("deleteUser");
 
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)

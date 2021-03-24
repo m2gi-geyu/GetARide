@@ -116,9 +116,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function deleteAccountUser()
+    public function deleteUserAccount()
     {
-        /*manque confirmation*/
-        return view('user.edit');
+        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page        
+        return Redirect::back();
     }
 }
