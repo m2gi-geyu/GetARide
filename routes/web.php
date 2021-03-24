@@ -45,6 +45,7 @@ Route::get('reset-password/{token}', [PasswordResetting::class, 'form']);
 Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 //END OF 'CHANGE PASSWORD'  ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 
-Route::get('create_trip',[RideController::class, 'create_ride_form']);
+//create trip
+Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
 
