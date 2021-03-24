@@ -1,7 +1,7 @@
 .label-modif {
     float: left !important;
     font-size: 24px !important;
-    font-family: "Sedan SC";
+    font-family: "Sedan SC", serif;
     color: #FFFFFF;
     padding-bottom: 2% !important;
     white-space: nowrap;
@@ -73,4 +73,15 @@ div .avatar {
 .radio-before::after {
     left: unset!important;
     right: -1.5rem!important;
+}
+
+input {
+    font-family: Rubik, 'serif' !important;
+    font-size: 22px !important;
+}
+
+.delete_button:hover, .delete_button:visited, .delete_button:link, .delete_button:active
+{
+    text-decoration: none;
+    color: #264653;
 }

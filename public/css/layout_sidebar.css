@@ -98,3 +98,11 @@ main div.content-container {
     font-size: 27px;
     font-family: 'Righteous', sans-serif;
 }
+
+.flash-message {
+    position: absolute;
+    margin: 0 auto;
+    width: 20%;
+    text-align: center;
+    z-index: 99;
+}

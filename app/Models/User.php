@@ -11,11 +11,6 @@ use App\Notifications\Security\PasswordResetNotification;
 class User extends Authenticatable
 {
 
-    protected $primaryKey = 'email';
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-
     use HasFactory, Notifiable;
 
 

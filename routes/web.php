@@ -31,8 +31,15 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 
 // Begin of 'EDIT USER DATA' routes (edit by LETZELTER Guillaume 22/03/2021)
 Route::get('user/edit', [UserController::class, 'form']) -> name('editUserForm');
-Route::post('user/edit', [UserController::class, 'formSubmission']) -> name('user/edit');
+Route::post('user/edit', [UserController::class, 'formSubmission']) -> name('editUserFormSubmission');
+Route::get('user/delete',[UserController::class, 'deleteUserAccount']);
 // End of 'EDIT USER DATA' routes
+
+//user data edit
+Route::get('user/edit',[UserController::class, 'editUser']);
+Route::post('user/edit',[UserController::class, 'checkEditUser']);
+Route::get('user/delete',[UserController::class, 'deleteAccountUser']);
+
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 Route::get('change-password', [askForPasswordReset::class, 'form']);

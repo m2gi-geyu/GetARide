@@ -5,7 +5,7 @@
     <title>Page d'accueil</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/141552/style.css'>
-    <link rel="stylesheet" href="{{URL::asset('css/accueil.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
 </head>
 <body>
 <div id="initial-loader" class="padded">
@@ -20,7 +20,7 @@
                 <div id="title" class="col-md-12">GET A RIDE</div>
             </div>
             <div id="row2" class="row mt-5" align="center">
-                <div id="monCarousel" class="carousel slide" data-ride="carousel">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#monCarousel" data-slide-to="0" class="active"></li>
                         <li data-target="#monCarousel" data-slide-to="1"></li>
@@ -40,11 +40,11 @@
                             <div class="carousel-caption"><h3>Regroupez vous entre amis</h3></div>
                         </div>
                     </div>
-                    <a href="#monCarousel" class="left carousel-control" role="button" data-slide="prev">
+                    <a href="#myCarousel" class="left carousel-control" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a href="#monCarousel" class="right carousel-control" role="button" data-slide="next">
+                    <a href="#myCarousel" class="right carousel-control" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>

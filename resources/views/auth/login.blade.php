@@ -27,12 +27,12 @@
                            @endif
                        </div>
                         <div class="form-group">
-                            <label for="email">Email/Pseudo</label>
+                            <label for="email" class="login">Email/Pseudo</label>
                             <input type="text" class="form-control" name="email" placeholder="Enter email">
                             <span class="text-danger">@error('email'){{$message}}@enderror</span>
                         </div>
                         <div class="form-group">
-                            <label for="password">Mot de passe</label>
+                            <label for="password" class="login">Mot de passe</label>
                             <input type="password" class="form-control" name="password" placeholder="Enter password">
                             <span class="text-danger">@error('password'){{$message}}@enderror</span>
                         </div>
