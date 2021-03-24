@@ -24,13 +24,15 @@ Route::get('/', function () {
 
 Route::get('login',[UserAuthController::class, 'login'])->name('logIn'); //route pour la page de connexion
 Route::get('register',[UserAuthController::class, 'register']); //route pour la page d'inscription
-Route::get('logout',[UserAuthController::class, 'logout']);//route pour la "page" de déconnexion
+Route::get('logout',[UserAuthController::class, 'logout']); //route pour la "page" de déconnexion
 Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');//route pour la vérification du formulaire d'inscription
 Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//route pour la vérification du formulaire de connexion
 Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
 
-Route::get('user/edit',[UserController::class, 'editUser']);
-
+// Begin of 'EDIT USER DATA' routes (edit by LETZELTER Guillaume 22/03/2021)
+Route::get('user/edit', [UserController::class, 'form']) -> name('editUserForm');
+Route::post('user/edit', [UserController::class, 'formSubmission']) -> name('user/edit');
+// End of 'EDIT USER DATA' routes
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 Route::get('change-password', [askForPasswordReset::class, 'form']);
@@ -38,3 +40,7 @@ Route::post('change-password', [askForPasswordReset::class, 'formSubmission']);
 Route::get('reset-password/{token}', [PasswordResetting::class, 'form']);
 Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 //END OF 'CHANGE PASSWORD'  ROUTES (Edit by FAUGIER Elliot 22/03/2021)
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
