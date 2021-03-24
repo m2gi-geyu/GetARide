@@ -11,7 +11,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    //protected $user; //TODO: Limiter la duplication de code ()
+    //protected $user; //TODO: Limiter la duplication de code (appeler User::where qu'une seule fois)
     
     /**
      * Create a new controller instance.
@@ -54,6 +54,10 @@ class UserController extends Controller
      */
     public function formSubmit(Request $request)
     {
+        return $this -> formCheck($request);
+    }
+
+    public function formCheck(Request $request){
         // Récupération des données du formulaire
         $validator = Validator::make($request->all(),[
             'email' => 'required|max:255',
@@ -83,14 +87,21 @@ class UserController extends Controller
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
-        // TODO: vérifier si les données ont changées avant d'update pour n'update que celles-ci
+        
+        return $this -> updateAccount($request);
+    }
+
+    public function updateAccount(Request $request){
         // Récupération des données du compte dans la BDD
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
         // Mise à jour des données de l'utilisateur connecté
-        $user -> surname = $request -> nom;
+        //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
+        $user -> surname = $request -> nom; 
         $user -> name = $request -> prenom;
         $user -> email = $request -> email;
-        $user -> password = Hash::make($request -> mdp);
+        if ($request -> mdp != null){ // Si il y a un nouveau mot de passe...
+            $user -> password = Hash::make($request -> mdp); //... On remplace l'actuel
+        }
         $user -> phone = $request -> tel;
         $user -> gender = $request -> civilite;
         $user -> profile_pic = $request -> avatar;
