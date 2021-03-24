@@ -15,40 +15,40 @@
 
 </head>
 <body>
-    <div class="container">
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4 col-md-offset-4">
-                    <h3>Reset password</h3>
-                    <form action="{{ url('/reset-password') }}" method="post">
-                        {{  csrf_field() }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 col-md-offset-4">
+            <h3>Reset password</h3>
+            <form action="{{ url('/reset-password') }}" method="post">
+                {{  csrf_field() }}
 
 
-                        <span class="text-danger">@error('token'){{$message}}@enderror</span>
-                        <label>Email</label>
-                        <input type="email" name="email" id="email" class=" form-control text-center" placeholder="yourEmail@xyz.com">
-                        
-                        <span class="text-danger">@error('email'){{$message}}@enderror</span>
+                <span class="text-danger">@error('token'){{$message}}@enderror</span>
+                <label>Email</label>
+                <input type="email" name="email" id="email" class=" form-control text-center" placeholder="yourEmail@xyz.com">
 
-                       
-                        <br>
-                        <label>New Password</label>
-                        <input type="password" name="password" id="email" class="form-control text-center" placeholder="Enter your password">
-                        <span class="text-danger">@error('password'){{$message}}@enderror</span>
-                        <br>
-                        <label>Retype your new Password</label>
-                        <input type="password" name="password_confirmation" id="email" class="form-control text-center" placeholder="Confirm your password">
-                        <br>
-                        <input name="token" type="hidden" value="{{ $token }}">
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-block btn-primary m-2"> Reset</button>
-                        </div>
-                        
+                <span class="text-danger">@error('email'){{$message}}@enderror</span>
 
-                    </form>
+
+                <br>
+                <label>New Password</label>
+                <input type="password" name="password" id="email" class="form-control text-center" placeholder="Enter your password">
+                <span class="text-danger">@error('password'){{$message}}@enderror</span>
+                <br>
+                <label>Retype your new Password</label>
+                <input type="password" name="password_confirmation" id="email" class="form-control text-center" placeholder="Confirm your password">
+                <br>
+                <input name="token" type="hidden" value="{{ $token }}">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-block btn-primary m-2"> Reset</button>
                 </div>
-                <div class="col-md-4"></div>
-            </div>
+
+
+            </form>
+        </div>
+        <div class="col-md-4"></div>
     </div>
+</div>
 </body>
 </html>
