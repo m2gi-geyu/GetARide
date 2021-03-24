@@ -28,9 +28,10 @@
     </header>
     <nav class="sidenav">
         <div class="sidebar_icon">
-            <img src="{{ asset('/images/avatar.png') }}" alt="moi">
-            <a class="personne" href="#"> Moi</a>
+            <img src="{{ Session::has('avatar') ? Session::get('avatar') : asset('/images/avatar.png') }}" alt="moi" class="avatar_sidebar">
+            <a class="personne" href="#"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
         </div>
+
         <div class="sideline"></div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/infos.png') }}" alt="informations">
@@ -54,7 +55,7 @@
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/deconnexion.png') }}" alt="déconnexion">
-            <a href="#"> Déconnexion</a>
+            <a href="{{ url('/logout') }}"> Déconnexion</a>
         </div>
     </nav>
     <main class="py-4">

@@ -13,9 +13,11 @@
     border-radius: 32px !important;
 }
 
+/*avatar*/
 .resize {
-    width: 150px; !important;
-    height: auto; !important;
+    width:150px; !important;
+    height:150px; !important;
+    object-fit:cover; !important;
 }
 
 .input-avatar {

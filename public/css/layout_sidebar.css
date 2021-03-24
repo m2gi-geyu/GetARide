@@ -106,3 +106,10 @@ main div.content-container {
     text-align: center;
     z-index: 99;
 }
+
+
+.avatar_sidebar {
+    width:50px; !important;
+    height:50px; !important;
+    object-fit:cover; !important;
+}

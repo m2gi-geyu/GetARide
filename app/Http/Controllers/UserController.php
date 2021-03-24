@@ -48,7 +48,7 @@ class UserController extends Controller
     /**
      * Show the basic user informations and modifications fields.
      * Fonction permettant à l'utilisateur de modifier les données de son compte
-     * 
+     *
      * @param  \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -62,25 +62,27 @@ class UserController extends Controller
             'mdp' => 'required|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
             'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'mdp_actuel' => 'required',
         ], [ // Vérification des données du formulaire
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
             'prenom.required' => 'Prénom ne peut pas être vide.',
             'mdp.required' => 'Mot de passe ne peut pas être vide.',
+            'mdp_actuel.required' => 'Mot de passe actuel requis pour valider tout changement.',
             'mdp.confirmed' => 'Confirmation différente du mot de passe.',
             'tel.required' => 'Numéro de téléphone ne peut pas être vide.',
             'email.max' => 'Email trop long.',
             'nom.max' => 'Nom trop long.',
             'prenom.max' => 'Prénom trop long.',
             'mdp.max' => 'Mot de passe trop long.',
-            'mdp.regex' => 'Mot de passe incorrect : il faut au moins 8 caractères dont au moins un caractère spécial, une majuscule et une minuscule.',
+            'mdp.regex' => 'Nouveau mot de passe incorrect : il faut au moins 8 caractères dont au moins un caractère spécial, une majuscule et une minuscule.',
             'nom.regex' => 'Nom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
             'prenom.regex' => 'Prénom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
             'avatar.mimes' => 'Format d image incorrect.',
             'avatar.max' => 'Image trop lourde.',
             'tel.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
         ]);
-        
+
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
@@ -108,7 +110,7 @@ class UserController extends Controller
      */
     public function deleteUserAccount()
     {
-        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page        
+        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page
         return Redirect::back();
     }
 }
