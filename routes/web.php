@@ -32,7 +32,7 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 
 
 //user data edit
-Route::get('user/edit',[UserController::class, 'editUser']);
+Route::get('user/edit',[UserController::class, 'editUser'])->middleware('isLogged');;
 Route::post('user/edit',[UserController::class, 'checkEditUser']);
 Route::get('user/delete',[UserController::class, 'deleteAccountUser']);
 
