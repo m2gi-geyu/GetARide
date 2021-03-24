@@ -35,9 +35,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function editUser()
+    public function form()
     {
-        return view('user.edit');
+        return view('user/edit');
+    }
+
+    /**
+     * Fonction permettant à l'utilisateur de modifier les données de son compte
+     * @param Request $request requête de l'utilisateur (données du formulaire)
+     * @return back un message positif si la modification s'est bien déroulée, négatif sinon
+     */
+    public function formSubmission(Request $request){
+        return back() -> with('success', 'Données du compte mise à jour');
     }
 
     /**
