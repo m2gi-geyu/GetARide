@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,10 @@ class RideController extends Controller
             'date'=>'required',
             'time'=>'required',
             'final'=>'required',
+            'nb_passengers'=>'required',
+            'price'=>'required',
+            'privacy'=>'required',
+            'group' => 'required_if:privacy,==,private'
         ]);
 /*
         $ride = new Ride;
