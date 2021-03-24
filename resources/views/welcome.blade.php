@@ -49,20 +49,20 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+            </div>
+            <div id="row3" class="row" align="center">
                 <?php
-                    if(!session()->has('LoggedUser')){
-                        echo '<div id="block5" class="col-md-12">Rejoignez nous vite !</div>
-                <div id="block6" class="col-md-6"><a href="register"><button type="button" class="btn btn-perso btn-lg" >Inscrivez vous</button></a></div>
-                <div id="block7" class="col-md-6"><a href="login"><button type="button" class="btn btn-perso btn-lg">Connectez vous</button></a></div>';
-                    }
+                if(!session()->has('LoggedUser')){
+                    echo '<div id="block5" class="col-md-12">Rejoignez nous vite !</div>
+                    <div id="block6" class="col-md-6"><a href="register"><button type="button" class="btn btn-perso btn-lg" >Inscrivez vous</button></a></div>
+                    <div id="block7" class="col-md-6"><a href="login"><button type="button" class="btn btn-perso btn-lg">Connectez vous</button></a></div>';
+                }
                 ?>
-
                 <?php
                 if(session()->has('LoggedUser')){
                     echo '<div id="block6" class="col-md-6"><a href="logout"><button type="button" class="btn btn-perso btn-lg" >Se déconnecter</button></a></div>';
                 }
                 ?>
-
             </div>
         </div>
     </section>
