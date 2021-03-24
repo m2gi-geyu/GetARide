@@ -91,7 +91,6 @@ class UserController extends Controller
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
 
-        // TODO: Update BDD des données de l'utilisateur
         if(session()->has('LoggedUser')){ // Si l'utilisateur est toujours connecté, on met à jour les données
             // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
