@@ -70,11 +70,6 @@
                         <label class="custom-control-label radio-bold" for="voiture_non">Non</label>
                     </div>
                 </div>
-
-                <label class="col-md-3 col-form-label label-modif" for="mdp_actuel">Mot de passe actuel </label>
-                <div class="col-md-9">
-                    <input class="form-control input-modif" type="password" name="mdp_actuel" id="mdp_actuel" value="{{ old('mdp_actuel') }}">
-                </div>
         </div>
 
         <div class="form-group row">
