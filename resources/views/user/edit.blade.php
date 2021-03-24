@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 <link href="{{ asset('/css/user_edit.css') }}" rel="stylesheet" type="text/css" >
 @section('content')
-    <form class="col-md-8" action="{{ route('editUserForm') }}" method="POST" enctype="multipart/form-data">
+    <form class="col-md-8" action="{{ route('editUser') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="form-group row">
 
@@ -36,7 +36,7 @@
 
                 <label class="col-md-3 col-form-label label-modif" for="prenom">Prénom </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="text" name="prenom" id="prenom" value="{{ old('prenom') }}">
+                    <input class="form-control input-modif" type="text" name="prenom" id="prenom" value="{{ old('nom', $name) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="civilite_H">Civilité </label>
@@ -79,7 +79,7 @@
                 <button type="submit" class="btn-form">Enregistrer les changements</button>
             </div>
             <div class="col text-right">
-                <a href="{{ url("user/delete") }}" type="button" class="btn-form delete_button">Supprimer mon compte</a>
+                <a href="{{ route('deleteUser') }}" type="button" class="btn-form delete_button">Supprimer mon compte</a>
             </div>
         </div>
     </form>
