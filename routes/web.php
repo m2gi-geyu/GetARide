@@ -32,9 +32,9 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 
 
 //user data edit
-Route::get('user/edit',[UserController::class, 'editUser'])->middleware('isLogged');;
-Route::post('user/edit',[UserController::class, 'checkEditUser']);
-Route::get('user/delete',[UserController::class, 'deleteAccountUser']);
+Route::get('user/edit',[UserController::class, 'form']) -> name("editUser");
+Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");
+Route::get('user/delete',[UserController::class, 'deleteAccountUser']) -> name("deleteUser");
 
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)

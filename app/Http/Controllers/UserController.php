@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -37,37 +39,26 @@ class UserController extends Controller
      */
     public function form()
     {
-        return view('user/edit');
+        if (session() -> has('LoggedUser')){ // Si utilisateur connecté...
+            $username = session()->get('LoggedUser');
+            $user = User::where('username', '=', $username) -> first();  // Récupération des données du compte
+            return view('user/edit') -> with($user -> toArray()); // et accès à la page de modifications du compte avec les données de celui-ci à afficher
+        }
+        else{ // Si pas connecté
+            //TODO: message "Vous n'êtes pas connecté" et redirection accueil ou login
+        }
     }
 
     /**
+     * Show the basic user informations and modifications fields.
      * Fonction permettant à l'utilisateur de modifier les données de son compte
-     * @param Request $request requête de l'utilisateur (données du formulaire)
-     * @return back un message positif si la modification s'est bien déroulée, négatif sinon
-     */
-    public function formSubmission(Request $request){
-        return back() -> with('success', 'Données du compte mise à jour');
-    }
-
-    /**
-     * Show the basic user informations and modifications fields.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function deleteAccountUser()
-    {
-        /*manque confirmation*/
-        return view('user.edit');
-    }
-
-    /**
-     * Show the basic user informations and modifications fields.
-     *
-     * @param  \Illuminate\Http\Request $request
+     * 
+     * @param  \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function checkEditUser(Request $request)
+    public function formSubmit(Request $request)
     {
+        // Récupération des données du formulaire
         $validator = Validator::make($request->all(),[
             'email' => 'required|max:255',
             'nom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
@@ -75,7 +66,7 @@ class UserController extends Controller
             'mdp' => 'required|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
             'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], [
+        ], [ // Vérification des données du formulaire
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
             'prenom.required' => 'Prénom ne peut pas être vide.',
@@ -93,8 +84,41 @@ class UserController extends Controller
             'avatar.max' => 'Image trop lourde.',
             'tel.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
         ]);
-        if($validator->fails()) return Redirect::back()->withErrors($validator)->withInput($request->all());
+        
+        if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
+        
+        if(session()->has('LoggedUser')){ // Si l'utilisateur est toujours connecté, on met à jour les données
+            // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username) -> first(); 
+            // TODO: vérifier si les données ont changées avant d'update pour n'update que celles-ci
+
+            // TODO: Mettre à jour les données de l'utilisateur connecté
+            // Mise à jour des données de l'utilisateur connecté
+            $user -> surname = $request -> nom;
+            $user -> name = $request -> prenom;
+            $user -> email = $request -> email;
+            $user -> password = Hash::make($request -> mdp);
+            $user -> phone = $request -> tel;
+            $user -> gender = $request -> civilite;
+            $user -> profile_pic = $request -> avatar;
+            $user -> vehicle = $request -> voiture;
+
+            $user -> save(); // Sauvegarder les changements
+        }
         return Redirect::back();
-        //faire les modif en bdd
+    }
+
+    /**
+     * Show the basic user informations and modifications fields.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function deleteAccountUser()
+    {
+        /*manque confirmation*/
+        return view('user.edit');
     }
 }
