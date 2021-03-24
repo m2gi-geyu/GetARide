@@ -11,14 +11,15 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    //protected $user; //TODO: Limiter la duplication de code ()
+    
     /**
      * Create a new controller instance.
-     *
      * @return void
      */
     public function __construct()
     {
-        /*        $this->middleware('auth');*/
+        /*$this->middleware('auth');*/
     }
 
     /**
@@ -39,14 +40,9 @@ class UserController extends Controller
      */
     public function form()
     {
-        if (session() -> has('LoggedUser')){ // Si utilisateur connecté...
-            $username = session()->get('LoggedUser');
-            $user = User::where('username', '=', $username) -> first();  // Récupération des données du compte
-            return view('user/edit') -> with($user -> toArray()); // et accès à la page de modifications du compte avec les données de celui-ci à afficher
-        }
-        else{ // Si pas connecté
-            //TODO: message "Vous n'êtes pas connecté" et redirection accueil ou login
-        }
+        // Récupération des données du compte dans la BDD
+        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        return view('user/edit') -> with($user -> toArray()); // et accès à la page de modifications du compte avec les données de celui-ci à afficher
     }
 
     /**
@@ -87,26 +83,20 @@ class UserController extends Controller
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
+        // TODO: vérifier si les données ont changées avant d'update pour n'update que celles-ci
+        // Récupération des données du compte dans la BDD
+        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        // Mise à jour des données de l'utilisateur connecté
+        $user -> surname = $request -> nom;
+        $user -> name = $request -> prenom;
+        $user -> email = $request -> email;
+        $user -> password = Hash::make($request -> mdp);
+        $user -> phone = $request -> tel;
+        $user -> gender = $request -> civilite;
+        $user -> profile_pic = $request -> avatar;
+        $user -> vehicle = $request -> voiture;
 
-        if(session()->has('LoggedUser')){ // Si l'utilisateur est toujours connecté, on met à jour les données
-            // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
-            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
-            $user = User::where('username', '=', $username) -> first();
-            // TODO: vérifier si les données ont changées avant d'update pour n'update que celles-ci
-
-            // TODO: Mettre à jour les données de l'utilisateur connecté
-            // Mise à jour des données de l'utilisateur connecté
-            $user -> surname = $request -> nom;
-            $user -> name = $request -> prenom;
-            $user -> email = $request -> email;
-            $user -> password = Hash::make($request -> mdp);
-            $user -> phone = $request -> tel;
-            $user -> gender = $request -> civilite;
-            $user -> profile_pic = $request -> avatar;
-            $user -> vehicle = $request -> voiture;
-
-            $user -> save(); // Sauvegarder les changements
-        }
+        $user -> save(); // Sauvegarder les changements
         return Redirect::back();
     }
 
