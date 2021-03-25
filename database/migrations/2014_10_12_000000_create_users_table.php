@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->boolean('mail_notifications')->default(true);
             $table->text('gender');
         });
+
     }
 
     /**

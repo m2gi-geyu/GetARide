@@ -20,6 +20,7 @@ class CreateLinkUserTripTable extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             $table->boolean('validated')->default(false);
         });
+
     }
 
     /**
