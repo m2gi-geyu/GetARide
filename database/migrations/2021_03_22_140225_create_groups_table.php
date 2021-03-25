@@ -15,10 +15,11 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->integer('id')->unique()->autoIncrement();
-            $table->integer('id_creator')->unsigned();
+            $table->integer('id_creator');
             $table->foreign('id_creator')->references('id')->on('users');
             $table->text('name');
         });
+
     }
 
     /**

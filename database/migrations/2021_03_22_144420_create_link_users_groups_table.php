@@ -16,11 +16,12 @@ class CreateLinkUsersGroupsTable extends Migration
     {
         Schema::create('link_users_groups', function (Blueprint $table) {
             $table->integer('id_group');
-            $table->foreign('id_group')->references('groups')->on('id');
+            $table->foreign('id_group')->references('id')->on('groups');
             $table->integer('id_member');
-            $table->foreign('id_member')->references('users')->on('id');
+            $table->foreign('id_member')->references('id')->on('users');
             //DB::statement('ALTER TABLE link_users_groups ADD CONSTRAINT pk PRIMARY KEY (id_group, id_member)');
         });
+
     }
 
     /**

@@ -15,7 +15,7 @@ class CreateTripsTable extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->integer('id')->unique()->autoIncrement();
-            $table->integer('id_driver')->unsigned();
+            $table->integer('id_driver');
             $table->foreign('id_driver')->references('id')->on('users');
             $table->integer('number_of_seats');
             $table->text('starting_town');
@@ -24,9 +24,11 @@ class CreateTripsTable extends Migration
             $table->float('price');
             $table->boolean('private')->default(false);
             $table->text('description');
-            $table->integer('id_group')->unsigned()->default(0);
+            $table->integer('id_group')->nullable();
             $table->foreign('id_group')->references('id')->on('groups');
+
         });
+
     }
 
     /**
