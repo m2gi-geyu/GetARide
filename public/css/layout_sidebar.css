@@ -20,25 +20,22 @@ main {
     left: 0;
     overflow-x: hidden;
     background-color: #F4A261;
-    border-right: 10px solid #E76F51;
+    border-right: 0.5vw solid #E76F51;
 }
 
 .sidenav .sidebar_icon{
     display: flex;
     align-items: center;
+    text-align: center;
+    padding: 0.8vw 0.8vw 0.8vw 0.8vw;
 }
 
 .sidenav a {
     padding-left: 7%;
     text-decoration: none;
     font-family: 'Rubik', sans-serif;
-    font-size: 22px;
+    font-size: 1.1vw;
     color: #264653;
-}
-
-.sidenav .sidebar_icon {
-    text-align: center;
-    padding: 5% 5% 5% 5%;
 }
 
 .sidenav div:last-child {
@@ -74,16 +71,10 @@ div .sideline {
     font-weight: bold;
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-}
-
-
 .header h1 {
     color: white;
     font-family: 'Righteous', sans-serif;
-    font-size: 96px;
+    font-size: 4.5vw;
     text-align: center;
     margin-left: 17.5%;
 }
@@ -95,7 +86,7 @@ main div.content-container {
 }
 
 .sidenav .personne {
-    font-size: 27px;
+    font-size: 1.25vw;
     font-family: 'Righteous', sans-serif;
 }
 
@@ -107,9 +98,11 @@ main div.content-container {
     z-index: 99;
 }
 
-
-.avatar_sidebar {
-    width:50px; !important;
-    height:50px; !important;
+.img_sidebar:first-child {
     object-fit:cover; !important;
+}
+
+.img_sidebar {
+    width:3vw; !important;
+    height:3vw; !important;
 }
