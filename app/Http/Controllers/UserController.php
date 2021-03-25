@@ -12,7 +12,7 @@ use App\Models\User;
 class UserController extends Controller
 {
     //protected $user; //TODO: Limiter la duplication de code ()
-    
+
     /**
      * Create a new controller instance.
      * @return void
@@ -59,10 +59,11 @@ class UserController extends Controller
             'email' => 'required|max:255',
             'nom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
             'prenom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
-            'mdp' => 'nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
-            'tel' => 'required|min:10',
+            'mdp' => "nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[$&+,:;=?@#|'<>.-^*()%!]).{8,}$/i",
+            'tel' => 'required|min:10|max|10|regex:"^\d{10}$"',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [ // Vérification des données du formulaire
+            'tel.regex' => 'Téléphone doit être uniquement en chiffres',
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
             'prenom.required' => 'Prénom ne peut pas être vide.',
@@ -78,6 +79,7 @@ class UserController extends Controller
             'avatar.mimes' => 'Format d image incorrect.',
             'avatar.max' => 'Image trop lourde.',
             'tel.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
+            'tel.max' => 'Numéro de téléphone trop long (il faut 10 chiffres.',
         ]);
 
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
