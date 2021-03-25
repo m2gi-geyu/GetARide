@@ -11,7 +11,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    //protected $user; //TODO: Limiter la duplication de code ()
+    //protected $user; //TODO: Limiter la duplication de code (appeler User::where qu'une seule fois)
 
     /**
      * Create a new controller instance.
@@ -34,8 +34,8 @@ class UserController extends Controller
 
 
     /**
-     * Show the basic user informations and modifications fields.
-     *
+     * Renvoie la page du formulaire de modification des données du compte avec les données
+     * actuelles du compte pour les afficher
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function form()
@@ -46,21 +46,25 @@ class UserController extends Controller
     }
 
     /**
-     * Show the basic user informations and modifications fields.
-     * Fonction permettant à l'utilisateur de modifier les données de son compte
-     *
+     * Vérifie que les données du formulaire ne sont pas erronées avant de les envoyer vers
+     * la fonction de mise à jour.
+     * Si données erronées: affiche popup d'erreur avec liste des problèmes
      * @param  \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
      * @return \Illuminate\Http\RedirectResponse
      */
     public function formSubmit(Request $request)
     {
+        return $this -> formCheck($request);
+    }
+
+    public function formCheck(Request $request){
         // Récupération des données du formulaire
         $validator = Validator::make($request->all(),[
             'email' => 'required|max:255',
             'nom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
             'prenom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
-            'mdp' => "nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[$&+,:;=?@#|'<>.-^*()%!]).{8,}$/i",
-            'tel' => 'required|min:10|max|10|regex:"^\d{10}$"',
+            'mdp' => 'nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
+            'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [ // Vérification des données du formulaire
             'tel.regex' => 'Téléphone doit être uniquement en chiffres',
@@ -85,21 +89,34 @@ class UserController extends Controller
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
-        // TODO: vérifier si les données ont changées avant d'update pour n'update que celles-ci
+
+        return $this -> updateAccount($request); // Tout est ok, donc on met à jour les données
+    }
+
+    /**
+     * Après la vérification, effectue la mise à jour des données du compte de l'utilisateur avec
+     * celles rentrées dans le formulaire
+     * @param \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateAccount(Request $request){
         // Récupération des données du compte dans la BDD
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
         // Mise à jour des données de l'utilisateur connecté
+        //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
         $user -> surname = $request -> nom;
         $user -> name = $request -> prenom;
         $user -> email = $request -> email;
-        $user -> password = Hash::make($request -> mdp);
+        if ($request -> mdp != null){ // Si il y a un nouveau mot de passe...
+            $user -> password = Hash::make($request -> mdp); //... On remplace l'actuel
+        }
         $user -> phone = $request -> tel;
         $user -> gender = $request -> civilite;
         $user -> profile_pic = $request -> avatar;
         $user -> vehicle = $request -> voiture;
 
         $user -> save(); // Sauvegarder les changements
-        return Redirect::back();
+        return Redirect::back(); // Rediriger vers la même page (rafraîchir)
     }
 
     /**

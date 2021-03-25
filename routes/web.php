@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
+use App\Http\Controllers\RideController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,8 @@ Route::post('change-password', [askForPasswordReset::class, 'formSubmission']);
 Route::get('reset-password/{token}', [PasswordResetting::class, 'form']);
 Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 //END OF 'CHANGE PASSWORD'  ROUTES (Edit by FAUGIER Elliot 22/03/2021)
+
+//create trip
+Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
+Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
+
