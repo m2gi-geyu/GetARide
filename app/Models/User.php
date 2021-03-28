@@ -8,8 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\Security\PasswordResetNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
+
 
     use HasFactory, Notifiable;
 
@@ -29,11 +30,9 @@ class User extends Authenticatable
         'ratings',
         'about',
         'profile_pic',
-        'mail_notifications'
+        'mail_notifications',
         'ratings',
         'gender',
-        /*'activity_token',
-        'activity_expire'*/
     ];
 
     /**

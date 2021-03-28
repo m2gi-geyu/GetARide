@@ -14,9 +14,9 @@ class CreateLinkUserTripTable extends Migration
     public function up()
     {
         Schema::create('link_user_trip', function (Blueprint $table) {
-            $table->integer('id_trip')->unsigned();
+            $table->integer('id_trip');
             $table->foreign('id_trip')->references('id')->on('trips');
-            $table->integer('id_user')->unsigned();
+            $table->integer('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->boolean('validated')->default(false);
         });

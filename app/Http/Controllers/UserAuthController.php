@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 
 /**
@@ -100,10 +101,9 @@ class UserAuthController extends Controller
             $user->profile_pic = $filename;
         }
 
-
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
-
         if($query){
+            event(new Registered($user));
             return back()->with('success','You have been successfully registered');
         }else{
             return back()->with('fail','Something went wrong');

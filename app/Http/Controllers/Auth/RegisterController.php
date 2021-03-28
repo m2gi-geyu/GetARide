@@ -118,8 +118,7 @@ class RegisterController extends Controller
         $user->activity_expire=Date::now('+1 days');
         //$this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
-        Mail::to($user->email)
-            ->send()
+        Mail::raw(
             'cliquer et valider votre email avant'.$user->activity_expire.route('user.activity',['token'=>$user->activity_token])
             ,function($message) use($user){
             $message->from('getaride123456@gmail.com','lamortdelekip')
