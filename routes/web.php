@@ -27,10 +27,11 @@ Route::get('login',[UserAuthController::class, 'login'])->name('logIn'); //route
 Route::get('register',[UserAuthController::class, 'register']); //route pour la page d'inscription
 Route::get('logout',[UserAuthController::class, 'logout']);//route pour la "page" de déconnexion
 Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');//route pour la vérification du formulaire d'inscription
+
+//Route::post('create','App\Http\Controllers\Auth\RegisterController@register')->name('auth/create');//route pour la vérification du formulaire d'inscription
 Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//route pour la vérification du formulaire de connexion
 Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
-
-
+Route::get('activity/{token}','App\Http\Controllers\Auth\RegisterController@activity')->name('user.activity');
 //user data edit
 Route::get('user/edit',[UserController::class, 'form']) -> name("editUser")->middleware('isLogged');;
 Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");

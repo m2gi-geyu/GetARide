@@ -14,7 +14,7 @@ class CreateTripsTable extends Migration
     public function up()
     {
         Schema::create('trips', function (Blueprint $table) {
-            $table->integer('id')->unique()->autoIncrement();
+            $table->integer('id')->unique()->autoIncrement()->unsigned();
             $table->integer('id_driver')->unsigned();
             $table->foreign('id_driver')->references('id')->on('users');
             $table->integer('number_of_seats');

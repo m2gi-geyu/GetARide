@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
+class AlterUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->integer('id')->unique()->autoIncrement();
-            $table->integer('id_creator')->unsigned();
-            $table->foreign('id_creator')->references('id')->on('users');
-            $table->text('name');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('activity_token');
+            $table->dateTime('activity_expire');
+            $table->tinyInteger('is_activity')->default(0);
         });
     }
 
@@ -28,6 +27,8 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

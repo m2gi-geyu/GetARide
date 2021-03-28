@@ -14,7 +14,7 @@ class CreateNotificationsTable extends Migration
     public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->integer('id')->unique()->autoIncrement();
+            $table->integer('id')->unique()->autoIncrement()->unsigned();
             $table->integer('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users');
             $table->integer('id_user_origin')->unsigned();
