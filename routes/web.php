@@ -27,7 +27,7 @@ Route::get('/', function () {
 });
 
 //user account creation
-Route::get('login',[UserAuthController::class, 'login'])->name('logIn'); //route pour la page de connexion
+Route::get('login',[UserAuthController::class, 'login'])->name('login'); //route pour la page de connexion
 Route::get('register',[UserAuthController::class, 'register']); //route pour la page d'inscription
 Route::get('logout',[UserAuthController::class, 'logout']);//route pour la "page" de déconnexion
 Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');//route pour la vérification du formulaire d'inscription
