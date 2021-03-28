@@ -12,7 +12,7 @@ use App\Models\User;
 class UserController extends Controller
 {
     //protected $user; //TODO: Limiter la duplication de code (appeler User::where qu'une seule fois)
-    
+
     /**
      * Create a new controller instance.
      * @return void
@@ -67,6 +67,7 @@ class UserController extends Controller
             'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [ // Vérification des données du formulaire
+            'tel.regex' => 'Téléphone doit être uniquement en chiffres',
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
             'prenom.required' => 'Prénom ne peut pas être vide.',
@@ -82,17 +83,18 @@ class UserController extends Controller
             'avatar.mimes' => 'Format d image incorrect.',
             'avatar.max' => 'Image trop lourde.',
             'tel.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
+            'tel.max' => 'Numéro de téléphone trop long (il faut 10 chiffres.',
         ]);
 
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
-        
+
         return $this -> updateAccount($request); // Tout est ok, donc on met à jour les données
     }
 
     /**
-     * Après la vérification, effectue la mise à jour des données du compte de l'utilisateur avec 
+     * Après la vérification, effectue la mise à jour des données du compte de l'utilisateur avec
      * celles rentrées dans le formulaire
      * @param \Illuminate\Http\Request $request requête de l'utilisateur (données du formulaire)
      * @return \Illuminate\Http\RedirectResponse
@@ -102,7 +104,7 @@ class UserController extends Controller
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
         // Mise à jour des données de l'utilisateur connecté
         //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
-        $user -> surname = $request -> nom; 
+        $user -> surname = $request -> nom;
         $user -> name = $request -> prenom;
         $user -> email = $request -> email;
         if ($request -> mdp != null){ // Si il y a un nouveau mot de passe...

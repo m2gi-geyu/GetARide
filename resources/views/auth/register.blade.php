@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6">
             <h3>GET A RIDE</h3>
-            <form action="{{ route('auth/create') }}" method="post">
+            <form action="{{ route('auth/create') }}" method="post" enctype='multipart/form-data'>
                 @csrf
                 <div class="results">
                      @if(Session::get('success'))
@@ -29,17 +29,17 @@
                 <fieldset>
                 <div class="form-group">
                     <label for="username">Pseudo</label>
-                    <input type="text" class="form-control" name="username" placeholder="Enter username" value="{{old('username')}}">
+                    <input type="text" class="form-control" name="username"  placeholder="Enter username" value="{{old('username')}}">
                     <span class="text-danger">@error('username'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="surname">Nom</label>
-                    <input type="text" class="form-control" name="surname" placeholder="Enter surname" value="{{old('surname')}}">
+                    <input type="text" class="form-control" name="surname" placeholder="Enter surname"  value="{{old('surname')}}">
                     <span class="text-danger">@error('surname'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="name">Prénom</label>
-                    <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}">
+                    <input type="text" class="form-control" name="name" placeholder="Enter name"  value="{{old('name')}}">
                     <span class="text-danger">@error('name'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
@@ -59,22 +59,40 @@
                 </div>
                 <div class="form-group">
                     <p>Civilité</p>
-                    <input type="radio" id="masculin" name="gender" value="M">
+                    <input type="radio" id="masculin" name="gender" value="M" @if(old('gender')) checked @endif>
                     <label for="oui">M</label>
-                    <input type="radio" id="feminin" name="gender" value="F">
+                    <input type="radio" id="feminin" name="gender" value="F" @if(old('gender')) checked @endif>
                     <label for="non">F</label>
-                    <input type="radio" id="autre" name="gender" value="A">
+                    <input type="radio" id="autre" name="gender" value="A" @if(old('gender')) checked @endif>
                     <label for="non">Autre</label>
                     <span class="text-danger">@error('gender'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <p>Possède véhicule</p>
-                    <input type="radio" id="oui" name="vehicle" value="oui">
+                    <input type="radio" id="oui" name="vehicle" value="oui"  @if(old('vehicle')) checked @endif>
                     <label for="oui">Oui</label>
-                    <input type="radio" id="non" name="vehicle" value="non">
+                    <input type="radio" id="non" name="vehicle" value="non" checked @if(old('vehicle')) checked @endif>
                     <label for="non">Non</label>
                     <span class="text-danger">@error('vehicle'){{$message}}@enderror</span>
                 </div>
+                <div class="form-group">
+                    <p>Notifications par mail</p>
+                    <input type="radio" id="oui" name="mail_notifications" value="oui" checked @if(old('mail_notifications')) checked @endif>
+                    <label for="oui">Oui</label>
+                    <input type="radio" id="non" name="mail_notifications" value="non" @if(old('mail_notifications')) checked @endif>
+                    <label for="non">Non</label>
+                    <span class="text-danger">@error('mail_notifications'){{$message}}@enderror</span>
+                </div>
+                <div class="form-group">
+                    <label for="about">A propos de vous (optionnel)</label>
+                    <textarea class="form-control" id="about" name="about" rows="3" >{{old('about')}}</textarea>
+                    <span class="text-danger">@error('about'){{$message}}@enderror</span>
+                </div>
+                    <div class="form-group">
+                        <p>Photo de profile/Avatar (optionnelle)</p>
+                        <input  type="file" name="profile_pic" id="profile_pic" value="{{old('profile_pic')}}">
+                        <span class="text-danger">@error('profile_pic'){{$message}}@enderror</span>
+                    </div>
                 </fieldset>
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>

@@ -81,17 +81,4 @@
             </div>
         </div>
     </form>
-
-
-{{--    @php--}}
-{{--    $test = 3.5;--}}
-{{--    @endphp--}}
-
-{{--    @for ($i = 0; $i < 5; $i++)--}}
-{{--        @if ($test > $i)--}}
-{{--            <span class="fa fa-star checked_orange" style="color: orange"></span>--}}
-{{--        @else--}}
-{{--            <span class="fa fa-star"></span>--}}
-{{--        @endif--}}
-{{--    @endfor--}}
 @endsection

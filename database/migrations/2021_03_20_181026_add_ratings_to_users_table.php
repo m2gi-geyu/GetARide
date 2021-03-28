@@ -16,6 +16,7 @@ class AddRatingsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             //
         });
+
     }
 
     /**

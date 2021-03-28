@@ -38,14 +38,33 @@ class UserAuthController extends Controller
      */
     function create (Request $request){
         $request ->validate([
-           'username'=> 'required|unique:users',
-            'surname'=> 'required',
-            'name'=> 'required|',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'phone' => 'required|unique:users',
+           'username'=> 'required|max:255|unique:users|regex:/^[a-zA-Z0-9-_]+/i',
+            'surname'=> 'required|max:255|regex:/^[a-zA-Z-_]+/i',
+            'name'=> 'required|max:255|regex:/^[a-zA-Z-_]+/i',
+            'email' => 'required|max:255|email|unique:users',
+            'password' => 'required|min:8|max:255|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-;.]).{8,}$/i',
+            'phone' => ['required','unique:users','regex:/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/'],
             'gender' => 'required',
-            'vehicle' => 'required'
+            'vehicle' => 'required',
+            'mail_notifications' =>'required',
+            'profile_pic'=>'nullable|max:2048',
+            'about'=>'nullable|max:255'
+        ],[ // Vérification des données du formulaire
+            'phone.regex' => 'Numéro de téléphone incorrect',
+            'email.required' => 'Email ne peut pas être vide.',
+            'surname.required' => 'Nom ne peut pas être vide.',
+            'name.required' => 'Prénom ne peut pas être vide.',
+            'phone.required' => 'Numéro de téléphone ne peut pas être vide.',
+            'gender.required' => 'La civilité ne peut pas être vide ne peut pas être vide.',
+            'email.max' => 'Email trop long.',
+            'surname.max' => 'Nom trop long.',
+            'name.max' => 'Prénom trop long.',
+            'password.max' => 'Mot de passe trop long.',
+            'password.regex' => 'Mot de passe incorrect : il faut au moins 8 caractères dont au moins un caractère spécial, une majuscule et une minuscule.',
+            'surname.regex' => 'Nom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
+            'name.regex' => 'Prénom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
+            'profile_pic.mimes' => "Format d'image incorrect.",
+            'profile_pic.max' => 'Image trop lourde.',
         ]);
 
         $user= new User; //création d'un user et récolte des données entrées
@@ -56,6 +75,7 @@ class UserAuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
         $user->gender = $request->gender;
+        $user->about = $request ->about;
 
         if($request->vehicle == 'non')
         {
@@ -66,10 +86,20 @@ class UserAuthController extends Controller
             $user->vehicle = true;
         }
 
+        if($request->mail_notifications == 'non'){
+            $request->mail_notifications = false;
+        }else{
+            $request->mail_notifications = true;
+        }
 
 
+        //ici on stocke l'image de l'utilisateur dansl'arborescence suivante dans le dossier storage --> public/pseudo_de_l'user/l'image.extension
+        if($request->hasFile('profile_pic')){
+            $filename = $request->profile_pic->getClientOriginalName();
+            $request->profile_pic->storeAs($user->username,$filename,'public');
+            $user->profile_pic = $filename;
+        }
 
-        //$user->ratings=NULL;
 
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
 
@@ -101,7 +131,8 @@ class UserAuthController extends Controller
         if($user){
             if(Hash::check($request->password, $user->password)){
                 $request->session()->put("LoggedUser", $user->username); //LoggedUser est la variable de session
-
+                $request->session()->put("LoggedUserPic", $user->profile_pic);
+                $request->session()->put("LoggedUserID",$user->id);
                 return redirect('dashboard');
             }else{
                 return back()->with('fail','Invalid password');
@@ -135,6 +166,8 @@ class UserAuthController extends Controller
     function logout(){
         if(session()->has('LoggedUser')){
             session()->pull('LoggedUser');
+            session()->pull("LoggedUserPic");
+            session()->pull("LoggedUserID");
             return redirect('login');
         }
     }

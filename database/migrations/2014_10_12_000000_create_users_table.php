@@ -26,10 +26,11 @@ class CreateUsersTable extends Migration
             $table->text('profile_pic')->nullable();
             $table->text('name');
             $table->text('surname');
-            //$table->date('birthdate')->nullable();
             $table->boolean('mail_notifications')->default(true);
             $table->text('gender');
+            $table->text('about');
         });
+
     }
 
     /**

@@ -1,6 +1,6 @@
 .label-modif {
     float: left !important;
-    font-size: 24px !important;
+    font-size: 1.1vw !important;
     font-family: "Sedan SC", serif;
     color: #FFFFFF;
     padding-bottom: 2% !important;
@@ -15,8 +15,8 @@
 
 /*avatar*/
 .resize {
-    width:150px; !important;
-    height:150px; !important;
+    width:8vw; !important;
+    height:8vw; !important;
     object-fit:cover; !important;
 }
 
@@ -27,7 +27,8 @@
     font-family: Signika, sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 1vw;
+    width: 30vw;
     line-height: 30px;
     color: #264653;
 }
@@ -43,7 +44,7 @@ div .avatar {
     font-family: Rubik, serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1vw;
     text-align: center;
     color: #264653;
 }
@@ -51,7 +52,7 @@ div .avatar {
 .radio-bold {
     font-family: Rubik, serif;
     font-style: normal;
-    font-size: 24px;
+    font-size: 1.1vw;
     line-height: 28px;
     display: flex;
     align-items: center;
@@ -79,7 +80,7 @@ div .avatar {
 
 input {
     font-family: Rubik, 'serif' !important;
-    font-size: 22px !important;
+    font-size: 1vw !important;
 }
 
 .delete_button:hover, .delete_button:visited, .delete_button:link, .delete_button:active
