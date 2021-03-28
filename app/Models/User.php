@@ -26,7 +26,10 @@ class User extends Authenticatable
         'password',
         'phone',
         'vehicle',
-        'ratings'
+        'ratings',
+        'about',
+        'profile_pic',
+        'mail_notifications'
     ];
 
     /**
@@ -52,6 +55,6 @@ class User extends Authenticatable
     {
 
         $this->notify(new PasswordResetNotification($token));
-        
+
     }
 }
