@@ -53,6 +53,11 @@ Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
 
+//trajet en attend
+Route::get('trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+//retrait de trajet
+Route::post('quit_trip',[UserController::class,'quit_trip'])->name('trip/quit');
+
 
 //email verification
 Route::get('/email/verify', function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -128,5 +129,11 @@ class UserController extends Controller
     {
         //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page
         return Redirect::back();
+    }
+
+    public function quit_trip(int $idTrip){
+        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        $idRetrait=$user->id;
+        return redirect()->action('App\Http\Controllers\RideController@delete_user_from_ride',['id'=>$idRetrait,'idTrip'=>$idTrip]);
     }
 }
