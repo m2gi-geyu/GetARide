@@ -8,6 +8,9 @@ use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
 use App\Http\Controllers\RideController;
 
+use App\Http\Controllers\notifications;
+
+
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -72,3 +75,9 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::get('/profile', function () {
     // Only verified users may access this route...
 })->middleware('verified');
+
+
+//BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
+Route::get('notifications', [notifications::class, 'view']);
+Route::post('notifications', [notifications::class, 'deleteNotification'] )->name('notification.delete');
+//END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
