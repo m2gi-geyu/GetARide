@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
 use App\Http\Controllers\RideController;
+use App\Http\Controllers\GroupController;
 
 use App\Http\Controllers\notifications;
 
@@ -39,7 +40,7 @@ Route::post('create',[UserAuthController::class, 'create'])->name('auth/create')
 Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//route pour la vérification du formulaire de connexion
 Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
 //user data edit
-Route::get('user/edit',[UserController::class, 'form']) -> name("editUser")->middleware('isLogged');;
+Route::get('user/edit',[UserController::class, 'form']) -> name("editUser")->middleware('isLogged');
 Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");
 Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("deleteUser");
 
@@ -54,6 +55,11 @@ Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 //create trip
 Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
+
+//trajet en attend
+Route::get('trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+//retrait de trajet
+Route::post('quit_trip',[UserController::class,'quit_trip'])->name('trip/quit');
 
 
 //email verification
@@ -81,3 +87,11 @@ Route::get('/profile', function () {
 Route::get('notifications', [notifications::class, 'view']);
 Route::post('notifications', [notifications::class, 'deleteNotification'] )->name('notification.delete');
 //END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
+
+//routes linked to groups
+Route::get('creategroup',[GroupController::class, 'group_form'])->middleware('hasVehicle'); //route for the view with the group creation form
+Route::get('/group/search', [GroupController::class, 'search_user'])->name('group/search')->middleware('hasVehicle');//route for search an user with the search bar
+Route::post('group/create',[GroupController::class, 'create_new_group'])->name('group/create');//route for create a new group with post method
+Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers');//route for the view used to adding members to the newest group
+Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
+

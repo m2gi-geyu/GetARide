@@ -2,15 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
-
-/**
- * Class AuthCheck servant à vérifier si l'utilisateur est connecté
- * @package App\Http\Middleware
- */
-class AuthCheck
+class HasVehicle
 {
     /**
      * Handle an incoming request.
@@ -21,9 +17,14 @@ class AuthCheck
      */
     public function handle(Request $request, Closure $next)
     {
-
         if(!session()->has('LoggedUser')){
             return redirect('login')->with('fail','Vous devez être connecté pour accéder à cette page');
+        }else{
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+            if($user->vehicle==false){
+                return redirect('dashboard')->with('fail','Il faut que vous ayez un véhicule pour créer un groupe');
+            }
         }
         return $next($request);
     }

@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class LinkUsersGroup extends Model
 {
     use HasFactory;
 
-    protected $table = 'groups';
+    protected $table = 'link_users_groups';
     public $timestamps = false;
 
     protected $fillable = [
-        'id',
-        'name',
-        'id_creator'
+        'id_group',
+        'id_member'
     ];
 }
