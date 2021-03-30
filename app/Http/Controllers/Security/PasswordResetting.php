@@ -11,14 +11,14 @@ use Illuminate\Support\Str;
 
 /**
  * Controler of the page used to change a forgotten password
- * 
+ *
  *  !! https://laravel.com/docs/8.x/passwords !!
- * 
+ *
  * @Author Elliot Faugier
  * @Date 22/03/2021
- * 
+ *
  * @TODO validation error/success message
- * 
+ *
  */
 class PasswordResetting extends Controller
 {
@@ -45,7 +45,7 @@ class PasswordResetting extends Controller
         ]);
 
 
-    
+
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -53,17 +53,17 @@ class PasswordResetting extends Controller
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
-    
+
                 $user->save();
-    
+
                 event(new PasswordReset($user));
             }
         );
 
-        
-    
+
+
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('logIn')
+                    ? redirect()->route('login')
                     : back()->withErrors(['email' => [__($status)]]);
     }
 }

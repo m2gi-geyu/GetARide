@@ -107,5 +107,23 @@ class RideController extends Controller
         }
     }
 
+    public function show_trip_in_waiting(){
+        //Afficher tous les trajets en attente
+        return view('trip/waiting');
+    }
+    public function  delete_user_from_ride(int $id,int $idTrip)
+    {
+        if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
+            $select=DB::select('select * from link');
+            //on enlève le tuple de utilisateur
+            $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id,$idTrip]);
+            if($deleted){
+                return back()->with("exit successfully");
+            } else{
+                return back()->with("exit failed ");
+            }
 
+        }
+
+    }
 }

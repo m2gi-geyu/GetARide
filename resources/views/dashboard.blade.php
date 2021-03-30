@@ -19,6 +19,7 @@
 
                     <div id="block7" class="col-md-6"><a href="logout"><button type="button" class="btn btn-perso btn-lg">Se déconnecter</button></a></div>
                     <div id="block7" class="col-md-6"><a href="user/edit"><button type="button" class="btn btn-perso btn-lg">Modifier compte</button></a></div>
+                    <div id="block7" class="col-md-6"><a href="user/show_trip_in_waiting"><button type="button" class="btn btn-perso btn-lg">trip in waiting</button></a></div>
                 </div>
                 <div class="col-md-4"></div>
             </div>
