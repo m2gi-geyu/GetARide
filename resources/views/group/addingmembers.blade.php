@@ -34,7 +34,7 @@
         function fetch_users(query = '')
         {
             $.ajax({
-                url:"{{ route('group.search') }}",
+                url:"{{ route('group/search') }}",
                 method:'GET',
                 data:{query:query},
                 dataType:'json',

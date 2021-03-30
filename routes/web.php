@@ -82,8 +82,8 @@ Route::get('/profile', function () {
 
 //routes linked to groups
 Route::get('creategroup',[GroupController::class, 'group_form'])->middleware('hasVehicle'); //route for the view with the group creation form
-Route::get('/group/search', [GroupController::class, 'search_user'])->name('group/search')->middleware('hasVehicle');;//route for search an user with the search bar
-Route::post('group/create',[GroupController::class, 'create_new_group'])->name('group/create')->middleware('hasVehicle');;//route for create a new group with post method
-Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers')->middleware('hasVehicle');;//route for the view used to adding members to the newest group
-Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member')->middleware('hasVehicle');;//route to the function which adds a members by his id to the newest group of the user
+Route::get('/group/search', [GroupController::class, 'search_user'])->name('group/search')->middleware('hasVehicle');//route for search an user with the search bar
+Route::post('group/create',[GroupController::class, 'create_new_group'])->name('group/create');//route for create a new group with post method
+Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers');//route for the view used to adding members to the newest group
+Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
 
