@@ -8,29 +8,29 @@
         <div class="row" id = "row_{{$rawNotification->id}}">
             <div class="col-8">
 
-            @switch($rawNotification->notification_type)
-                @case(1)
-                    @include('user/notifications/tripCanceled')
+            @switch($rawNotification->type)
+                @case( Config::get('db.notificationType.trip_canceled') )
+                    @include('user/notifications/tripCanceled',['notifications'=>$rawNotification])
                 @break
 
-                @case(2)
+                @case( Config::get('db.notificationType.trip_request') )
                     @include('user/notifications/tripRequest')
                 @break
 
-                @case(3)
+                @case( Config::get('db.notificationType.trip_request_canceled') )
                     @include('user/notifications/tripRequestCanceled')
                 @break
 
-                @case(4)
-                    @include('user/notifications/tripRequestCanceled')
+                @case( Config::get('db.notificationType.trip_request_accepted') )
+                    @include('user/notifications/tripRequestAccepted')
                 @break
 
-                @case(5)
+                @case( Config::get('db.notificationType.trip_request_refused') )
                     @include('user/notifications/tripRequestRefused')
                 @break
 
-                @case(6)
-                    @include('user/notifications/newPrivateTrip')
+                @case( Config::get('db.notificationType.new_private_trip') )
+                    @include('user/notifications/newPrivateTrip',['notifications'=>$rawNotification])
                 @break
 
                 @default
@@ -39,11 +39,34 @@
                 
             </div> 
             <div class="col">
-                    <button type="button" class="btn btn-outline-dark">Read</button>
-                    <form action = "{{ route('notification.delete') }}" id="form-delete-js">
-                        <input type="hidden" id="delete-id-js" value = "{{$rawNotification->id}}" >
-                        <button type="submit" class="btn btn-outline-dark" >Delete</button>
-                    </form>
+                <div class="col">
+                    <span>
+                        @php
+                            echo date_format($rawNotification->created_at,"Y/m/d");
+                        @endphp
+                    </span>
+                </div>
+                <div class="col">
+                    <span>
+                        @php
+                            echo date_format($rawNotification->created_at,"H:i");
+                        @endphp
+                    </span>
+                </div>                
+            </div>
+            <div class="col">
+                @if($rawNotification->read_at == NULL)
+                <form action = "{{ route('notification.read') }}" id="form-read-js">
+                    <input type="hidden" id="read-id-js" value = "{{$rawNotification->id}}" >
+                    <button type="submit" class="btn btn-outline-dark" >Read</button>
+                </form>
+                @endif
+            </div>
+            <div class="col">
+                <form action = "{{ route('notification.delete') }}" id="form-delete-js">
+                    <input type="hidden" id="delete-id-js" value = "{{$rawNotification->id}}" >
+                    <button type="submit" class="btn btn-outline-dark" >Delete</button>
+                </form>
             </div>
         </div>
             

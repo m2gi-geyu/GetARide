@@ -71,9 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getNotification()
     {
-        return  DB::table('notifications')
-                    ->where('id_user','=',$this->id)
-                    ->get();
+        return  $this->notifications;
     }
 
     /**

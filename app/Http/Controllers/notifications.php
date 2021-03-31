@@ -26,14 +26,22 @@ class notifications extends Controller
         $user = User::where('username', '=', $username)->first();
 
         DB::table('notifications')
-            ->where('id_user', '=', $user->id)
             ->where('id', '=', $request->input('id'))
             ->delete();
 
         return response()->json(['status'=> 'OK']);
-        
-
-
     }
+
+    public function readNotification (Request $request)
+    {
+        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+        $user = User::where('username', '=', $username)->first();
+
+        $user->unreadNotifications->where('id', $request->input('id'))->markAsRead();
+
+        return response()->json(['status'=> 'OK']);
+    }
+
+
 
 }
