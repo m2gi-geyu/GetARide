@@ -7,18 +7,28 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+use App\Models\User;
+use App\Models\Trip;
+
 class tripCanceled extends Notification
 {
     use Queueable;
+    
+    private $sender;
+    private $recipient;
+    private $privateTrip;
+
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $senderUser,User $recipientUser,Trip $trip)
     {
-        //
+        $this->sender = $senderUser;
+        $this->recipient = $recipientUser;
+        $this->privateTrip = $trip;
     }
 
     /**
@@ -29,7 +39,14 @@ class tripCanceled extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        if($notifiable->mail_notifications == 1)
+        {
+            return ['database','mail'];
+        }
+        else
+        {
+            return ['database'];
+        }
     }
 
     /**
@@ -55,7 +72,9 @@ class tripCanceled extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'id_user'               =>  $this->recipient->id,
+            'id_user_origin'        =>  $this->sender->id,
+            'id_trip'               =>  $this->privateTrip->id,
         ];
     }
 }
