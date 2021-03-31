@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function readNotification($idNotification)
     {
         DB::table('notifications')
-              ->where('id','=', idNotification)
+              ->where('id','=', $idNotification)
               ->update(['read' => 1]);
     }
 

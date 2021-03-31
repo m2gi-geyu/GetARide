@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Psr\Log\NullLogger;
 
+use App\Notifications\trip\newPrivateTrip;
+
+
 /**
  * Class RideController
  * @package App\Http\Controllers
@@ -42,6 +45,8 @@ class RideController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function create_ride_form_submission(Request $request){
+
+
         //vérification des champs obligatoires
         $request->validate([
             'departure'=> 'required',
@@ -75,6 +80,9 @@ class RideController extends Controller
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
+
+                    
+
                 }
 
                 //$trip=Trip::latest()->where('id_driver', '=', $user->id)->first();
@@ -97,6 +105,9 @@ class RideController extends Controller
                             return back()->with('fail', 'Something went wrong');
                         }
                     }
+                    
+                    //notifyPrivateGroup($ride->id_group, $ride);
+
                     return back()->with('success', 'Your trip has been successfully registered');
                 } else {
                     return back()->with('fail', 'Something went wrong');
@@ -126,4 +137,22 @@ class RideController extends Controller
         }
 
     }
+
+    private function notifyPrivateGroup(int $idGroup, Trip $trip)
+    {
+        // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
+        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+        $userLogged = User::where('username', '=', $username)->first();
+
+        $users = DB::table('link_users_groups')
+                    ->where('id_group','=', $idGroup)
+                    ->get();
+        foreach($users as $user)
+        {
+            $userToNotify = User::find($user->id);
+
+            $userToNotify->notify(new newPrivateTrip(userLogged,$userToNotify,$trip));
+        }
+
+    } 
 }
