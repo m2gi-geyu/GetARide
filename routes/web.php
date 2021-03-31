@@ -84,7 +84,7 @@ Route::get('/profile', function () {
 
 
 //BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
-Route::get('notifications', [notifications::class, 'view']);
+Route::get('notifications', [notifications::class, 'view'])->name('notification');
 Route::post('notificationsDelete', [notifications::class, 'deleteNotification'])->name('notification.delete');
 Route::post('notificationsRead', [notifications::class, 'readNotification'])->name('notification.read');
 //END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)

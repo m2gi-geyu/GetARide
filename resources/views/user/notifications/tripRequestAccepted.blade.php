@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <span>
+            <span class="label-modif">
                 @php
                     $user = App\Models\User::find($rawNotification->data['id_user_origin']);      
                     echo $user->name." ".$user->surname;
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <span>
+            <span class="label-modif">
                 @php
                     $trip = App\Models\Trip::find($rawNotification->data['id_trip']);      
                     echo $trip->starting_town;
@@ -28,7 +28,7 @@
             <span>
         </div>
         <div class="col">
-            <span>
+            <span class="label-modif">
                 @php
                     $trip = App\Models\Trip::find($rawNotification->data['id_trip']);      
                     echo $trip->ending_town;
@@ -38,7 +38,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <span>
+            <span class="label-modif">
                 @php
                     $trip = App\Models\Trip::find($rawNotification->data['id_trip']);      
                     echo $trip->price." €";

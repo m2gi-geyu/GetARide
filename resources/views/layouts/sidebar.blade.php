@@ -43,7 +43,7 @@
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/notification.png') }}" alt="notifications" class="img_sidebar">
-            <a href="#"> Mes notifications</a>
+            <a href="{{ route('notification') }}"> Mes notifications</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/groupes.png') }}" alt="groupes_amis" class="img_sidebar">
