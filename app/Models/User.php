@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\Security\PasswordResetNotification;
 
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\notifications;
+
+
+
 class User extends Authenticatable implements MustVerifyEmail
 {
 
@@ -60,4 +65,23 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new PasswordResetNotification($token));
 
     }
+
+    /**
+     * get array of all notification where the destinated user is $this user
+     */
+    public function getNotification()
+    {
+        return  $this->notifications;
+    }
+
+    /**
+     * Update the table notification, for a notification given we change the field read to 1 to say 'it is read'
+     */
+    public function readNotification($idNotification)
+    {
+        DB::table('notifications')
+              ->where('id','=', $idNotification)
+              ->update(['read' => 1]);
+    }
+
 }
