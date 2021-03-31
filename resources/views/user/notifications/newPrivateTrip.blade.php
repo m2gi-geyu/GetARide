@@ -7,7 +7,7 @@
                     echo $user->name." ".$user->surname;
                 @endphp
             
-                vous propose nouveau un trajet privé
+                vous propose un nouveau trajet privé
             <span>
         </div>
     </div>
