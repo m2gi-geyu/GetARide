@@ -15,6 +15,10 @@ use Illuminate\Auth\Events\Registered;
 class UserAuthController extends Controller
 {
 
+
+    public function home(){
+        return view('welcome');
+    }
     /**
      * Fonction login retournant la page/vue de connexion
      * @return view la page/vue de connexion

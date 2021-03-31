@@ -131,9 +131,6 @@ class UserController extends Controller
         return Redirect::back();
     }
 
-    public function quit_trip(int $idTrip){
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
-        $idRetrait=$user->id;
-        return redirect()->action('App\Http\Controllers\RideController@delete_user_from_ride',['id'=>$idRetrait,'idTrip'=>$idTrip]);
-    }
+
+
 }

@@ -111,16 +111,35 @@ class RideController extends Controller
         //Afficher tous les trajets en attente
         return view('trip/waiting');
     }
-    public function  delete_user_from_ride(int $id,int $idTrip)
+
+    /**
+     * @param int $id:id de utilisateur qui est enlevé
+     * @param int $idRide:id de trajet
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function  delete_user_from_ride(int $id,int $idRide)
     {
+        //Cas normal
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
-            $select=DB::select('select * from link');
             //on enlève le tuple de utilisateur
-            $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id,$idTrip]);
-            if($deleted){
-                return back()->with("exit successfully");
-            } else{
-                return back()->with("exit failed ");
+            $trip = Trip::where('id', '=', $idRide)->first();
+            $select=DB::selectOne('select TIMESTAMPDIFF(SECOND,Now(),?) AS Diff
+            from trips where id=? ',[$trip->date_trip,$idRide]);
+            //il reste au moin 24 h
+            if($select[0]/3600>24) {
+                $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id, $idRide]);
+                if ($deleted) {
+                    $update = DB::update('update trips set number_of_seats= number_of_seats +1 where id=?', [$idRide]);
+                    if ($update) {
+                        return back()->with("delete successfully");
+                    } else {
+                        return back()->with("delete failed ");
+                    }
+                } else {
+                    return back()->with("delete failed ");
+                }
+            } else {
+                return back()->with("delete failed ");
             }
 
         }

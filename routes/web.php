@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
@@ -55,12 +54,13 @@ Route::post('create_trip',[RideController::class, 'create_ride_form_submission']
 //trajet en attend
 Route::get('trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
 //retrait de trajet
-Route::post('quit_trip',[UserController::class,'quit_trip'])->name('trip/quit');
-
+Route::post('quit_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
+//annulation de réponse
+Route::post('annule_reponse/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
 
 //email verification
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
+Route::get('email/verify', function () {
+    return view('auth/verify-email');
 })->middleware('auth')->name('verification.notice');
 
 

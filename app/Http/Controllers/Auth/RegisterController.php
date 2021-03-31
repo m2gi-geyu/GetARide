@@ -128,15 +128,4 @@ class RegisterController extends Controller
         return view('auth.registed',['user'=>$user]);
     }
 
-
-    function activity($token){
-        $user = User::find(['activity_token'=>$token]);
-        $res = false;
-        if($user && strtotime($user->activity_expire)>time())
-        {
-            $user->is_activity = 1;
-            $res = $user->save();
-        }
-        return view('auth.activityres',['res'=>$res]);
-    }
 }
