@@ -32,12 +32,12 @@ Route::get('/', function () {
 //user account creation
 Route::get('login',[UserAuthController::class, 'login'])->name('login'); //route pour la page de connexion
 Route::get('register',[UserAuthController::class, 'register']); //route pour la page d'inscription
-Route::get('logout',[UserAuthController::class, 'logout']);//route pour la "page" de déconnexion
+Route::get('logout',[UserAuthController::class, 'logout'])->name('logout');//route pour la "page" de déconnexion
 Route::post('create',[UserAuthController::class, 'create'])->name('auth/create');//route pour la vérification du formulaire d'inscription
 
 //Route::post('create','App\Http\Controllers\Auth\RegisterController@register')->name('auth/create');//route pour la vérification du formulaire d'inscription
 Route::post('check',[UserAuthController::class, 'check'])->name('auth/check');//route pour la vérification du formulaire de connexion
-Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged');//route pour la page de bievenue de l'utilisateur
+Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('isLogged')->name("dashboard");//route pour la page de bievenue de l'utilisateur
 //user data edit
 Route::get('user/edit',[UserController::class, 'form']) -> name("editUser")->middleware('isLogged');
 Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");
@@ -56,16 +56,16 @@ Route::get('create_trip',[RideController::class, 'create_ride_form'])->middlewar
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
 
 //trajet en attend
-Route::get('trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
 //retrait de trajet
-Route::post('quit_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
+Route::post('trip/quit_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
 //annulation de réponse
-Route::post('annule_reponse/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
+Route::post('trip/cancel_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/cancel');
 
 //email verification
 Route::get('email/verify', function () {
     return view('auth/verify-email');
-})->middleware('auth')->name('verification.notice');
+})->name('verification.notice');
 
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

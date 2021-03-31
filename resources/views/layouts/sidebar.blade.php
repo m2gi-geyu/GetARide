@@ -29,7 +29,7 @@
     <nav class="sidenav">
         <div class="sidebar_icon">
             <img src="{{ Session::has('avatar') ? Session::get('avatar') : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar">
-            <a class="personne" href="#"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
+            <a class="personne" href="{{route('dashboard')}}"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
         </div>
 
         <div class="sideline"></div>
@@ -39,7 +39,7 @@
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/trajet.png') }}" alt="trajets" class="img_sidebar">
-            <a href="#"> Mes trajets en attente</a>
+            <a href="{{route('trip/waiting')}}"> Mes trajets en attente</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/notification.png') }}" alt="notifications" class="img_sidebar">

@@ -81,7 +81,7 @@ class RideController extends Controller
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
 
-                    
+
 
                 }
 
@@ -105,7 +105,7 @@ class RideController extends Controller
                             return back()->with('fail', 'Something went wrong');
                         }
                     }
-                    
+
                     //notifyPrivateGroup($ride->id_group, $ride);
 
                     return back()->with('success', 'Your trip has been successfully registered');
@@ -119,8 +119,18 @@ class RideController extends Controller
     }
 
     public function show_trip_in_waiting(){
+
+        if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+            $id=$user->id;
+            $trips = DB::select("select * from users,trips,link_user_trip where users.id=? and
+            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip", [$id]);
+            $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
+            link_user_trip.id_user=users.id", [$id]);
+        }
         //Afficher tous les trajets en attente
-        return view('trip/waiting');
+        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
     }
 
     /**
@@ -152,9 +162,7 @@ class RideController extends Controller
             } else {
                 return back()->with("delete failed ");
             }
-
         }
-
     }
 
     private function notifyPrivateGroup(int $idGroup, Trip $trip)
@@ -173,5 +181,5 @@ class RideController extends Controller
             $userToNotify->notify(new newPrivateTrip(userLogged,$userToNotify,$trip));
         }
 
-    } 
+    }
 }

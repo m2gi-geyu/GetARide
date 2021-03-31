@@ -1,10 +1,14 @@
-<x-guest-layout>
-    <x-auth-card>
-z            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="wisth-device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"  content="ie=edge">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
+</head>
+<body>
         <div class="mb-4 text-sm text-gray-600">
             {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
@@ -20,9 +24,7 @@ z            <a href="/">
                 @csrf
 
                 <div>
-                    <x-button>
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
+                    <button type="submit" class="btn-form">Resend Verification Email</button>
                 </div>
             </form>
 
@@ -34,5 +36,5 @@ z            <a href="/">
                 </button>
             </form>
         </div>
-    </x-auth-card>
-</x-guest-layout>
+</body>
+</html>

@@ -61,6 +61,7 @@
                 <?php
                 if(session()->has('LoggedUser')){
                     echo '<div id="block6" class="col-md-6"><a href="logout"><button type="button" class="btn btn-perso btn-lg" >Se déconnecter</button></a></div>';
+                    echo '<div id="block6" class="col-md-6"><a href="dashboard"><button type="button" class="btn btn-perso btn-lg" >Page d\'accueil</button></a></div>';
                 }
                 ?>
             </div>
