@@ -20,7 +20,7 @@
             </tbody>
         </table>
     </div>
-    <div  ><a href="../dashboard"><button class="btn-dark btn" type="button">Revenir à l'accueil</button></a></div>
+    <div><a href="../dashboard"><button class="btn-dark btn" type="button">Revenir à l'accueil</button></a></div>
 </div>
 
 

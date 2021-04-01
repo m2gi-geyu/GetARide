@@ -208,4 +208,18 @@ class GroupController extends Controller
 
     }
 
+
+    function view_my_created_groups(){
+        if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
+            // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+
+            $data = DB::select('SELECT * FROM `groups` WHERE id_creator=:id_creator', ['id_creator' => $user->id]);
+        }
+
+
+        return view('group/mycreatedgroups',['data'=>$data]);
+    }
+
 }
