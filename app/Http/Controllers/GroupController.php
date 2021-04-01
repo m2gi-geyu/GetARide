@@ -59,6 +59,18 @@ class GroupController extends Controller
             // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
+
+            //vérifier si l'utilisateur a déjà crée un groupe avec le même nom
+            $test_group =DB::table('groups')
+                ->where('id_creator', '=', $user->id)
+                ->where ('name','like','%'.$request->group_name)
+                ->first();
+
+            if($test_group!=null){
+                return back()->with('fail','OUPS! Vous avez déjà crée un groupe ayant le même nom');
+            }
+
+
             $group= new Group; //instanciation d'un groupe et récolte des données entrées
             $group->name = $request->group_name;
             $group->id_creator = $user->id;
@@ -83,6 +95,8 @@ class GroupController extends Controller
      * We use this function with ajax/jquery ta make searchs quickly
      */
     function search_user(Request $request){
+        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+        $user = User::where('username', '=', $username)->first();
 
         if($request->ajax())
         {
@@ -92,6 +106,7 @@ class GroupController extends Controller
             {
                 $data = DB::table('users')
                     ->where('username', 'like', '%'.$query.'%')
+                    ->where('username', 'not like', '%'.$user->username.'%')
                     ->orderBy('id', 'desc')
                     ->get();
 
@@ -99,6 +114,7 @@ class GroupController extends Controller
             else
             {
                 $data = DB::table('users')
+                    ->where('username', 'not like', '%'.$user->username.'%')
                     ->orderBy('id', 'desc')
                     ->get();
             }
