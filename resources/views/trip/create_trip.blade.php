@@ -10,40 +10,37 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 </head>
 <body>
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-4"></div>
-        <div class="col-md-4 ">
-            <h3>GET A RIDE</h3>
-            <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary"><a href="dashboard">Retour</a></button>
-            </div>
-            <form id="insert_form" action="{{ route('trip/create') }}" method="post">
-                @csrf
-                <div class="results">
-                    @if(Session::get('success'))
-                        <div class="alert alert-success">
-                            {{Session::get('success')}}
-                        </div>
-                    @endif
-                    @if(Session::get('fail'))
-                        <div class="alert alert-danger">
-                            {{Session::get('fail')}}
-                        </div>
-                    @endif
-                    @if(Session::get('not_driver'))
-                        <div class="alert alert-danger">
-                            {{Session::get('not_driver')}}
-                        </div>
-                    @endif
+<div id="block-container" class="container-fluid">
+    <div id="row_title" class="row" align="center">
+        <div id="title" class="col-md-12">GET A RIDE</div>
+    </div>
+    <form id="insert_form" action="{{ route('trip/create') }}" method="post">
+        @csrf
+        <div class="results">
+            @if(Session::get('success'))
+                <div class="alert alert-success">
+                    {{Session::get('success')}}
                 </div>
-                <h4>Départ</h4>
+            @endif
+            @if(Session::get('fail'))
+                <div class="alert alert-danger">
+                    {{Session::get('fail')}}
+                </div>
+            @endif
+            @if(Session::get('not_driver'))
+                <div class="alert alert-danger">
+                    {{Session::get('not_driver')}}
+                </div>
+            @endif
+        </div>
+        <div id="row_body" class="row" align="center">
+            <div id="col1" class="col-md-4">
+                <div id="depart" class="row champ">
+                    <h2>Depart</h2>
                     <div  class="form-group">
-                        <label for="departure">Ville de départ</label>
+                        <label for="departure">Ville</label>
                         <input type="text" class="form-control" name="departure" placeholder="Enter departure city" value="{{old('departure')}}">
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
                     </div>
@@ -52,75 +49,69 @@
                         <input type="date" class="form-control" name="date" value="{{old('date')}}">
                         <span class="text-danger">@error('date'){{$message}}@enderror</span>
                     </div>
-                    <!--<div class="form-group">
-                        <label for="time">Time</label>
-                        <input type="time" class="form-control" name="time" value="{{old('time')}}">
-                        <span class="text-danger">@error('time'){{$message}}@enderror</span>
-
-                    </div>-->
-
-                <h4>Arrivée</h4>
+                </div>
+                <div id="arrivee" class="row champ">
+                    <h2>Arrivée</h2>
                     <div class="form-group">
-                        <label for="final">Ville d'arrivée</label>
+                        <label for="final">Ville</label>
                         <input type="text" class="form-control" name="final" placeholder="Enter final city" value="{{old('final')}}">
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
-
-                <h4>Ville Étapes</h4>
+                </div>
+            </div>
+            <div id="col2" class="col-md-4">
+                <div id="etapes" class="row champ">
+                    <h2>Villes étapes</h2>
                     <div class="table-repsonsive">
                         <span id="error"></span>
                         <table class="table " id="item_table">
                             <tr>
-                                <th>Étapes</th>
                                 <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th>
                             </tr>
                         </table>
                     </div>
-
-                <h4>Informations trajet</h4>
+                </div>
+            </div>
+            <div id="col3" class="col-md-4">
+                <div id="trip" class="row champ">
+                    <h2>Trip</h2>
                     <div class="form-group">
-                        <label for="nb_passengers">Nombre de passagers</label>
-                        <input type="number" name="nb_passengers" min="1" max="6" value="{{old('nb_passengers')}}">
+                        <label for="nb_passengers">Nombre de places</label>
+                        <input type="number" class="form-control" name="nb_passengers" min="1" max="6" value="{{old('nb_passengers')}}">
                         <span class="text-danger">@error('nb_passengers'){{$message}}@enderror</span>
-
                     </div>
                     <div class="form-group">
-                        <label for="price">Prix</label>
-                        <input type="number" name="price" min="0" max="10000" step="0.1" value="{{old('price')}}">
+                        <label for="price">Prix (€)</label>
+                        <input type="number" class="form-control"  name="price" min="0" max="10000" step="0.1" value="{{old('price')}}">
                         <span class="text-danger">@error('price'){{$message}}@enderror</span>
-
                     </div>
                     <div class="form-group">
-                        <label for="info">Contraintes/Commentaires</label>
-                        <textarea name="info" rows="5" cols="40"></textarea>
+                        <label for="info">Contraintes / Commentaires</label>
+                        <textarea name="info" rows="5" cols="25"></textarea>
                     </div>
-
-                <h4>Confidentialité</h4>
+                </div>
+                <div id="confidentialite" class="row champ">
+                    <h2>Confidentialité</h2>
                     <div class="form-group">
-                        <input type="radio" id="public" name="privacy" onclick="myFunction()" value="public">
                         <label for="public">Public</label>
+                        <input type="radio" id="public" name="privacy" onclick="myFunction()" value="public">
                         <input type="radio" id="private" name="privacy" onclick="myFunction()" value="private" >
                         <label for="private">Privé</label>
                         <span class="text-danger">@error('privacy'){{$message}}@enderror</span>
-
-
                         <div class="form-group">
                             @foreach($data as $item)
                                 <input type="radio" id="group" name="group" value={{$item->name}} >
                                 <label for={{$item->name}}>{{$item->name}}</label><br />
                             @endforeach
-                                <span class="text-danger">@error('group'){{$message}}@enderror</span>
+                            <span class="text-danger">@error('group'){{$message}}@enderror</span>
 
                         </div>
                     </div>
-
-                <div class="form-group">
-                    <button type="submit" name="submit" class="btn btn-block btn-primary">Proposer un trajet</button>
                 </div>
-            </form>
+                <a href="login"><button type="button" class="btn btn-perso btn-lg">Proposer un trajet</button></a>
+            </div>
         </div>
-        <div class="col-md-4"></div>
-    </div>
+    </form>
 </div>
 <script type="text/javascript" >
     var pub= document.querySelectorAll("input[type=radio][name=privacy][id=public]");
@@ -176,10 +167,6 @@
             */
 
     });
-
-
-
-
 </script>
 </body>
 </html>

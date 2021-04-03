@@ -1,6 +1,7 @@
 @import url('http://fonts.cdnfonts.com/css/righteous');
 @import url('http://fonts.cdnfonts.com/css/prompt');
 @import url('http://fonts.cdnfonts.com/css/amiko');
+@import url('http://fonts.cdnfonts.com/css/sedan-sc');
 
 html,body,#page-structure,#block-container{
     background-color: #264653;
@@ -50,4 +51,41 @@ img{
 h3{
     color : #E76F51;
     font-size : 25px;
+}
+h2{
+    font-family: 'Sedan SC', sans-serif;
+    color: #000000;
+    width: 100%;
+    text-align: center;
+}
+.champ{
+    background: #eddcd2;
+    margin: 5px 4px;
+    border-radius: 28px;
+}
+#row_title{
+    height:20vh;
+}
+#row_body{
+    height:80vh;
+}
+label{
+    color:black;
+    font-size: 25px;
+}
+.form-group{
+    width: 100%;
+}
+input{
+    text-align: center;
+}
+input[type="radio"]{
+    margin: 0 15px;
+    size: 4px;
+}
+::-webkit-input-placeholder{
+    text-align: center;
+}
+::-moz-placeholder{
+    text-align: center;
 }
