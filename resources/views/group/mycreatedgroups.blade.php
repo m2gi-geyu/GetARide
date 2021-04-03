@@ -20,7 +20,7 @@
         <tr>
         <td><label style="color: #d6d8db" for={{$group->name}}>{{$group->name}}</label></td>
         <td><a href="#"><button type="submit" class="btn btn-block btn-primary">+ de détails</button></a></td>
-            <td><a href="/group/delete_group/{{$group->id}}"><button type="submit" class="btn btn-block btn-danger">Supprimer</button></a></td>
+            <td><a href="/group/delete_group/{{$group->id}}"><button type="submit" class="btn btn-block btn-danger" onclick="return confirm('Êtes-vous sûr? Vous supprimez un groupe. Une fois confirmé, le système supprimera le groupe et ce dernier ne pourra plus être récupéré.')">Supprimer</button></a></td>
         </tr>
     @endforeach
         </tbody>
