@@ -11,11 +11,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+@extends('layouts.sidebar')
 <body>
-<div id="block-container" class="container-fluid">
-    <div id="row_title" class="row" align="center">
-        <div id="title" class="col-md-12">GET A RIDE</div>
-    </div>
+@section('content')
     <form id="insert_form" action="{{ route('trip/create') }}" method="post">
         @csrf
         <div class="results">
@@ -36,7 +34,7 @@
             @endif
         </div>
         <div id="row_body" class="row" align="center">
-            <div id="col1" class="col-md-4">
+            <div id="col1" class="col-md-6">
                 <div id="depart" class="row champ">
                     <h2>Depart</h2>
                     <div  class="form-group">
@@ -58,11 +56,9 @@
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
                 </div>
-            </div>
-            <div id="col2" class="col-md-4">
                 <div id="etapes" class="row champ">
                     <h2>Villes étapes</h2>
-                    <div class="table-repsonsive">
+                    <div class="table-responsive">
                         <span id="error"></span>
                         <table class="table " id="item_table">
                             <tr>
@@ -72,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div id="col3" class="col-md-4">
+            <div id="col2" class="col-md-6">
                 <div id="trip" class="row champ">
                     <h2>Trip</h2>
                     <div class="form-group">
@@ -87,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="info">Contraintes / Commentaires</label>
-                        <textarea name="info" rows="5" cols="25"></textarea>
+                        <textarea name="info"></textarea>
                     </div>
                 </div>
                 <div id="confidentialite" class="row champ">
@@ -98,26 +94,31 @@
                         <input type="radio" id="private" name="privacy" onclick="myFunction()" value="private" >
                         <label for="private">Privé</label>
                         <span class="text-danger">@error('privacy'){{$message}}@enderror</span>
-                        <div class="form-group">
+                        <div name="groups_choice" id="groups_choice" class="form-group">
                             @foreach($data as $item)
-                                <input type="radio" id="group" name="group" value={{$item->name}} >
+                                <input type="checkbox" id="group" name="group" value={{$item->name}} >
                                 <label for={{$item->name}}>{{$item->name}}</label><br />
                             @endforeach
                             <span class="text-danger">@error('group'){{$message}}@enderror</span>
-
                         </div>
                     </div>
                 </div>
-                <a href="login"><button type="button" class="btn btn-perso btn-lg">Proposer un trajet</button></a>
+                <a href="login"><button type="button" class="btn btn-perso btn-lg">Proposer ce trajet</button></a>
             </div>
         </div>
     </form>
-</div>
 <script type="text/javascript" >
     var pub= document.querySelectorAll("input[type=radio][name=privacy][id=public]");
     var priv= document.querySelectorAll("input[type=radio][name=privacy][id=private]");
-
-
+    ///////////////////////////////////////
+    /// Hauteur de la textarea automatique
+    $('textarea').each(function(){
+        this.setAttribute('style','height:'+(this.scrollHeight)+'px;overflow-y:hidden;');
+    }).on('input',function(){
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    })
+    ///////////////////////////////////////
     for (var i = 0, iLen = pub.length; i < iLen; i++) {
         pub[i].onclick = function() {
             showResult('group',true);
@@ -133,8 +134,12 @@
     function showResult(name,bool) {
         var x = document.getElementsByName(name);
         for (var i = 0; i < x.length; i++) {
-            x[i].disabled = bool;
+            x[i].hidden = bool;
         }
+        if(bool)
+            $("div[name='groups_choice']").hide();
+        else
+            $("div[name='groups_choice']").show();
     }
 
     $(document).ready(function(){
@@ -170,4 +175,4 @@
 </script>
 </body>
 </html>
-
+@endsection

@@ -57,17 +57,16 @@ h2{
     color: #000000;
     width: 100%;
     text-align: center;
+    margin-top: 6px;
 }
 .champ{
     background: #eddcd2;
-    margin: 5px 4px;
+    margin: 5px 0px;
     border-radius: 28px;
-}
-#row_title{
-    height:20vh;
+    width: 90%;
 }
 #row_body{
-    height:80vh;
+    height:auto;
 }
 label{
     color:black;
@@ -78,6 +77,7 @@ label{
 }
 input{
     text-align: center;
+    background-color: blue;
 }
 input[type="radio"]{
     margin: 0 15px;
@@ -88,4 +88,19 @@ input[type="radio"]{
 }
 ::-moz-placeholder{
     text-align: center;
+}
+textarea{
+    width : 100%;
+    max-width: 100%;
+    max-height: 140px;
+    resize : none;
+}
+#arrivee,#confidentialite,#etapes{
+    margin-top:20px;
+}
+::-webkit-calendar-picker-indicator{
+    display: none;
+}
+#groups_choice{
+    display : none;
 }
