@@ -9,9 +9,8 @@
     </head>
     <body>
         <div class="container">
-            <div class="row">
-               <div class="col-md-4 col-md-offset-4">
                    <h3>GET A RIDE</h3>
+                   <br>
                    <form action="{{ route('auth/check') }}" method="post">
                        @csrf
                        <div class="results">
@@ -26,28 +25,26 @@
                                </div>
                            @endif
                        </div>
-                        <div class="form-group">
+                        <div class="form-login">
                             <label for="email" class="login">Email/Pseudo</label>
-                            <input type="text" class="form-control" name="email" placeholder="Enter email">
+                            <input type="text" class="form-control-login" name="email" placeholder="Enter email">
                             <span class="text-danger">@error('email'){{$message}}@enderror</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-login">
                             <label for="password" class="login">Mot de passe</label>
-                            <input type="password" class="form-control" name="password" placeholder="Enter password">
+                            <input type="password" class="form-control-login" name="password" placeholder="Enter password">
                             <span class="text-danger">@error('password'){{$message}}@enderror</span>
                         </div>
                         <br>
-                        <div class="form-group">
+                        <div class="form-login">
                             <button type="submit" class="btn btn-block btn-primary">Se connecter</button>
                            <a href="change-password"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
                        </div>
                         <br>
-                        <p>Vous n'avez pas de compte ? <a href="register">Inscrivez-vous!</a></p>
+                        <p class="hyperlien">Vous n'avez pas de compte ? <a href="register">Inscrivez-vous!</a></p>
                        <br>
 
                     </form>
-               </div>
-            </div>
         </div>
     </body>
 </html>

@@ -17,6 +17,7 @@ class Trip extends Model
         'starting_town',
         'ending_town',
         'date_trip',
+        'precision',
         'price',
         'private',
         'description',

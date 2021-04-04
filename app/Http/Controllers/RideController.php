@@ -51,13 +51,12 @@ class RideController extends Controller
         $request->validate([
             'departure'=> 'required',
             'date'=>'required',
-            //'time'=>'required',
+            'time'=>'required',
             'final'=>'required',
             'nb_passengers'=>'required',
             'price'=>'required',
             'privacy'=>'required',
             'group' => 'required_if:privacy,==,private',
-            'stage' => 'required'
         ]);
 
 
@@ -71,18 +70,19 @@ class RideController extends Controller
                 $ride->starting_town = $request->departure;
                 $ride->ending_town = $request->final;
                 $ride->description = $request->info;
+                $ride->precision = $request->rdv;
                 $ride->price = $request->price;
                 $ride->number_of_seats = $request->nb_passengers;
-                $ride->date_trip = $request->date;
+                $date=new \DateTime($request->date);
+                $heure = explode(':',$request->time);
+                $date->setTime($heure[0],$heure[1]);
+                $ride->date_trip = $date;
                 if ($request->privacy == 'public') {
                     $ride->private = 0;
                 } else {
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
-
-
-
                 }
 
                 //$trip=Trip::latest()->where('id_driver', '=', $user->id)->first();
@@ -93,21 +93,23 @@ class RideController extends Controller
                     // $trip= Trip::where('id_driver', '=', $user->id)->last();
 
                     $count = 1;
-                    foreach ($request->stage as $item) {
-                        $stage = new Stage;
-                        $stage->stage = $item;
-                        $stage->id_trip = $ride->id;
-                        $stage->order = $count;
-                        $count += 1;
-                        $query = $stage->save();
+                    if(!empty($request->stage)) {
+                        foreach ($request->stage as $item) {
+                            $stage = new Stage;
+                            $stage->stage = $item;
+                            $stage->id_trip = $ride->id;
+                            $stage->order = $count;
+                            $count += 1;
+                            $query = $stage->save();
 
-                        if (!$query) {
-                            return back()->with('fail', 'Something went wrong');
+                            if (!$query) {
+                                return back()->with('fail', 'Something went wrong');
+                            }
+
+                            //notifyPrivateGroup($ride->id_group, $ride);
                         }
+
                     }
-
-                    //notifyPrivateGroup($ride->id_group, $ride);
-
                     return back()->with('success', 'Your trip has been successfully registered');
                 } else {
                     return back()->with('fail', 'Something went wrong');
