@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Psr\Log\NullLogger;
 
 use App\Notifications\trip\newPrivateTrip;
+use App\Notifications\trip\tripRequestCanceled;
 
 
 /**
@@ -234,9 +235,18 @@ class RideController extends Controller
             }
             $check = $query->delete();
             if($check != null){
+
+                //notifiate each user which is this trip's passanger
+                $link_user_trip = LinkUserTrip::where('id_trip', $id);
+                foreach ($link_user_trip as $link){
+                    $passager = User::where('id', '=', $link->id_user)->first();
+                    $passager -> notify(new tripRequestCanceled($user,$passager,$trip));
+                }
+
+                //delete the trip
                 LinkUserTrip::where('id_trip', $id)->delete();
                 Stage::where('id_trip', $id)-> delete();
-                return back()->with('success', 'Le trajet a été supprimé avec succès');
+                return back()->with('success', $trip->id);
             }else{
                 return back()->with('fail', 'Trajet inexistant');
             }
