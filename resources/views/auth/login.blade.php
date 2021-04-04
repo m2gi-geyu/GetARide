@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row">
                <div class="col-md-4 col-md-offset-4">
-                   <h3>User login</h3>
+                   <h3>GET A RIDE</h3>
                    <form action="{{ route('auth/check') }}" method="post">
                        @csrf
                        <div class="results">
@@ -38,13 +38,10 @@
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-block btn-primary">Log-in</button>
-                        </div>
-                       <br>
-                       <div class="form-group">
                            <a href="change-password"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
                        </div>
                         <br>
-                        <p>Vous n'avez pas de compte?</p><a href="register">Inscrivez-vous!</a>
+                        <p>Vous n'avez pas de compte ? <a href="register">Inscrivez-vous!</a></p>
                        <br>
 
                     </form>
