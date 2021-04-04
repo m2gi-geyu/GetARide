@@ -23,7 +23,7 @@ class CreateTripsTable extends Migration
             $table->timestamp('date_trip');
             $table->float('price');
             $table->boolean('private')->default(false);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('id_group')->nullable();
             $table->foreign('id_group')->references('id')->on('groups');
 

@@ -39,20 +39,27 @@
                     <h2>Depart</h2>
                     <div  class="form-group">
                         <label for="departure">Ville</label>
-                        <input type="text" class="form-control" name="departure" placeholder="Enter departure city" value="{{old('departure')}}">
+                        <input class="form-control" type="text" autocomplete="off" list="departure" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
+                        <datalist  id="departure">
+                        </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" class="form-control" name="date" value="{{old('date')}}">
                         <span class="text-danger">@error('date'){{$message}}@enderror</span>
+                        <label for="time">Heure</label>
+                        <input type="time" class="form-control" id="time" name="time" value="{{old('time')}}">
+                        <span class="text-danger">@error('time'){{$message}}@enderror</span>
                     </div>
                 </div>
                 <div id="arrivee" class="row champ">
                     <h2>Arrivée</h2>
                     <div class="form-group">
                         <label for="final">Ville</label>
-                        <input type="text" class="form-control" name="final" placeholder="Enter final city" value="{{old('final')}}">
+                        <input class="form-control" type="text" autocomplete="off" list="final" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
+                        <datalist  id="final">
+                        </datalist>
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
                 </div>
@@ -61,6 +68,18 @@
                     <div class="table-responsive" id="table_etapes">
                         <span id="error"></span>
                         <table class="table " id="item_table">
+                            <tr>
+                                @if(old('stage'))
+                                    @foreach(old('stage') as $stage)
+                                        <tr>
+                                        <td><input type="text" autocomplete="off" name="stage[]" list="stage" id="stage" class="form-control stage" value={{$stage}} /></td>
+                                            <datalist  id="stage">
+                                            </datalist>
+                                        <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
+
+                                    @endforeach
+                                    @endif
+                            </tr>
                         </table>
                     </div>
                     <div align="center" id="add_div">
@@ -78,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label for="price">Prix (€)</label>
-                        <input type="number" class="form-control"  name="price" min="0" max="10000" step="0.1" value="{{old('price')}}">
+                        <input type="number" class="form-control"  name="price" min="1" max="10000" step="1" value="{{old('price')}}">
                         <span class="text-danger">@error('price'){{$message}}@enderror</span>
                     </div>
                     <div class="form-group">
@@ -105,12 +124,15 @@
                 </div>
                 <div id="bouttons" class="row">
                     <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
-                    <div id="create_button_div" class="col-md-6"><button type="button" class="btn-perso">Proposer ce trajet</button></div>
+                    <div id="create_button_div" class="col-md-6"><button type="submit" class="btn-perso">Proposer ce trajet</button></div>
                 </div>
             </div>
         </div>
     </form>
 <script type="text/javascript" >
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("date")[0].setAttribute('min', today)
+
     var pub= document.querySelectorAll("input[type=radio][name=privacy][id=public]");
     var priv= document.querySelectorAll("input[type=radio][name=privacy][id=private]");
     ///////////////////////////////////////
@@ -152,6 +174,13 @@
             html += '<tr>';
             html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
             html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
+            html += '<tr>'
+            /*html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
+            html += '<datalist  id="stage">'
+            html += '</datalist>'
+            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>'
+*/
+
             $('#item_table').append(html);
         });
 
@@ -159,6 +188,68 @@
             $(this).closest('tr').remove();
         });
 
+        /*$(document).on('input', function (){
+            var vil =$('#departure').val();
+            console.log()
+            console.log(vil);
+            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
+                .then((response) =>response.json())
+                .then((data) => traitement(data));
+
+            function traitement(data){
+                $('#departure option').remove();
+                console.log(data);
+                var html ='';
+
+                data.forEach(ville => {
+                    html += '<option value=\"'+ville.nom+'\"/>';
+                });
+                $('#departure').append(html);
+
+            }
+        });
+
+        $(document).on('input', function (){
+            var vil =$('#ville').val();
+            console.log()
+            console.log(vil);
+            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
+                .then((response) =>response.json())
+                .then((data) => traitement(data));
+
+            function traitement(data){
+                $('#stage option').remove();
+                console.log(data);
+                var html ='';
+
+                data.forEach(ville => {
+                    html += '<option value=\"'+ville.nom+'\"/>';
+                });
+                $('#stage').append(html);
+
+            }
+        });
+
+        $(document).on('input', function (){
+            var vil =$('#ville').val();
+            console.log()
+            console.log(vil);
+            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
+                .then((response) =>response.json())
+                .then((data) => traitement(data));
+
+            function traitement(data){
+                $('#final option').remove();
+                console.log(data);
+                var html ='';
+
+                data.forEach(ville => {
+                    html += '<option value=\"'+ville.nom+'\"/>';
+                });
+                $('#final').append(html);
+
+            }
+        });*/
         /*$('#insert_form').on('submit', function(event){
             event.preventDefault();
             var error = '';
