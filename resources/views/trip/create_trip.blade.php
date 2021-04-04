@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible"  content="ie=edge">
     <title>Create Ride</title>
     <link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
+    <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -56,15 +56,15 @@
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
                 </div>
-                <div id="etapes" class="row champ">
+                <div id="etapes" class="row champ" align="center">
                     <h2>Villes étapes</h2>
                     <div class="table-responsive" id="table_etapes">
                         <span id="error"></span>
                         <table class="table " id="item_table">
-                            <tr>
-                                <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th>
-                            </tr>
                         </table>
+                    </div>
+                    <div align="center" id="add_div">
+                        <button type="button" name="add" class="btn-rond add">+</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
             var html = '';
             html += '<tr>';
             html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
-            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
             $('#item_table').append(html);
         });
 

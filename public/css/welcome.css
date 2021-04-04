@@ -18,7 +18,7 @@ html,body,#page-structure,#block-container{
     color : #264653;
     font-weight: bold;
     font-size: 20px;
-    font-family: 'Rubik';
+    font-family: 'Rubik', sans-serif;
 }
 .btn-perso:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -63,7 +63,7 @@ h2{
 }
 .champ{
     background: #eddcd2;
-    margin: 5px 0px;
+    margin: 5px 0;
     border-radius: 28px;
     width: 90%;
 }
@@ -76,10 +76,6 @@ label{
 }
 .form-group{
     width: 100%;
-}
-input{
-    text-align: center;
-    background-color: blue;
 }
 input[type="radio"]{
     margin: 0 15px;
@@ -94,8 +90,13 @@ input[type="radio"]{
 textarea{
     width : 100%;
     max-width: 100%;
-    max-height: 140px;
+    max-height: 95px;
     resize : none;
+    background-color : #d2d2c3;
+}
+input[type="text"],input[type="date"],input[type="number"]{
+    background-color: #d2d2c3;
+    text-align : center;
 }
 #arrivee,#confidentialite,#etapes{
     margin-top:20px;
@@ -106,9 +107,26 @@ textarea{
 #groups_choice{
     display : none;
     overflow-y: auto;
-    height : 130px;
+    height : 110px;
 }
 #table_etapes{
     overflow-y: auto;
-    max-height : 300px;
+    max-height : 220px;
+    text-align: center;
+}
+.btn-rond{
+    width : 70px;
+    height : 70px;
+    background-color: #F4A261;
+    border-color: #000000;
+    border-width: 2px;
+    border-radius: 40px;
+    color : #264653;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: 'Rubik', sans-serif;
+}
+#add_div{
+    width: 100%;
+    margin-bottom: 7px;
 }
