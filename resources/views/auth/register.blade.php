@@ -97,6 +97,7 @@
                         <span class="text-danger">@error('profile_pic'){{$message}}@enderror</span>
                     </div>
                 </fieldset>
+                <br>
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
                 </div>
