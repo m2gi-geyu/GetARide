@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\LinkUsersGroup;
+use App\Models\LinkUserTrip;
 use App\Models\Stage;
 use App\Models\Trip;
 use App\Models\User;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Psr\Log\NullLogger;
 
 use App\Notifications\trip\newPrivateTrip;
+use App\Notifications\trip\tripRequestCanceled;
 
 
 /**
@@ -183,5 +186,71 @@ class RideController extends Controller
             $userToNotify->notify(new newPrivateTrip(userLogged,$userToNotify,$trip));
         }
 
+    }
+
+    /**
+     * Function used to visualize all the trips which are created by the user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    function view_my_created_trips(){
+        if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
+            // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+
+            $data = DB::select('SELECT * FROM `trips` WHERE id_driver=:id_driver', ['id_driver' => $user->id]);
+        }
+
+
+        return view('trip/my_created_trips',['data'=>$data]);
+    }
+
+    /**
+     * function used to delete trip by ID
+     * @param $id id of the trip which the user wants to delete
+     */
+    function delete_trip($id){
+        if(session()->has('LoggedUser')) {
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+
+            //in order to get the trip's data
+            $trip = Trip::where('id', '=', $id)
+                ->where ('id_driver','=',$user->id)
+                ->first();
+
+            $whereArray = array('id' => $id,'id_driver' => $user->id);
+            $query = DB::table('trips');
+            foreach($whereArray as $field => $value) {
+                $query->where($field, $value);
+            }
+
+            $trip_in_seconds =  strtotime($trip->date_trip);
+            $current_time = time();
+            $remaining_seconds=$trip_in_seconds - $current_time;
+
+            //there are 86400 in one day
+            if($remaining_seconds<86400){
+                return back()->with('fail', "Le départ de ce trajet est dans moins de 24h, il est donc impossible de le supprimer.");
+            }
+            $check = $query->delete();
+            if($check != null){
+
+                //notifiate each user which is this trip's passanger
+                $link_user_trip = LinkUserTrip::where('id_trip', $id);
+                foreach ($link_user_trip as $link){
+                    $passager = User::where('id', '=', $link->id_user)->first();
+                    $passager -> notify(new tripRequestCanceled($user,$passager,$trip));
+                }
+
+                //delete the trip
+                LinkUserTrip::where('id_trip', $id)->delete();
+                Stage::where('id_trip', $id)-> delete();
+                return back()->with('success', $trip->id);
+            }else{
+                return back()->with('fail', 'Trajet inexistant');
+            }
+
+        }
     }
 }
