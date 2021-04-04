@@ -95,4 +95,5 @@ Route::get('/group/search', [GroupController::class, 'search_user'])->name('grou
 Route::post('group/create',[GroupController::class, 'create_new_group'])->name('group/create');//route for create a new group with post method
 Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers');//route for the view used to adding members to the newest group
 Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
-Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])->name('mycreatedgroups');
+Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])->name('mycreatedgroups'); //route to visualize groups which are created by the current user
+Route::get('group/delete_group/{id}',[GroupController::class,'delete_group'])->name('group/delete')->middleware('isLogged');//route used to delete a group
