@@ -56,13 +56,15 @@
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
                 </div>
-                <div id="etapes" class="row champ">
+                <div id="etapes" class="row champ" align="center">
                     <h2>Villes étapes</h2>
                     <div class="table-responsive" id="table_etapes">
                         <span id="error"></span>
-                        <button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button>
                         <table class="table " id="item_table">
                         </table>
+                    </div>
+                    <div align="center" id="add_div">
+                        <button type="button" name="add" class="btn-rond add">+</button>
                     </div>
                 </div>
             </div>
