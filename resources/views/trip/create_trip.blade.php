@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible"  content="ie=edge">
     <title>Create Ride</title>
     <link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
+    <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -43,7 +43,6 @@
                         <datalist  id="departure">
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
-
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
@@ -64,9 +63,9 @@
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
                 </div>
-                <div id="etapes" class="row champ">
+                <div id="etapes" class="row champ" align="center">
                     <h2>Villes étapes</h2>
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="table_etapes">
                         <span id="error"></span>
                         <table class="table " id="item_table">
                             <tr>
@@ -83,6 +82,9 @@
                                     @endif
                             </tr>
                         </table>
+                    </div>
+                    <div align="center" id="add_div">
+                        <button type="button" name="add" class="btn-rond add">+</button>
                     </div>
                 </div>
             </div>
@@ -121,7 +123,10 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-perso btn-lg">Proposer ce trajet</button>
+                <div id="bouttons" class="row">
+                    <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
+                    <div id="create_button_div" class="col-md-6"><button type="button" class="btn-perso">Proposer ce trajet</button></div>
+                </div>
             </div>
         </div>
     </form>
@@ -167,6 +172,9 @@
 
         $(document).on('click', '.add', function(){
             var html = '';
+            html += '<tr>';
+            html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
+            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
             html += '<tr>'
             html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
             html += '<datalist  id="stage">'
@@ -260,7 +268,6 @@
 
     });
 </script>
-
 </body>
 </html>
 @endsection

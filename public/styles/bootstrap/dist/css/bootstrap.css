@@ -44,11 +44,13 @@
 
 html {
   font-family: sans-serif;
+  font-style: bolder;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background-color: #264653;
   text-align:center;
+  font-weight:bold;
 }
 
 a
@@ -86,7 +88,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem;
   color:white;
   text-align:center;
-  font-size: 50px
+  font-size: 50px;
+  font-weight:bold;
 }
 
 p {
@@ -165,13 +168,13 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: #2a9d8f;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #0056b3;
+  color: #2a9d8f;
   text-decoration: underline;
 }
 
@@ -241,7 +244,8 @@ label.login
 {
     color: #E76F51;
     font-size: 25px;
-    font-style: bolder;
+    font-weight:bold;
+    text-shadow:10px 10px 10px 10px black;
 }
 
 button {
@@ -268,7 +272,7 @@ textarea {
 
 button,
 input {
-  overflow: visible;
+  /*overflow: visible;*/
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -391,7 +395,7 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 500;
   line-height: 1.2;
   text-align: center;
-  font-size
+  font-weight:bold;
 }
 
 h1, .h1 {
@@ -403,7 +407,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-size: 3rem;
+  /*font-size: 3rem;*/
 }
 
 h4, .h4 {
@@ -579,6 +583,8 @@ pre code {
 .container-md,
 .container-lg,
 .container-xl {
+
+  display:block;
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
@@ -615,8 +621,8 @@ pre code {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .no-gutters {
@@ -1149,6 +1155,7 @@ pre code {
     -ms-flex: 0 0 33.333333%;
     flex: 0 0 33.333333%;
     max-width: 33.333333%;
+    text-align:center;
   }
   .col-md-5 {
     -ms-flex: 0 0 41.666667%;
@@ -1159,11 +1166,14 @@ pre code {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
+
   }
   .col-md-7 {
     -ms-flex: 0 0 58.333333%;
     flex: 0 0 58.333333%;
     max-width: 58.333333%;
+    margin-right: auto;
+    margin-left: auto;
   }
   .col-md-8 {
     -ms-flex: 0 0 66.666667%;
@@ -2054,7 +2064,7 @@ pre code {
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px
+  border-bottom-right-radius: 25px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2601,8 +2611,12 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #264653;
+  font-style: bold;
   background-color: #F4A261;
   border-color: #E76F51;
+  border-style: bold;
+  line-height: 0.75;
+  vertical-align: left;
 }
 
 /*
@@ -3179,12 +3193,14 @@ fieldset:disabled a.btn {
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.3rem;*/
+  line-height: 0.75;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
   border-top-right-radius: 25px;
   border-color: #E76F51;
   color: #264653;
+  vertical-align:right;
 }
 
 .btn-sm, .btn-group-sm > .btn {

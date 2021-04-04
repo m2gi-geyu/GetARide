@@ -155,12 +155,8 @@ class GroupController extends Controller
      */
     function add_member( $id){
         if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
-
-
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
-
-
             //On récupère le DERNIER (donc le plus nouveau) groupe crée par l'utilisateur
             $group =DB::table('groups')
                 ->where('id_creator', '=', $user->id)
@@ -209,6 +205,10 @@ class GroupController extends Controller
     }
 
 
+    /**
+     * Fonction permettant à l'utilisateur de visualiser les groupes qu'il a crée
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function view_my_created_groups(){
         if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
@@ -220,6 +220,35 @@ class GroupController extends Controller
 
 
         return view('group/mycreatedgroups',['data'=>$data]);
+    }
+
+
+    /**
+     * @param $id id of group which user wants to delete
+     * @return \Illuminate\Http\RedirectResponse fail message if the operation doesn't end normally
+     * succes message if the group is deleted
+     */
+    function delete_group($id){
+        if(session()->has('LoggedUser')) {
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+
+
+            $whereArray = array('id' => $id,'id_creator' => $user->id);
+
+            $query = DB::table('groups');
+            foreach($whereArray as $field => $value) {
+                $query->where($field, $value);
+            }
+            $check = $query->delete();
+            if($check != null){
+                LinkUsersGroup::where('id_group', $id)->delete();
+                return back()->with('success', 'Le groupe a été supprimé avec succès');
+            }else{
+                return back()->with('fail', 'Groupe inexistant');
+            }
+
+        }
     }
 
 }
