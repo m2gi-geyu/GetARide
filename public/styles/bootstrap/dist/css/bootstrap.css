@@ -2616,6 +2616,7 @@ fieldset:disabled a.btn {
   border-color: #E76F51;
   border-style: bold;
   line-height: 0.75;
+  vertical-align: left;
 }
 
 /*
@@ -3199,6 +3200,7 @@ fieldset:disabled a.btn {
   border-top-right-radius: 25px;
   border-color: #E76F51;
   color: #264653;
+  vertical-align:right;
 }
 
 .btn-sm, .btn-group-sm > .btn {
