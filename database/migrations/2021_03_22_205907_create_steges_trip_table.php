@@ -14,7 +14,7 @@ class CreateStegesTripTable extends Migration
     public function up()
     {
         Schema::create('steges_trip', function (Blueprint $table) {
-            $table->integer('id_trip')->primary();
+            $table->integer('id_trip');
             $table->foreign('id_trip')->references('id')->on('trips');
             $table->text('stage');
             $table->integer('order');
