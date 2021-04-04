@@ -104,6 +104,8 @@ class RideController extends Controller
                             if (!$query) {
                                 return back()->with('fail', 'Something went wrong');
                             }
+
+                            //notifyPrivateGroup($ride->id_group, $ride);
                         }
 
                     }

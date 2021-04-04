@@ -39,7 +39,7 @@
                     <h2>Depart</h2>
                     <div  class="form-group">
                         <label for="departure">Ville</label>
-                        <input class="form-control" autocomplete="off" list="departure" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
+                        <input class="form-control" type="text" autocomplete="off" list="departure" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
                         <datalist  id="departure">
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
@@ -57,7 +57,7 @@
                     <h2>Arrivée</h2>
                     <div class="form-group">
                         <label for="final">Ville</label>
-                        <input class="form-control" autocomplete="off" list="final" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
+                        <input class="form-control" type="text" autocomplete="off" list="final" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
                         <datalist  id="final">
                         </datalist>
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
@@ -69,11 +69,10 @@
                         <span id="error"></span>
                         <table class="table " id="item_table">
                             <tr>
-                                <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th>
                                 @if(old('stage'))
                                     @foreach(old('stage') as $stage)
                                         <tr>
-                                        <td><input autocomplete="off" name="stage[]" list="stage" id="stage" class="form-control stage" value={{$stage}} /></td>
+                                        <td><input type="text" autocomplete="off" name="stage[]" list="stage" id="stage" class="form-control stage" value={{$stage}} /></td>
                                             <datalist  id="stage">
                                             </datalist>
                                         <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
@@ -125,7 +124,7 @@
                 </div>
                 <div id="bouttons" class="row">
                     <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
-                    <div id="create_button_div" class="col-md-6"><button type="button" class="btn-perso">Proposer ce trajet</button></div>
+                    <div id="create_button_div" class="col-md-6"><button type="submit" class="btn-perso">Proposer ce trajet</button></div>
                 </div>
             </div>
         </div>
@@ -176,11 +175,11 @@
             html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
             html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
             html += '<tr>'
-            html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
+            /*html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
             html += '<datalist  id="stage">'
             html += '</datalist>'
             html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>'
-
+*/
 
             $('#item_table').append(html);
         });
