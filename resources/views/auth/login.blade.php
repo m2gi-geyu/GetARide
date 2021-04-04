@@ -36,8 +36,9 @@
                             <input type="password" class="form-control" name="password" placeholder="Enter password">
                             <span class="text-danger">@error('password'){{$message}}@enderror</span>
                         </div>
+                        <br>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-primary">Log-in</button>
+                            <button type="submit" class="btn btn-block btn-primary">Se connecter</button>
                            <a href="change-password"><button type="button" class="btn btn-perso btn-lg">Mot de passe oublié</button></a>
                        </div>
                         <br>
