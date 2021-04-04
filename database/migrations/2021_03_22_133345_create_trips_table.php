@@ -21,6 +21,7 @@ class CreateTripsTable extends Migration
             $table->text('starting_town');
             $table->text('ending_town');
             $table->timestamp('date_trip');
+            $table->text('precision')->nullable();
             $table->float('price');
             $table->boolean('private')->default(false);
             $table->text('description')->nullable();

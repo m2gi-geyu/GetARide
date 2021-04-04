@@ -70,6 +70,7 @@ class RideController extends Controller
                 $ride->starting_town = $request->departure;
                 $ride->ending_town = $request->final;
                 $ride->description = $request->info;
+                $ride->precision = $request->rdv;
                 $ride->price = $request->price;
                 $ride->number_of_seats = $request->nb_passengers;
                 $date=new \DateTime($request->date);

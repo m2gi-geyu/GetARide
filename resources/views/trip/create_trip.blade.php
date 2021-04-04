@@ -52,6 +52,10 @@
                         <input type="time" class="form-control" id="time" name="time" value="{{old('time')}}">
                         <span class="text-danger">@error('time'){{$message}}@enderror</span>
                     </div>
+                    <div class="form-group">
+                        <label for="rdv">Précision RDV</label>
+                        <textarea name="rdv"></textarea>
+                    </div>
                 </div>
                 <div id="arrivee" class="row champ">
                     <h2>Arrivée</h2>
