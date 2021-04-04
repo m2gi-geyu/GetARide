@@ -58,7 +58,7 @@
                 </div>
                 <div id="etapes" class="row champ">
                     <h2>Villes étapes</h2>
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="table_etapes">
                         <span id="error"></span>
                         <table class="table " id="item_table">
                             <tr>
@@ -103,7 +103,10 @@
                         </div>
                     </div>
                 </div>
-                <a href="login"><button type="button" class="btn btn-perso btn-lg">Proposer ce trajet</button></a>
+                <div id="bouttons" class="row">
+                    <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
+                    <div id="create_button_div" class="col-md-6"><button type="button" class="btn-perso">Proposer ce trajet</button></div>
+                </div>
             </div>
         </div>
     </form>

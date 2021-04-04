@@ -2,7 +2,7 @@
 @import url('http://fonts.cdnfonts.com/css/prompt');
 @import url('http://fonts.cdnfonts.com/css/amiko');
 @import url('http://fonts.cdnfonts.com/css/sedan-sc');
-
+@import url('http://fonts.cdnfonts.com/css/rubik');
 html,body,#page-structure,#block-container{
     background-color: #264653;
     height:100vh;
@@ -17,6 +17,8 @@ html,body,#page-structure,#block-container{
     border-radius: 32px;
     color : #264653;
     font-weight: bold;
+    font-size: 20px;
+    font-family: 'Rubik';
 }
 .btn-perso:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -103,4 +105,10 @@ textarea{
 }
 #groups_choice{
     display : none;
+    overflow-y: auto;
+    height : 130px;
+}
+#table_etapes{
+    overflow-y: auto;
+    max-height : 300px;
 }
