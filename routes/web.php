@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\TravelSearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
@@ -96,3 +98,6 @@ Route::post('group/create',[GroupController::class, 'create_new_group'])->name('
 Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers');//route for the view used to adding members to the newest group
 Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
 
+//routes linked to trips searching
+Route::get('trip/search_trip',[TravelSearchController::class,'search_trip_view'])->name('trip/search_trip');
+Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/search');
