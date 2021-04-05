@@ -206,10 +206,16 @@ class RideController extends Controller
             $user = User::where('username', '=', $username)->first();
 
             $data = DB::select('SELECT * FROM `trips` WHERE id_driver=:id_driver', ['id_driver' => $user->id]);
+            //$stages_trips = DB::select('SELECT * FROM `steges_trip` INNER JOIN `trips` ON `steges_trip.id_trip = trips.id`WHERE trips.id_driver=:id_driver', ['id_driver' => $user->id]);
+            $stages_trips = $users = DB::table('steges_trip')
+                ->join('trips', 'steges_trip.id_trip', '=', 'trips.id')
+                ->where('trips.id_driver','=',$user->id)
+                ->get();
+
         }
 
 
-        return view('trip/my_created_trips',['data'=>$data]);
+        return view('trip/my_created_trips',['data'=>$data],['stages_trips'=>$stages_trips]);
     }
 
     /**
