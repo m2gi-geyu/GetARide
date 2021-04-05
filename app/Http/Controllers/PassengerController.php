@@ -2,10 +2,9 @@
 
 
 namespace App\Http\Controllers;
-
-
-use App\Models\Trip;
+use App\Models\LinkUserTrip;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PassengerController extends Controller
 {
@@ -20,16 +19,6 @@ class PassengerController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
-    /**
      * passager veut retrait d'un trajet rejoint
      * @param int $idRide:id de trajet
      * @return \Illuminate\Http\RedirectResponse
@@ -37,10 +26,9 @@ class PassengerController extends Controller
     public function deleteJoinedRide(int $idRide){
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
         $idUser=$user->id;
-        $select=DB::select('link_user_trip where id_trip=?',[$idRide]);
-        if($select->validated==true) {
-            $idUser = $user->id;
-            return redirect()->action('App\Http\Controllers\RideController@delete_user_from_ride', ['id' => $idUser, 'idTrip' => $idRide]);
+        $link_trip=LinkUserTrip::where("id_trip",$idRide)->where("id_user",$idUser)->first();
+        if($link_trip->validated==true) {
+            return redirect()->route('trip/delete_user', ['id' => $idUser, 'idRide' => $idRide]);
         } else {
             return back()->with("la réponse n'est pas confirmé,interdit d'annuler");
         }
@@ -49,9 +37,9 @@ class PassengerController extends Controller
     public function deletdAnswerRide(int $idRide){
         $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
         $idUser=$user->id;
-        $select=DB::select('link_user_trip where id_trip=?',[$idRide]);
-        if($select->validated==false) {
-            return redirect()->action('App\Http\Controllers\RideController@delete_user_from_ride', ['id' => $idUser, 'idTrip' => $idRide]);
+        $link_trip=LinkUserTrip::where("id_trip",$idRide)->where("id_user",$idUser)->first();
+        if($link_trip->validated==false) {
+            return redirect()->route('trip/delete_user', ['id' => $idUser, 'idRide' => $idRide]);
         } else{
             return back()->with("la réponse est confirmé,interdit d'annuler");
         }

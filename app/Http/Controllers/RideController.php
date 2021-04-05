@@ -157,10 +157,16 @@ class RideController extends Controller
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $id=$user->id;
-            $trips = DB::select("select * from users,trips,link_user_trip where users.id=? and
-            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip", [$id]);
+            $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
+            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
             $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id", [$id]);
+            $num_trip=0;
+            foreach ($trips as $trip) {
+                $user = User::where('id', '=', $trip->id_driver)->first();
+                $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
+                $num_trip++;
+            }
         }
         //Afficher tous les trajets en attente
         return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
@@ -216,10 +222,11 @@ class RideController extends Controller
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             //on enlève le tuple de utilisateur
             $trip = Trip::where('id', '=', $idRide)->first();
-            $select=DB::selectOne('select TIMESTAMPDIFF(SECOND,Now(),?) AS Diff
-            from trips where id=? ',[$trip->date_trip,$idRide]);
+            $trip_in_seconds =  strtotime($trip->date_trip);
+            $current_time = time();
+            $remaining_seconds=$trip_in_seconds - $current_time;
             //il reste au moin 24 h
-            if($select[0]/3600>24) {
+            if($remaining_seconds>86400) {
                 $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id, $idRide]);
                 if ($deleted) {
                     $update = DB::update('update trips set number_of_seats= number_of_seats +1 where id=?', [$idRide]);
