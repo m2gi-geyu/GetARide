@@ -34,25 +34,33 @@
                                         @endif
                                     @endforeach
                                     <td>
-                                        <a href="{{route("trip/cancel",[$trip->id])}}"><button style="color: #d6d8db" type="button" class="btn btn-perso btn-lg">Annuler</button></a>
+                                        @foreach($link_trips as $link_trip)
+                                            @if($trip->id==$link_trip->id_trip)
+                                                @if($link_trip->validated==false)
+                                                    <a href="{{route("trip/cancel",[$trip->id])}}"><button style="color: #d6d8db" type="button" class="btn btn-perso btn-lg">Annuler</button></a>
+                                                @endif
+                                            @endif
+                                        @endforeach
                                     </td>
                                     <td >
                                         <a href="#" onclick="showHideCode()" style="color: #d6d8db">...</a>
                                     </td>
+                                    </tr>
                                      <tr>
-                                    <div id = "showdiv" style="display:none;">
-                                        @foreach($link_trips as $link_trip)
-                                            @if($trip->id==$link_trip->id_trip)
-                                                lieu precision: <td style="color: #d6d8db"> {{$trip->precision}}
-                                                descritpion:{{$trip->description}}
-                                                    @if($link_trip->validated==true)
-                                                    opération:<a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg">se retirer</button></a></td>
+                                         <td>
+                                        <div id = "showdiv" style="display:none;color: #d6d8db">
+                                            @foreach($link_trips as $link_trip)
+                                                @if($trip->id==$link_trip->id_trip)
+                                                    lieu precision:  {{$trip->precision}}
+                                                    descritpion:{{$trip->description}}
+                                                        @if($link_trip->validated==true)
+                                                        opération:<a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: #d6d8db">se retirer</button></a>
+                                                        @endif
                                                     @endif
-                                                </tr>
-                                                @endif
-                                        @endforeach
-                                    </div>
-                                </tr>
+                                            @endforeach
+                                        </div>
+                                         </td>
+                                    </tr>
                             @endforeach
                         </tbody>
 

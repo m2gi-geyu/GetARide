@@ -164,15 +164,15 @@ class RideController extends Controller
                 if ($deleted) {
                     $update = DB::update('update trips set number_of_seats= number_of_seats +1 where id=?', [$idRide]);
                     if ($update) {
-                        return route("trip/waiting")->with("delete successfully");
+                        return back()->with("delete successfully");
                     } else {
-                        return route("trip/waiting")->with("delete failed ");
+                        return back()->with("delete failed ");
                     }
                 } else {
-                    return route("trip/waiting")->with("delete failed ");
+                    return back()->with("delete failed ");
                 }
             } else {
-                return route("trip/waiting")->with("delete failed ");
+                return back()->with("delete failed ");
             }
         }
     }
