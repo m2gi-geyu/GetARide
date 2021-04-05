@@ -94,12 +94,9 @@ textarea{
     resize : none;
     background-color : #d2d2c3;
 }
-input[type="text"],input[type="date"],input[type="number"]{
+input[type="text"],input[type="date"],input[type="number"],input[type="time"]{
     background-color: #d2d2c3;
     text-align : center;
-}
-#arrivee,#confidentialite,#etapes{
-    margin-top:20px;
 }
 ::-webkit-calendar-picker-indicator{
     display: none;
@@ -107,11 +104,11 @@ input[type="text"],input[type="date"],input[type="number"]{
 #groups_choice{
     display : none;
     overflow-y: auto;
-    height : 110px;
+    max-height : 100px;
 }
 #table_etapes{
     overflow-y: auto;
-    max-height : 220px;
+    max-height : 180px;
     text-align: center;
 }
 .btn-rond{
@@ -129,4 +126,7 @@ input[type="text"],input[type="date"],input[type="number"]{
 #add_div{
     width: 100%;
     margin-bottom: 7px;
+}
+#date,#time{
+    width: 90%;
 }
