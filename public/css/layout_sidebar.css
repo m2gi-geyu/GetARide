@@ -88,6 +88,7 @@ main div.content-container {
 .sidenav .personne {
     font-size: 1.25vw;
     font-family: 'Righteous', sans-serif;
+    cursor: pointer;
 }
 
 .flash-message {
