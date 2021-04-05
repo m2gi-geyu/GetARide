@@ -165,3 +165,9 @@ input[type="text"],input[type="date"],input[type="number"],input[type="time"]{
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
+.form-control-login-perso{
+    width:50%;
+    height:60px;
+    font-size: 20px;
+
+}

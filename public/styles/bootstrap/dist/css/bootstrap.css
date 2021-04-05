@@ -44,7 +44,6 @@
 
 html {
   font-family: sans-serif;
-  font-style: bolder;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -104,6 +103,7 @@ p {
 p.hyperlien
 {
     text-align:center;
+    font-size: 20px;
 }
 
 abbr[title],
@@ -251,7 +251,7 @@ label {
 label.login
 {
     color: #E76F51;
-    font-size: 25px;
+    font-size: 40px;
     font-weight:bold;
     text-shadow:10px 10px 10px 10px black;
     text-align:center;
