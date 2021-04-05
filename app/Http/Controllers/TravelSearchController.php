@@ -53,7 +53,6 @@ class TravelSearchController extends Controller
                 foreach($data as $trip)
                 {
                     $output .= '<tr>'.
-                        '<td>'.$trip->id.'</td>'.
                         '<td>'.$trip->username.'</td>'.
                         '<td>'.$trip->number_of_seats.'</td>'.
                         '<td>'.$trip->starting_town.'</td>'.

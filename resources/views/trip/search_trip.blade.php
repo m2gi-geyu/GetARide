@@ -13,7 +13,6 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th>ID trip</th>
                 <th>Driver</th>
                 <th>Number of seats</th>
                 <th>Starting town</th>
