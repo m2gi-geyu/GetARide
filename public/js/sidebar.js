@@ -16,7 +16,7 @@ function closeNav() {
 
 
 function openNav() {
-    document.querySelector('.sidenav').removeAttribute("border-bottom");
+    document.querySelector('.sidenav').style.borderBottom = "none";
     document.querySelector('.personne').removeAttribute('onclick');
     $('.sidenav').animate({
         'height': '100%',
