@@ -8,14 +8,20 @@ use App\Models\LinkUserTrip;
 use App\Models\Stage;
 use App\Models\Trip;
 use App\Models\User;
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Psr\Log\NullLogger;
+use Illuminate\Support\Facades;
+
 
 use App\Notifications\trip\newPrivateTrip;
 use App\Notifications\trip\tripRequestCanceled;
+use function GuzzleHttp\Promise\all;
 
 
 /**
@@ -49,20 +55,42 @@ class RideController extends Controller
      */
     public function create_ride_form_submission(Request $request){
 
-
-        //vérification des champs obligatoires
-        $request->validate([
+        //Vérification des champs du formulaire
+        $validator = Facades\Validator::make($request->all(),[
             'departure'=> 'required',
             'date'=>'required',
             'time'=>'required',
-            'final'=>'required',
+            'final'=>'required|different:departure',
+            'rdv'=>'required',
             'nb_passengers'=>'required',
             'price'=>'required',
             'privacy'=>'required',
             'group' => 'required_if:privacy,==,private',
+            'stage.*' => 'different:departure',
+            'stage.*' => 'different:final'
+        ],[
+            'departure.required'=>'Ville de départ ne peut pas être vide.',
+            'date.required'=>'La date ne peut être vide.',
+            'time.required'=>'L\'heure ne peut être vide.',
+            'final.required'=>'Ville d\'arrivée ne peut être vide',
+            'final.different'=>'Ville d\'arrivée doit être différent de la ville de départ',
+            'rdv.required'=>'Les precisions du rdv ne peuvent être vide.',
+            'nb_passengers.required'=>'Le nombre de passagers ne peut être vide.',
+            'price.required'=>'Le prix ne peut être vide.',
+            'privacy.required'=>'La confidentialité ne peut être vide.',
+            'group.required_if'=>'Il faut sélectionner un groupe pour les trajets privés',
+            'stage.*.different'=>'Les étapes doivent être diférente de la ville de départ et de la ville d\'arrivée',
         ]);
 
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
 
+
+        return $this->create_ride($request);
+    }
+
+    public function create_ride(Request $request){
         if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
@@ -86,39 +114,37 @@ class RideController extends Controller
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
-                }
+                    $this->notifyPrivateGroup($ride->id_group, $ride);
 
-                //$trip=Trip::latest()->where('id_driver', '=', $user->id)->first();
+                }
 
                 $query = $ride->save();
 
                 if ($query) {
-                    // $trip= Trip::where('id_driver', '=', $user->id)->last();
 
                     $count = 1;
                     if(!empty($request->stage)) {
                         foreach ($request->stage as $item) {
-                            $stage = new Stage;
-                            $stage->stage = $item;
-                            $stage->id_trip = $ride->id;
-                            $stage->order = $count;
-                            $count += 1;
-                            $query = $stage->save();
+                            if(!is_null($item)) {
+                                $stage = new Stage;
+                                $stage->stage = $item;
+                                $stage->id_trip = $ride->id;
+                                $stage->order = $count;
+                                $count += 1;
+                                $query = $stage->save();
 
-                            if (!$query) {
-                                return back()->with('fail', 'Something went wrong');
+                                if (!$query) {
+                                    return back()->with('fail', 'Something went wrong');
+                                }
                             }
-
-                            //notifyPrivateGroup($ride->id_group, $ride);
                         }
-
                     }
-                    return back()->with('success', 'Your trip has been successfully registered');
+                    return back()->with('success', 'Le trajet a bien été enregistré.');
                 } else {
                     return back()->with('fail', 'Something went wrong');
                 }
             } else {
-                return back()->with('not_driver', 'You are not registered as driver, change your status before create ride');
+                return back()->with('not_driver', 'Vous n\'êtes pas enregistré en tant que conducteur, modifiez votre profil avant de créer un trajet. ');
             }
         }
     }
