@@ -56,6 +56,17 @@ class RideController extends Controller
     public function create_ride_form_submission(Request $request){
 
         //Vérification des champs du formulaire
+        $validator = $this->verification_info($request);
+
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
+
+
+        return $this->create_ride($request);
+    }
+
+    public function verification_info(Request $request){
         $validator = Facades\Validator::make($request->all(),[
             'departure'=> 'required',
             'date'=>'required',
@@ -82,12 +93,7 @@ class RideController extends Controller
             'stage.*.different'=>'Les étapes doivent être diférente de la ville de départ et de la ville d\'arrivée',
         ]);
 
-        if($validator->fails()){
-            return Redirect::back()->withErrors($validator)->withInput($request->all());
-        }
-
-
-        return $this->create_ride($request);
+        return $validator;
     }
 
     public function create_ride(Request $request){
@@ -98,16 +104,7 @@ class RideController extends Controller
             if ($user->vehicle == 1) {
                 $ride = new Trip;
                 $ride->id_driver = $user->id;
-                $ride->starting_town = $request->departure;
-                $ride->ending_town = $request->final;
-                $ride->description = $request->info;
-                $ride->precision = $request->rdv;
-                $ride->price = $request->price;
-                $ride->number_of_seats = $request->nb_passengers;
-                $date=new \DateTime($request->date);
-                $heure = explode(':',$request->time);
-                $date->setTime($heure[0],$heure[1]);
-                $ride->date_trip = $date;
+                $ride = $this->transfer($ride,$request);
                 if ($request->privacy == 'public') {
                     $ride->private = 0;
                 } else {
@@ -122,29 +119,34 @@ class RideController extends Controller
 
                 if ($query) {
 
-                    $count = 1;
-                    if(!empty($request->stage)) {
-                        foreach ($request->stage as $item) {
-                            if(!is_null($item)) {
-                                $stage = new Stage;
-                                $stage->stage = $item;
-                                $stage->id_trip = $ride->id;
-                                $stage->order = $count;
-                                $count += 1;
-                                $query = $stage->save();
-
-                                if (!$query) {
-                                    return back()->with('fail', 'Something went wrong');
-                                }
-                            }
-                        }
-                    }
+                    $this->stage($request,$ride);
                     return back()->with('success', 'Le trajet a bien été enregistré.');
                 } else {
                     return back()->with('fail', 'Something went wrong');
                 }
             } else {
                 return back()->with('not_driver', 'Vous n\'êtes pas enregistré en tant que conducteur, modifiez votre profil avant de créer un trajet. ');
+            }
+        }
+    }
+
+    public function stage(Request $request,Trip $ride){
+        $count = 1;
+
+        if(!empty($request->stage)) {
+            foreach ($request->stage as $item) {
+                if(!is_null($item)) {
+                    $stage = new Stage;
+                    $stage->stage = $item;
+                    $stage->id_trip = $ride->id;
+                    $stage->order = $count;
+                    $count += 1;
+                    $query = $stage->save();
+
+                    if (!$query) {
+                        return back()->with('fail', 'Something went wrong');
+                    }
+                }
             }
         }
     }
@@ -162,6 +164,45 @@ class RideController extends Controller
         }
         //Afficher tous les trajets en attente
         return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
+    }
+
+    public function modified_trip(Request $request){
+        $validator = $this->verification_info($request);
+
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
+
+        // Récupération des données du compte dans la BDD
+        $ride = Trip::where('id', '=', $request->id) -> first();
+        // Mise à jour des données de l'utilisateur connecté
+        //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
+        $ride = $this->transfer($ride,$request);
+
+        $query = $ride->save();
+
+        if ($query) {
+
+            $this->stage($request,$ride);
+            return back()->with('success', 'Le trajet a bien été modifié.');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function transfer(Trip $ride,Request $request){
+        $ride->starting_town = $request->departure;
+        $ride->ending_town = $request->final;
+        $ride->description = $request->info;
+        $ride->precision = $request->rdv;
+        $ride->price = $request->price;
+        $ride->number_of_seats = $request->nb_passengers;
+        $date=new \DateTime($request->date);
+        $heure = explode(':',$request->time);
+        $date->setTime($heure[0],$heure[1]);
+        $ride->date_trip = $date;
+
+        return $ride;
     }
 
     /**

@@ -55,6 +55,10 @@ Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
 
+//modifier trajet
+Route::post('my_created_trips',[RideController::class, 'modified_trip'])->name('trip/modified');
+
+
 //trajet en attend
 Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
 //retrait de trajet
