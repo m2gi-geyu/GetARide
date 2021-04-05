@@ -153,3 +153,15 @@ input[type="text"],input[type="date"],input[type="number"],input[type="time"]{
     vertical-align: middle;
     text-align: center;
 }
+#contenuModal{
+    background: #f4a261;
+    stroke-width: 2px;
+    stroke: #e76f51;
+    border-radius: 28px;
+    width: 100%;
+}
+.modal1sur2boutons{
+    width:50%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}

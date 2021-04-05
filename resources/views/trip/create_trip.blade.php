@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div id="bouttons" class="row">
-                    <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
+                    <div id="back_button_div" class="col-md-6"><a href="../dashboard"><button type="button" class="btn-perso">Retour</button></a></div>
                     <div id="create_button_div" class="col-md-6"><button type="submit" class="btn-perso">Proposer ce trajet</button></div>
                 </div>
             </div>
