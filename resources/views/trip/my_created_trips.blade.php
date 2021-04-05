@@ -14,6 +14,7 @@
                 <th style="color: #d6d8db">Date et heure de départ du trajet</th>
                 <th style="color: #d6d8db">Nombre de places</th>
                 <th style="color: #d6d8db">Prix (€)</th>
+                <th style="color: #d6d8db">Villes étapes</th>
                 <th style="color: #d6d8db"></th>
             </tr>
             </thead>
@@ -25,6 +26,12 @@
                     <td><label style="color: #d6d8db" for={{$trip->date_trip}}>{{$trip->date_trip}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->number_of_seats}}>{{$trip->number_of_seats}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->price}}>{{$trip->price}}</label></td>
+                    <td><ul>@foreach($stages_trips as $step)
+                                @if($step->id_trip == $trip->id)
+                                    <li>{{$step->stage}}</li>
+                                @endif
+                            @endforeach
+                        </ul></td>
                     <td><a href="#"><button type="submit" class="btn-perso-small">+ de détails</button></a>
                         <a href="/trip/delete_trip/{{$trip->id}}"><button type="submit" class="btn-perso-small" onclick="return confirm('Êtes-vous sûr? Vous supprimez ce trajet. Une fois confirmé, le système supprimera le trajet et ce dernier ne pourra plus être récupéré.')">Supprimer</button></a>
                     </td>
