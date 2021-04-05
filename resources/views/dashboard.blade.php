@@ -15,7 +15,6 @@
                 <div class="col-md-4 ">
                     <h3>GET A RIDE</h3>
                     <p>Bienvenue <b>{{$LoggedUserInfo->name}}</b>!</p>
-                    <div id="block7" class="col-md-6"><a href="create_trip"><button type="button" class="btn btn-perso btn-lg">Créer un trajet</button></a></div>
                     <div id="block7" class="col-md-6"><a href="notifications"><button type="button" class="btn btn-perso btn-lg">Notifications</button></a></div>
                     @if($LoggedUserInfo->vehicle==true)
                         <div id="block7" class="col-md-6"><a href="create_trip"><button type="button" class="btn btn-perso btn-lg">Créer un trajet</button></a></div>
