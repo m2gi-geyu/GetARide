@@ -62,6 +62,14 @@ Route::post('trip/quit_trip/{idRide}',[PassagerController::class,'deleteJoinedRi
 //annulation de réponse
 Route::post('trip/cancel_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/cancel');
 
+//to visualize trip which are created by the user
+Route::get('my_created_trips',[RideController::class,'view_my_created_trips'])->name('my_created_trips');
+
+//to delete one trip by his id
+Route::get('trip/delete_trip/{id}',[RideController::class,'delete_trip'])->name('trip/delete')->middleware('isLogged');
+
+
+
 //email verification
 Route::get('email/verify', function () {
     return view('auth/verify-email');
