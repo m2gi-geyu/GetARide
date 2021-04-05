@@ -9,8 +9,6 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
             <h3>GET A RIDE</h3>
             <form action="{{ route('auth/create') }}" method="post" enctype='multipart/form-data'>
                 @csrf
@@ -28,37 +26,39 @@
                 </div>
                 <fieldset>
                 <div class="form-group">
+                <p>
                     <label for="username">Pseudo</label>
-                    <input type="text" class="form-control" name="username"  placeholder="Enter username" value="{{old('username')}}">
+                    <input type="text" class="form-control-register" name="username"  placeholder="Enter username" value="{{old('username')}}">
                     <span class="text-danger">@error('username'){{$message}}@enderror</span>
+                    </p>
                 </div>
                 <div class="form-group">
                     <label for="surname">Nom</label>
-                    <input type="text" class="form-control" name="surname" placeholder="Enter surname"  value="{{old('surname')}}">
+                    <input type="text" class="form-control-register" name="surname" placeholder="Enter surname"  value="{{old('surname')}}">
                     <span class="text-danger">@error('surname'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="name">Prénom</label>
-                    <input type="text" class="form-control" name="name" placeholder="Enter name"  value="{{old('name')}}">
+                    <input type="text" class="form-control-register" name="name" placeholder="Enter name"  value="{{old('name')}}">
                     <span class="text-danger">@error('name'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{old('email')}}">
+                    <input type="email" class="form-control-register" name="email" placeholder="Enter email" value="{{old('email')}}">
                     <span class="text-danger">@error('email'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="password">Mot de passe</label>
-                    <input type="password" class="form-control" name="password" placeholder="Enter password" >
+                    <input type="password" class="form-control-register" name="password" placeholder="Enter password" >
                     <span class="text-danger">@error('password'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
                     <label for="phone">Numéro de téléphone</label>
-                    <input type="tel" class="form-control" name="phone" placeholder="Enter phone number" value="{{old('phone')}}">
+                    <input type="tel" class="form-control-register" name="phone" placeholder="Enter phone number" value="{{old('phone')}}">
                     <span class="text-danger">@error('phone'){{$message}}@enderror</span>
                 </div>
                 <div class="form-group">
-                    <p>Civilité</p>
+                    <p>Civilité :
                     <input type="radio" id="masculin" name="gender" value="M" @if(old('gender')) checked @endif>
                     <label for="oui">M</label>
                     <input type="radio" id="feminin" name="gender" value="F" @if(old('gender')) checked @endif>
@@ -66,22 +66,25 @@
                     <input type="radio" id="autre" name="gender" value="A" @if(old('gender')) checked @endif>
                     <label for="non">Autre</label>
                     <span class="text-danger">@error('gender'){{$message}}@enderror</span>
+                    </p>
                 </div>
                 <div class="form-group">
-                    <p>Possède véhicule</p>
+                    <p>Possède véhicule :
                     <input type="radio" id="oui" name="vehicle" value="oui"  @if(old('vehicle')) checked @endif>
                     <label for="oui">Oui</label>
                     <input type="radio" id="non" name="vehicle" value="non" checked @if(old('vehicle')) checked @endif>
                     <label for="non">Non</label>
                     <span class="text-danger">@error('vehicle'){{$message}}@enderror</span>
+                    </p>
                 </div>
                 <div class="form-group">
-                    <p>Notifications par mail</p>
+                    <p>Notifications par mail :
                     <input type="radio" id="oui" name="mail_notifications" value="oui" checked @if(old('mail_notifications')) checked @endif>
                     <label for="oui">Oui</label>
                     <input type="radio" id="non" name="mail_notifications" value="non" @if(old('mail_notifications')) checked @endif>
                     <label for="non">Non</label>
                     <span class="text-danger">@error('mail_notifications'){{$message}}@enderror</span>
+                    </p>
                 </div>
                 <div class="form-group">
                     <label for="about">A propos de vous (optionnel)</label>
@@ -94,14 +97,13 @@
                         <span class="text-danger">@error('profile_pic'){{$message}}@enderror</span>
                     </div>
                 </fieldset>
-                <div class="form-group">
+                <br>
+                <div class="form-login">
                     <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
                 </div>
                 <br>
-                <p>Vous avez-déjà un compte?</p><a href="login">Connectez-vous!</a>
+                <p class="hyperlien">Vous avez-déjà un compte ? <a href="login">Connectez-vous!</a></p>
             </form>
-        </div>
-    </div>
 </div>
 </body>
 </html>

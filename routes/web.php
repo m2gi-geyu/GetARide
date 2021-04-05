@@ -9,7 +9,7 @@ use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\GroupController;
-
+use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
 
 
@@ -57,12 +57,26 @@ Route::post('reset-password/', [PasswordResetting::class, 'formSubmission']);
 Route::get('create_trip',[RideController::class, 'create_ride_form'])->middleware('isLogged');
 Route::post('create_trip',[RideController::class, 'create_ride_form_submission'])->name('trip/create');
 
+//modifier trajet
+Route::post('my_created_trips',[RideController::class, 'modified_trip'])->name('trip/modified');
+
+
 //trajet en attend
 Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
 //retrait de trajet
-Route::post('trip/quit_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/quit');
+Route::get('trip/quit_trip/{idRide}',[PassengerController::class,'deleteJoinedRide'])->name('trip/quit');
 //annulation de réponse
-Route::post('trip/cancel_trip/{idRide}',[PassagerController::class,'deleteJoinedRide'])->name('trip/cancel');
+Route::get('trip/cancel_trip/{idRide}',[PassengerController::class,'deletdAnswerRide'])->name('trip/cancel');
+//enlever de user d'un trajet
+Route::get('trip/delete/{id}/{idRide}',[RideController::class,'delete_user_from_ride'])->name('trip/delete_user');
+
+//to visualize trip which are created by the user
+Route::get('my_created_trips',[RideController::class,'view_my_created_trips'])->name('my_created_trips');
+
+//to delete one trip by his id
+Route::get('trip/delete_trip/{id}',[RideController::class,'delete_trip'])->name('trip/delete')->middleware('isLogged');
+
+
 
 //email verification
 Route::get('email/verify', function () {
@@ -72,17 +86,13 @@ Route::get('email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect('/home');
+    return redirect('/welcome');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-Route::get('/profile', function () {
-    // Only verified users may access this route...
-})->middleware('verified');
 
 
 //BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
@@ -97,6 +107,8 @@ Route::get('/group/search', [GroupController::class, 'search_user'])->name('grou
 Route::post('group/create',[GroupController::class, 'create_new_group'])->name('group/create');//route for create a new group with post method
 Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])->name('group/addingmembers');//route for the view used to adding members to the newest group
 Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
+Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])->name('mycreatedgroups'); //route to visualize groups which are created by the current user
+Route::get('group/delete_group/{id}',[GroupController::class,'delete_group'])->name('group/delete')->middleware('isLogged');//route used to delete a group
 
 //routes linked to trips searching
 Route::get('trip/search_trip',[TravelSearchController::class,'search_trip_view'])->name('trip/search_trip');

@@ -1,7 +1,8 @@
 @import url('http://fonts.cdnfonts.com/css/righteous');
 @import url('http://fonts.cdnfonts.com/css/prompt');
 @import url('http://fonts.cdnfonts.com/css/amiko');
-
+@import url('http://fonts.cdnfonts.com/css/sedan-sc');
+@import url('http://fonts.cdnfonts.com/css/rubik');
 html,body,#page-structure,#block-container{
     background-color: #264653;
     height:100vh;
@@ -16,6 +17,8 @@ html,body,#page-structure,#block-container{
     border-radius: 32px;
     color : #264653;
     font-weight: bold;
+    font-size: 20px;
+    font-family: 'Rubik', sans-serif;
 }
 .btn-perso:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -45,9 +48,126 @@ img{
     width:70%;
     height:auto;
     background-color: transparent;
-    padding-bottom: 10px;
 }
 h3{
     color : #E76F51;
     font-size : 25px;
+}
+h2{
+    font-family: 'Sedan SC', sans-serif;
+    color: #000000;
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+}
+.champ{
+    background: #eddcd2;
+    margin: 5px 0;
+    border-radius: 28px;
+    width: 90%;
+}
+#row_body{
+    height:auto;
+}
+label{
+    color:black;
+    font-size: 25px;
+}
+.form-group{
+    width: 100%;
+}
+input[type="radio"]{
+    margin: 0 15px;
+    size: 4px;
+}
+::-webkit-input-placeholder{
+    text-align: center;
+}
+::-moz-placeholder{
+    text-align: center;
+}
+textarea{
+    width : 100%;
+    max-width: 100%;
+    max-height: 95px;
+    resize : none;
+    background-color : #d2d2c3;
+}
+input[type="text"],input[type="date"],input[type="number"],input[type="time"]{
+    background-color: #d2d2c3;
+    text-align : center;
+}
+::-webkit-calendar-picker-indicator{
+    display: none;
+}
+#groups_choice{
+    display : none;
+    overflow-y: auto;
+    max-height : 100px;
+}
+#table_etapes{
+    overflow-y: auto;
+    max-height : 180px;
+    text-align: center;
+}
+.btn-rond{
+    width : 70px;
+    height : 70px;
+    background-color: #F4A261;
+    border-color: #000000;
+    border-width: 2px;
+    border-radius: 40px;
+    color : #264653;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: 'Rubik', sans-serif;
+}
+#add_div{
+    width: 100%;
+    margin-bottom: 7px;
+}
+#date,#time{
+    width: 90%;
+}
+.btn-perso-small{
+    margin-top: 4px;
+    width : 170px;
+    height : 50px;
+    background-color: #F4A261;
+    border-color: #E76F51;
+    border-width: 2px;
+    border-radius: 32px;
+    color : #264653;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Rubik', sans-serif;
+}
+.btn-perso-small:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.table>tbody>tr>td{
+    vertical-align: middle;
+    text-align: center;
+}
+.table>thead>tr>th {
+    vertical-align: middle;
+    text-align: center;
+}
+#contenuModal{
+    background: #f4a261;
+    stroke-width: 2px;
+    stroke: #e76f51;
+    border-radius: 28px;
+    width: 100%;
+}
+.modal1sur2boutons{
+    width:50%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.form-control-login-perso{
+    width:50%;
+    height:60px;
+    font-size: 20px;
+
 }

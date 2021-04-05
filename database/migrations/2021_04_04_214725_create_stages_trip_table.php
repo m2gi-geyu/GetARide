@@ -19,6 +19,7 @@ class CreateStagesTripTable extends Migration
             $table->text('stage');
             $table->integer('order');
         });
+
     }
 
     /**
