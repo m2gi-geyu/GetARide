@@ -44,7 +44,7 @@
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
                         <div class="row">
-                            <div class="col-xs-2" style="width:50%">
+                            <div class="col-xs-6" style="width:50%">
                                 <label for="date">Date</label>
                                 <input type="date" class="form-control" id="date" name="date" value="{{old('date')}}">
                                 <span class="text-danger">@error('date'){{$message}}@enderror</span>
@@ -144,7 +144,17 @@
             </div>
         </div>
     </form>
-    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}">
+    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}"></script>
+    <script type="text/javascript">
+        ///////////////////////////////////////
+        /// Hauteur de la textarea automatique
+        $('textarea').each(function (){
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function (){
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        })
+        ///////////////////////////////////////
     </script>
 </body>
 </html>
