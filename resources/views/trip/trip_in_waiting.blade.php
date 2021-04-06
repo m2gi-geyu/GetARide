@@ -5,6 +5,7 @@
 
     <div class="form-trip row">
             <div class="liste_trajet" >
+				<h3>GET A RIDE</h3>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>

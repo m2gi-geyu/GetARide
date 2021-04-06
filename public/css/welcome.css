@@ -174,23 +174,30 @@ table{
     border-collapse: collapse;
     width: 100%;
 }
-#mes_trajets_table{
+#mes_trajets_table_div{
     overflow-y: auto;
     max-height: 670px;
     background: transparent;
 }
-#mes_trajets_table thead th{
+#mes_trajets_table{
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 95%;
+}
+#mes_trajets_table th{
     color:black;
     font-weight: bold;
     position: sticky;
     top:0;
-    background: #e76f51;
+    background: #2a9d8f;
 }
-#mes_trajets_table tr:nth-child(odd){
-    background : #2a9d8f;
+#mes_trajets_table th:first-child{
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
-#mes_trajets_table tr:nth-child(even){
-    background: #264653;
+#mes_trajets_table th:last-child{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 #body-modal{
     background: #2a9d8f;
@@ -201,10 +208,10 @@ table{
     margin: 0px 4px;
     width: 70%;
 }
-#table_etapes tr:nth-child(odd){
+#table_etapes tr:nth-child(odd),#mes_trajets_table tr:nth-child(odd){
     background : #f4a261;
 }
-#table_etapes tr:nth-child(even){
+#table_etapes tr:nth-child(even),#mes_trajets_table tr:nth-child(even){
     background: #e76f51;
 }
 #colored_header{
@@ -240,4 +247,14 @@ h4{
 #table_users_find td{
     border-radius: 28px;
 }
-
+.first_cell{
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
+}
+.before_last_cell{
+    border-top-right-radius: 28px;
+    border-bottom-right-radius: 28px;
+}
+.last_cell{
+    background: #264653;
+}

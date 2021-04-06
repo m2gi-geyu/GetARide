@@ -88,3 +88,44 @@ input {
     text-decoration: none;
     color: #264653;
 }
+
+.btn-perso
+{
+	background-color:#f4a261; 
+	border-color:#e76f51;
+	border: 3; 
+	border-top-left-radius:25px; 
+	border-top-right-radius:25px; 
+	border-bottom-left-radius:25px;
+	border-bottom-right-radius:25px; 
+	
+}
+#showdiv
+{
+	border-top-left-radius:25px; 
+	border-top-right-radius:25px; 
+	border-bottom-left-radius:25px;
+	border-bottom-right-radius:25px; 
+	color:#264653;
+	line-height:1.5;
+}
+#showdiv:hover
+{
+	background-color:#2a9d8f; 
+}
+.liste_trajet
+{
+	background-color: #264653;
+	color:white; 
+	text-align:center; 
+}
+
+h3
+{
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+	color:white;
+	text-align:center;
+	font-size: 50px;
+	font-weight:bold;
+}
