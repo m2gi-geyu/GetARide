@@ -36,6 +36,7 @@ class TravelSearchController extends Controller
                                            select * from stages_trip s2 where s2.id_trip = s1.id_trip and s2.stage like \''.$query[1].'%\' and s2.order > s1.order))))')
                     ->where('trips.private', '=', 0)
                     ->where('trips.date_trip', 'like', $query[2].'%')
+                    ->where('trips.number_of_seats', ">", 0)
                     ->orderBy('id', 'desc')
                     ->get();
             }
