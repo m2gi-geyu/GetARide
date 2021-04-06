@@ -1,33 +1,35 @@
 @extends('layouts.sidebar')
-<link href="{{ asset('/css/user_edit.css') }}" rel="stylesheet" type="text/css" >
+<link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
+<link href="{{ asset('/css/welcome.css') }}" rel="stylesheet" type="text/css" >
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-@section('content')<div class="panel-body">
-    <h1 class="card-title">Rechercher un utilisateur</h1>
-    <div class="form-group">
-        <input type="text" name="search" id="search" class="form-control" placeholder="Rechercher un utilisateur" />
+@section('content')
+<div class="panel-body container">
+    <header class="header" >
+        <h2 id="colored_header" align="center">Recherche d'utilisateur</h2>
+    </header>
+    <div class="form-group container" align="center">
+        <input style="width:50%" type="text" name="search" id="search" class="form-control" placeholder="Rechercher un utilisateur" />
+        <br>
+        <h4 align="center">Résultats trouvés : <span id="total_records"></span></h4>
     </div>
-    <div class="table-responsive">
-        <h3 align="center">Résultats trouvés : <span id="total_records"></span></h3>
-        <table class="table table-striped table-bordered">
+    <div class="table-responsive table-striped container"  id="table_users_find_div">
+        <table class="table table-striped table-bordered" id="table_users_find">
             <thead>
             <tr>
                 <th>Pseudo</th>
             </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
     </div>
-    <div><a href="../dashboard"><button class="btn-dark btn" type="button">Revenir à l'accueil</button></a></div>
+    <div class="container" align="center">
+        <a href="../dashboard" ><button class="btn-perso" type="button">Revenir à l'accueil</button></a>
+    </div>
 </div>
-
-
-
-
 <script>
     $(document).ready(function(){
-
         fetch_users();
 
         function fetch_users(query = '')

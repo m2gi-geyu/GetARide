@@ -8,10 +8,10 @@
     <header class="header" style="color: #d6d8db;font-family: 'Agency FB'">
         <h3 align="center">Mes trajets</h3>
     </header>
-    <div id="mes_trajets_table" class="row">
-        <table class="table table-striped">
-            <thead>
-            <tr>
+    <div id="mes_trajets_table_div" class="row">
+        <table class="table-responsive table-striped" id="mes_trajets_table">
+            <thead >
+            <tr align="center">
                 <th style="color: #d6d8db">Ville de départ</th>
                 <th style="color: #d6d8db">Ville d'arrivée</th>
                 <th style="color: #d6d8db">Date et heure de départ</th>
@@ -24,13 +24,13 @@
                 <?php
                     $date_hour = explode(' ',$trip->date_trip);
                 ?>
-                <tr>
-                    <td><label style="color: #d6d8db" for={{$trip->starting_town}}>{{$trip->starting_town}}</label></td>
+                <tr align="center">
+                    <td class="first_cell"><label style="color: #d6d8db" for={{$trip->starting_town}}>{{$trip->starting_town}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->ending_town}}>{{$trip->ending_town}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->date_trip}}>{{$date_hour[0]}}<br>{{$date_hour[1]}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->number_of_seats}}>{{$trip->number_of_seats}}</label></td>
-                    <td><label style="color: #d6d8db" for={{$trip->price}}>{{$trip->price}}</label></td>
-                    <td><button type="button" name="open" id="open" class="btn-perso-small open" data-toggle="modal"
+                    <td class="before_last_cell"><label style="color: #d6d8db" for={{$trip->price}}>{{$trip->price}}</label></td>
+                    <td class="last_cell"><button type="button" name="open" id="open" class="btn-perso-small open" data-toggle="modal"
                                 data-id-trip="{{$trip->id}}"
                                 data-starting-town="{{$trip->starting_town}}"
                                 data-ending-town="{{$trip->ending_town}}"
@@ -161,6 +161,12 @@
             <button class="btn-perso" type="button">Revenir à l'accueil</button>
         </a>
     </div>
+    <script>
+        var $th = $('#mes_trajets_table_div').find('thead th')
+        $('#mes_trajets_table_div').on('scroll',function(){
+            $th.css('transform','translateY('+this.scrollTop+'px');
+        })
+    </script>
     <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}"></script>
 
 @endsection
