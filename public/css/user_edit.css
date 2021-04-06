@@ -119,3 +119,13 @@ input {
 	color:white; 
 	text-align:center; 
 }
+
+h3
+{
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+	color:white;
+	text-align:center;
+	font-size: 50px;
+	font-weight:bold;
+}
