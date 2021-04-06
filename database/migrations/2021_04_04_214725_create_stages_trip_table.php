@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStegesTripTable extends Migration
+class CreateStagesTripTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStegesTripTable extends Migration
      */
     public function up()
     {
-        Schema::create('steges_trip', function (Blueprint $table) {
+        Schema::create('stages_trip', function (Blueprint $table) {
             $table->integer('id_trip');
             $table->foreign('id_trip')->references('id')->on('trips');
             $table->text('stage');
@@ -29,6 +29,6 @@ class CreateStegesTripTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('steges_trip');
+        Schema::dropIfExists('stages_trip');
     }
 }
