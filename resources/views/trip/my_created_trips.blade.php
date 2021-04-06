@@ -9,7 +9,7 @@
         <h3 align="center">Mes trajets</h3>
     </header>
     <div id="mes_trajets_table" class="row">
-        <table class="table table-striped">
+        <table class="table-responsive table-striped">
             <thead>
             <tr>
                 <th style="color: #d6d8db">Ville de départ</th>
