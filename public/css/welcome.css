@@ -87,8 +87,8 @@ input[type="radio"]{
     text-align: center;
 }
 textarea{
-    width : 100%;
-    max-width: 100%;
+    width : 90%;
+    max-width: 90%;
     max-height: 95px;
     resize : none;
     background-color : #d2d2c3;
@@ -191,4 +191,19 @@ table{
 }
 #mes_trajets_table tr:nth-child(even){
     background: #264653;
+}
+#body-modal{
+    background: #2a9d8f;
+    border-radius: 28px;
+    margin: 15px 15px;
+}
+#table_etapes{
+    margin: 0px 4px;
+    width: 70%;
+}
+#table_etapes tr:nth-child(odd){
+    background : #f4a261;
+}
+#table_etapes tr:nth-child(even){
+    background: #e76f51;
 }

@@ -44,7 +44,7 @@
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
                         <div class="row">
-                            <div class="col-xs-2" style="width:50%">
+                            <div class="col-xs-6" style="width:50%">
                                 <label for="date">Date</label>
                                 <input type="date" class="form-control" id="date" name="date" value="{{old('date')}}">
                                 <span class="text-danger">@error('date'){{$message}}@enderror</span>
@@ -105,34 +105,37 @@
                         <textarea name="info"></textarea>
                     </div>
                 </div>
-                <div id="etapes" class="row champ" align="center">
+                <div id="etapes" class="row champ" align="center" style="padding-bottom: 10px ">
                     <h2>Villes étapes</h2>
-                    <div class="table-responsive" id="table_etapes">
-                        <span id="error"></span>
-                        <table class="table " id="item_table">
-                            <tr>
-                            @if(old('stage'))
-                                @foreach(old('stage') as $stage)
+                    <div class="col-xs-9" style="width:80%" align="center">
+                        <div class="table-responsive" id="table_etapes">
+                            <span id="error"></span>
+                            <table class="table" id="item_table" >
+                                <tr>
+                                @if(old('stage'))
+                                    @foreach(old('stage') as $stage)
+                                        <tr>
+                                            <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
+                                            <datalist  id="stagelist">
+                                            </datalist>
+                                            <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
+
+                                        @endforeach
+                                        @endif
                                     <tr>
-                                        <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
+                                        <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" /></td>
                                         <datalist  id="stagelist">
                                         </datalist>
-                                        <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
-
-                                    @endforeach
-                                    @endif
-                                <tr>
-                                    <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" /></td>
-                                    <datalist  id="stagelist">
-                                    </datalist>
-                                    <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    </tr>
                                 </tr>
-                            </tr>
-                        </table>
+                            </table>
+                        </div>
                     </div>
-                    <div align="center" id="add_div">
-                        <button type="button" name="add" class="btn-rond add">+</button>
+                    <div class="col-xs-3" style="width:20%; vertical-align: middle" align="center" id="add_div">
+                        <button style="vertical-align: middle" type="button" name="add" class="btn-rond add">+</button>
                     </div>
+
                 </div>
                 <div id="bouttons" class="row">
                     <div id="back_button_div" class="col-md-6"><a href="../dashboard"><button type="button" class="btn-perso">Retour</button></a></div>
@@ -141,7 +144,17 @@
             </div>
         </div>
     </form>
-    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}">
+    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}"></script>
+    <script type="text/javascript">
+        ///////////////////////////////////////
+        /// Hauteur de la textarea automatique
+        $('textarea').each(function (){
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function (){
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        })
+        ///////////////////////////////////////
     </script>
 </body>
 </html>

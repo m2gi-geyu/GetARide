@@ -8,15 +8,7 @@
 
     var pub = document.querySelectorAll("input[type=radio][name=privacy][id=public]");
     var priv = document.querySelectorAll("input[type=radio][name=privacy][id=private]");
-    ///////////////////////////////////////
-    /// Hauteur de la textarea automatique
-    $('textarea').each(function (){
-    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-        }).on('input', function (){
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        })
-    ///////////////////////////////////////
+    
 
     ///////////////////////////////////////
     /// Affichage des groupes en fonction de la confidentialité
