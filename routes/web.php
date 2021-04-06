@@ -44,6 +44,9 @@ Route::get('dashboard',[UserAuthController::class, 'dashboard'])->middleware('is
 Route::get('user/edit',[UserController::class, 'form']) -> name("editUser")->middleware('isLogged');
 Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUserSubmit");
 Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("deleteUser");
+//user search edit
+Route::get('user/search', [UserController::class, 'searchUser_view'])->name('user/search');//route pour la recherche d'utilisateur
+Route::get('user/searchSubmit', [UserController::class, 'searchUser'])->name('user/searchSubmit');
 
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
