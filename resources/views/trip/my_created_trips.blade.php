@@ -45,7 +45,7 @@
                         <div class=" modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div id="contenuModal" class="modal-content">
-                                    <div class="modal-body">
+                                    <div id="body-modal" class="modal-body">
                                         <form id="insert_form" action="{{ route('trip/modified') }}" method="post">
                                             @csrf
                                             <div class="results">
@@ -59,6 +59,7 @@
                                                         {{Session::get('fail')}}
                                                     </div>
                                                 @endif
+                                            </div>
                                             <label for="id_trip">Voyage n°</label>
                                             <input  type="text" readonly="readonly" id="id_trip" name="id_trip"  ><br>
                                             <label for="departure">Ville de départ</label>
@@ -85,13 +86,14 @@
                                                 <div align="center" id="add_div">
                                                     <button type="button" name="add" class="btn-rond add">+</button>
                                                 </div>
-                                                </div>
-                                        <div><label for="date">Date</label>
-                                            <label for="time">Heure</label>
-                                            <input type="date" class="form-control" id="date" name="date" >
-                                            <span class="text-danger">@error('date'){{$message}}@enderror</span>
-                                            <input type="time" class="form-control" id="time" name="time" >
-                                            <span class="text-danger">@error('time'){{$message}}@enderror</span>
+                                        </div>
+                                        <div class="row" align="center">
+                                                <label style="width:45%" for="date">Date</label>
+                                                <label style="width:45%" for="time">Heure</label>
+                                                <input style="background-color:red;width:45%" type="date" class="form-control" id="date" name="date" >
+                                                <span class="text-danger">@error('date'){{$message}}@enderror</span>
+                                                <input style="width:45%" type="time" class="form-control" id="time" name="time" >
+                                                <span class="text-danger">@error('time'){{$message}}@enderror</span>
                                         </div>
                                         <div><label for="rdv">Précision RDV</label>
                                             <textarea name="rdv" id="rdv"></textarea>
@@ -115,7 +117,6 @@
                                             <button type="button" class="btn-perso-small col-xs-6" data-dismiss="modal">Retour</button>
                                             <button type="submit" class="btn-perso-small col-xs-6" >Sauvegarder</button>
                                     </div>
-                                            </div>
                                     </form>
                                     </div>
                                 </div>
