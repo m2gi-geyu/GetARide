@@ -104,6 +104,11 @@ Route::post('notificationsDelete', [notifications::class, 'deleteNotification'])
 Route::post('notificationsRead', [notifications::class, 'readNotification'])->name('notification.read');
 //END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
 
+//notifications suite
+Route::get('notifications/all/delete', [notifications::class, 'deleteAllNotifications'])->name('notifications.delete')->middleware('isLogged');
+Route::get('notifications/all/desactivate', [notifications::class, 'desactivateAllNotifications'])->name('notifications.desactivate')->middleware('isLogged');
+
+
 //routes linked to groups
 Route::get('creategroup',[GroupController::class, 'group_form'])->middleware('hasVehicle'); //route for the view with the group creation form
 Route::get('/group/search', [GroupController::class, 'search_user'])->name('group/search')->middleware('hasVehicle');//route for search an user with the search bar

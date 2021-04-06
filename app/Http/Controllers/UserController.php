@@ -68,7 +68,9 @@ class UserController extends Controller
             'mdp' => 'nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
             'tel' => 'required|min:10',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'civilite' => 'required',
         ], [ // Vérification des données du formulaire
+            'civilite.required' => 'Civilité ne peut pas être non cochée',
             'tel.regex' => 'Téléphone doit être uniquement en chiffres',
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
