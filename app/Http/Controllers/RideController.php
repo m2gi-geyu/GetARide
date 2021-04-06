@@ -173,23 +173,75 @@ class RideController extends Controller
     }
 
     public function modified_trip(Request $request){
-        $validator = $this->verification_info($request);
+        //$validator = $this->verification_info($request);
+
+        $validator = Facades\Validator::make($request->all(),[
+            'departure'=> 'required',
+            'date'=>'required',
+            'time'=>'required',
+            'final'=>'required|different:departure',
+            'rdv'=>'required',
+            'nb_passengers'=>'required',
+            'price'=>'required',
+            'stage.*' => 'different:departure',
+            'stage.*' => 'different:final'
+        ],[
+            'departure.required'=>'Ville de départ ne peut pas être vide.',
+            'date.required'=>'La date ne peut être vide.',
+            'time.required'=>'L\'heure ne peut être vide.',
+            'final.required'=>'Ville d\'arrivée ne peut être vide',
+            'final.different'=>'Ville d\'arrivée doit être différent de la ville de départ',
+            'rdv.required'=>'Les precisions du rdv ne peuvent être vide.',
+            'nb_passengers.required'=>'Le nombre de passagers ne peut être vide.',
+            'price.required'=>'Le prix ne peut être vide.',
+            'stage.*.different'=>'Les étapes doivent être diférente de la ville de départ et de la ville d\'arrivée',
+        ]);
 
         if($validator->fails()){
             return Redirect::back()->withErrors($validator)->withInput($request->all());
         }
 
         // Récupération des données du compte dans la BDD
-        $ride = Trip::where('id', '=', $request->id) -> first();
+        $id_trip =$request->id_trip;
+        $ride = Trip::where('id', '=', $id_trip)->first();
+
         // Mise à jour des données de l'utilisateur connecté
         //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
-        $ride = $this->transfer($ride,$request);
+        //$ride = $this->transfer($trip,$request);
+        $ride->starting_town = $request->departure;
+        $ride->ending_town = $request->final;
+        $ride->description = $request->info;
+        $ride->precision = $request->rdv;
+        $ride->price = $request->price;
+        $ride->number_of_seats = $request->nb_passengers;
+        $date=new \DateTime($request->date);
+        $heure = explode(':',$request->time);
+        $date->setTime($heure[0],$heure[1]);
+        $ride->date_trip = $date;
 
         $query = $ride->save();
 
         if ($query) {
 
-            $this->stage($request,$ride);
+            $count = 1;
+            $stage = Stage::where('id_trip', '=', $id_trip);
+            $stage->delete();
+            if(!empty($request->stage)) {
+                foreach ($request->stage as $item) {
+                    if(!is_null($item)) {
+                        $stage = new Stage;
+                        $stage->stage = $item;
+                        $stage->id_trip = $ride->id;
+                        $stage->order = $count;
+                        $count += 1;
+                        $query = $stage->save();
+
+                        if (!$query) {
+                            return back()->with('fail', 'Something went wrong');
+                        }
+                    }
+                }
+            }
             return back()->with('success', 'Le trajet a bien été modifié.');
         } else {
             return back()->with('fail', 'Something went wrong');
