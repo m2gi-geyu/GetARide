@@ -169,5 +169,26 @@ input[type="text"],input[type="date"],input[type="number"],input[type="time"]{
     width:50%;
     height:60px;
     font-size: 20px;
-
+}
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+#mes_trajets_table{
+    overflow-y: auto;
+    max-height: 670px;
+    background: transparent;
+}
+#mes_trajets_table thead th{
+    color:black;
+    font-weight: bold;
+    position: sticky;
+    top:0;
+    background: #e76f51;
+}
+#mes_trajets_table tr:nth-child(odd){
+    background : #2a9d8f;
+}
+#mes_trajets_table tr:nth-child(even){
+    background: #264653;
 }

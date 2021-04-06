@@ -39,8 +39,8 @@
                     <h2>Depart</h2>
                     <div class="form-group">
                         <label for="departure">Ville</label>
-                        <input class="form-control" type="text" autocomplete="off" list="departure" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
-                        <datalist  id="departure">
+                        <input class="form-control" type="text" autocomplete="off" list="departurelist" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
+                        <datalist  id="departurelist">
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
                         <div class="row">
@@ -57,14 +57,16 @@
                         </div>
                         <label for="rdv">Précision RDV</label>
                         <textarea name="rdv"></textarea>
+                        <span class="text-danger">@error('rdv'){{$message}}@enderror</span>
+
                     </div>
                 </div>
                 <div id="arrivee" class="row champ">
                     <h2>Arrivée</h2>
                     <div class="form-group">
                         <label for="final">Ville</label>
-                        <input class="form-control" type="text" autocomplete="off" list="final" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
-                        <datalist  id="final">
+                        <input class="form-control" type="text" autocomplete="off" list="finallist" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
+                        <datalist  id="finallist">
                         </datalist>
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
                     </div>
@@ -112,14 +114,20 @@
                             @if(old('stage'))
                                 @foreach(old('stage') as $stage)
                                     <tr>
-                                        <td><input type="text" autocomplete="off" name="stage[]" list="stage" id="stage" class="form-control stage" value={{$stage}} /></td>
-                                        <datalist  id="stage">
+                                        <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
+                                        <datalist  id="stagelist">
                                         </datalist>
                                         <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
 
                                     @endforeach
                                     @endif
-                                    </tr>
+                                <tr>
+                                    <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" /></td>
+                                    <datalist  id="stagelist">
+                                    </datalist>
+                                    <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                </tr>
+                            </tr>
                         </table>
                     </div>
                     <div align="center" id="add_div">
@@ -133,144 +141,8 @@
             </div>
         </div>
     </form>
-<script type="text/javascript" >
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("date")[0].setAttribute('min', today)
-
-    var pub= document.querySelectorAll("input[type=radio][name=privacy][id=public]");
-    var priv= document.querySelectorAll("input[type=radio][name=privacy][id=private]");
-    ///////////////////////////////////////
-    /// Hauteur de la textarea automatique
-    $('textarea').each(function(){
-        this.setAttribute('style','height:'+(this.scrollHeight)+'px;overflow-y:hidden;');
-    }).on('input',function(){
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    })
-    ///////////////////////////////////////
-    for (var i = 0, iLen = pub.length; i < iLen; i++) {
-        pub[i].onclick = function() {
-            showResult('group',true);
-        }
-    }
-
-    for (var i = 0, iLen = priv.length; i < iLen; i++) {
-        priv[i].onclick = function() {
-            showResult('group',false);
-        }
-    }
-
-    function showResult(name,bool) {
-        var x = document.getElementsByName(name);
-        for (var i = 0; i < x.length; i++) {
-            x[i].hidden = bool;
-        }
-        if(bool)
-            $("div[name='groups_choice']").hide();
-        else
-            $("div[name='groups_choice']").show();
-    }
-
-    $(document).ready(function(){
-
-        $(document).on('click', '.add', function(){
-            var html = '';
-            html += '<tr>';
-            html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
-            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
-            html += '<tr>'
-            /*html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
-            html += '<datalist  id="stage">'
-            html += '</datalist>'
-            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>'
-*/
-
-            $('#item_table').append(html);
-        });
-
-        $(document).on('click', '.remove', function(){
-            $(this).closest('tr').remove();
-        });
-
-        /*$(document).on('input', function (){
-            var vil =$('#departure').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#departure option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#departure').append(html);
-
-            }
-        });
-
-        $(document).on('input', function (){
-            var vil =$('#ville').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#stage option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#stage').append(html);
-
-            }
-        });
-
-        $(document).on('input', function (){
-            var vil =$('#ville').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#final option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#final').append(html);
-
-            }
-        });*/
-        /*$('#insert_form').on('submit', function(event){
-            event.preventDefault();
-            var error = '';
-            var count = 1;
-            $('.stage').each(function(){
-
-                if($(this).val() == '')
-                {
-                    error += "<p>Enter Stage at "+count+" Row</p>";
-                    return false;
-                }
-                count = count + 1;
-            });
-            */
-
-    });
-</script>
+    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}">
+    </script>
 </body>
 </html>
 @endsection
