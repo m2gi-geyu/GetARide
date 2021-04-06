@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -132,5 +133,67 @@ class UserController extends Controller
     }
 
 
+    public function searchUser_view(){
+        if(session()->has('LoggedUser')) {
+            $user = User::where('username', '=', session('LoggedUser'))->first();
+            $data = [
+                'LoggedUserInfo' => $user
+            ];
+        }
+        return view('user/search', $data);
+    }
+
+    public function searchUser(Request $request){
+        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+        $user = User::where('username', '=', $username)->first();
+
+        if($request->ajax())
+        {
+            $output = '';
+            $query = $request->get('query');
+            if($query != '')
+            {
+                $data = DB::table('users')
+                    ->where('username', 'like', '%'.$query.'%')
+                    ->where('username', 'not like', '%'.$user->username.'%')
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+            }
+            else
+            {
+                $data = DB::table('users')
+                    ->where('username', 'not like', '%'.$user->username.'%')
+                    ->orderBy('id', 'desc')
+                    ->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0)
+            {
+                foreach($data as $row)
+                {
+                    $output .= '
+        <tr>
+         <td>'.$row->username.'</td>
+        </tr>
+        ';
+                }
+            }
+            else
+            {
+                $output = '
+       <tr>
+        <td align="center" colspan="5">No Data Found</td>
+       </tr>
+       ';
+            }
+            $data = array(
+                'table_data'  => $output,
+                'total_data'  => $total_row
+            );
+
+            echo json_encode($data);
+        }
+    }
 
 }
