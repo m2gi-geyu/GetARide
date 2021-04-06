@@ -49,18 +49,65 @@
 
         $(document).on(' click', '.add', function(){
             var html = '';
+            /*
             html += ' <tr>';
             html += ' <td><input type="text" name="stage[]" autoComplete="off" id="stage" list="stagelist" className="form-control stage"/></td>';
             html += ' <datalist id="stagelist">'
             html += ' </datalist>'
             html += ' <td><button type="button" name="remove" className="btn btn-danger btn-sm remove"><span className="glyphicon glyphicon-trash"></span></button> </td> </tr>';
-
+*/
+            html += '<tr>';
+            html += '<td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage"></td>';
+            html += '<datalist  id="stagelist"></datalist>';
+            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+            html += '</tr>';
             $('#item_table').append(html);
         });
 
         $(document).on('click', '.remove', function (){
         $(this).closest('tr').remove();
         });
+
+            $(document).on('click', '.open', function () {
+                console.log("--------------");
+                var trajet_id = $(this).data('id-trip');
+                var trajet_start = $(this).data('starting-town');
+                var trajet_end = $(this).data('ending-town');
+                var trajet_date = $(this).data('date-trip');
+                var trajet_hour = $(this).data('hour-trip');
+                var trajet_nb_seat = $(this).data('nb-seat');
+                var trajet_price = $(this).data('price');
+                var trajet_precision = $(this).data('rdv');
+                var trajet_info = $(this).data('info');
+                var trajet_stage = $(this).data('stage');
+
+                var html = '';
+
+                trajet_stage.forEach(ville => {
+                    if(ville.id_trip == trajet_id) {
+                        html += '<tr>';
+                        html += '<td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value=' + ville.stage + '></td>';
+                        html += '<datalist  id="stagelist"></datalist>';
+                        html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+                        html += '</tr>';
+                    }
+                });
+
+
+                $(".modal-body #id_trip").val(trajet_id);
+                $(".modal-body #departure").val(trajet_start);
+                $(".modal-body #final").val(trajet_end);
+                $(".modal-body #date").val(trajet_date);
+                $(".modal-body #time").val(trajet_hour);
+                $(".modal-body #nb_passengers").val(trajet_nb_seat);
+                $(".modal-body #price").val(trajet_price);
+                $(".modal-body #rdv").val(trajet_precision);
+                $(".modal-body #info").val(trajet_info);
+                $(".modal-body #item_table").empty()
+                .append(html);
+
+            });
+
 
         //////////////////////////////
         /// Proposition ville départ
