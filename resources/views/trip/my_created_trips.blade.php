@@ -1,14 +1,15 @@
 @extends('layouts.sidebar')
-<link href="{{ asset('/css/welcome.css') }}" rel="stylesheet" type="text/css" >
+
 <link rel="stylesheet" href="{{asset('styles/bootstrap/dist/css/bootstrap.css')}}">
+<link href="{{ asset('/css/welcome.css') }}" rel="stylesheet" type="text/css" >
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @section('content')<div class="panel-body">
     <header class="header" style="color: #d6d8db;font-family: 'Agency FB'">
         <h3 align="center">Mes trajets</h3>
     </header>
-    <div class="row">
-        <table class="table table-striped table-bordered">
+    <div id="mes_trajets_table" class="row">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th style="color: #d6d8db">Ville de départ</th>
@@ -16,12 +17,9 @@
                 <th style="color: #d6d8db">Date et heure de départ</th>
                 <th style="color: #d6d8db">Nombre de places</th>
                 <th style="color: #d6d8db">Prix (€)</th>
-                <th style="color: #d6d8db">Villes étapes</th>
-
             </tr>
             </thead>
             <tbody>
-
             @foreach($data as $trip)
                 <?php
                     $date_hour = explode(' ',$trip->date_trip);
@@ -29,7 +27,7 @@
                 <tr>
                     <td><label style="color: #d6d8db" for={{$trip->starting_town}}>{{$trip->starting_town}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->ending_town}}>{{$trip->ending_town}}</label></td>
-                    <td><label style="color: #d6d8db" for={{$trip->date_trip}}>{{$trip->date_trip}}</label></td>
+                    <td><label style="color: #d6d8db" for={{$trip->date_trip}}>{{$date_hour[0]}}<br>{{$date_hour[1]}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->number_of_seats}}>{{$trip->number_of_seats}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->price}}>{{$trip->price}}</label></td>
                     <td><button type="button" name="open" id="open" class="btn-perso-small open" data-toggle="modal"
@@ -44,7 +42,6 @@
                                 data-info ="{{$trip->description}}"
                                 data-stage="{{$stages_trips}}"
                                 data-target="#detailsModal">+ de détails</button>
-
                         <div class=" modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div id="contenuModal" class="modal-content">
