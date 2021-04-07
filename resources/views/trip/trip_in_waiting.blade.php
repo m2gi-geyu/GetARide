@@ -28,7 +28,7 @@
                                     @foreach($link_trips as $link_trip)
                                         @if($trip->id==$link_trip->id_trip)
                                             @if($link_trip->validated==false)
-                                                   <td style="color: #d6d8db">En attend</td>
+                                                   <td style="color: #d6d8db">En attente</td>
                                             @else
                                                     <td style="color: #d6d8db">Confirmé</td>
                                             @endif
@@ -37,8 +37,10 @@
                                     <td>
                                         @foreach($link_trips as $link_trip)
                                             @if($trip->id==$link_trip->id_trip)
-                                                @if($link_trip->validated==false)
-                                                    <a href="{{route("trip/cancel",[$trip->id])}}"><button style="color: #d6d8db" type="button" class="btn btn-perso btn-lg">Annuler</button></a>
+                                                @if($link_trip->validated==false && $trip->reste_24h)
+                                                    <a href="{{route("trip/cancel",[$trip->id])}}"><button style="color: #d6d8db" type="button" class="btn btn-perso btn-lg" disabled="true">Annuler</button></a>
+                                                @else
+                                                    <a href="{{route("trip/cancel",[$trip->id])}}"><button style="color: #d6d8db" type="button" class="btn btn-perso btn-lg" disabled="false">Annuler</button></a>
                                                 @endif
                                             @endif
                                         @endforeach
@@ -54,9 +56,11 @@
                                                 @if($trip->id==$link_trip->id_trip)
                                                     lieu precision:  {{$trip->precision}}
                                                     descritpion:{{$trip->description}}
-                                                        @if($link_trip->validated==true)
-                                                        opération:<a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: #d6d8db">se retirer</button></a>
-                                                        @endif
+                                                    @if($link_trip->validated==true && $trip->reste_24h)
+                                                        opération:<a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: #d6d8db" disabled="true">se retirer</button></a>
+                                                    @else
+                                                        opération:<a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: #d6d8db" disabled="false">se retirer</button></a>
+                                                    @endif
                                                     @endif
                                             @endforeach
                                         </div>

@@ -153,6 +153,7 @@ class RideController extends Controller
 
     public function show_trip_in_waiting(){
 
+
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
@@ -163,8 +164,16 @@ class RideController extends Controller
             link_user_trip.id_user=users.id", [$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
+                $trip_in_seconds =  strtotime($trip->date_trip);
+                $current_time = time();
+                $remaining_seconds=$trip_in_seconds - $current_time;
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
+                if($remaining_seconds>=86400){
+                    $trips[$num_trip]->reste_24h=true;
+                } else {
+                    $trips[$num_trip]->reste_24h=false;
+                }
                 $num_trip++;
             }
         }
