@@ -15,19 +15,25 @@
                 <div class="col-md-4 ">
                     <h3>GET A RIDE</h3>
                     <p>Bienvenue <b>{{$LoggedUserInfo->name}}</b>!</p>
-                    <div id="block7" class="col-md-6"><a href="create_trip"><button type="button" class="btn btn-perso btn-lg">Créer un trajet</button></a></div>
+                    <div id="block7" class="col-md-6"><a href="user/edit"><button type="button" class="btn btn-perso btn-lg">Modifier compte</button></a></div>
+
+                    <div id="block7" class="col-md-6"><a href="user/search"><button type="button" class="btn btn-perso btn-lg">Rechercher un utilisateur</button></a></div>
                     <div id="block7" class="col-md-6"><a href="notifications"><button type="button" class="btn btn-perso btn-lg">Notifications</button></a></div>
+                    <br>
                     @if($LoggedUserInfo->vehicle==true)
                         <div id="block7" class="col-md-6"><a href="create_trip"><button type="button" class="btn btn-perso btn-lg">Créer un trajet</button></a></div>
                         <div id="block7" class="col-md-6"><a href="my_created_trips"><button type="button" class="btn btn-perso btn-lg">Mes trajets crées</button></a></div>
                     @endif
-                    <div id="block7" class="col-md-6"><a href="logout"><button type="button" class="btn btn-perso btn-lg">Se déconnecter</button></a></div>
-                    <div id="block7" class="col-md-6"><a href="user/edit"><button type="button" class="btn btn-perso btn-lg">Modifier compte</button></a></div>
+                    <div id="block7" class="col-md-6"><a href="trip/search_trip"><button type="button" class="btn btn-perso btn-lg">Rechercher un trajet</button></a></div>
+                    <div id="block7" class="col-md-6"><a href="trip/trip_in_waiting"><button type="button" class="btn btn-perso btn-lg">trip in waiting</button></a></div>
+                    <br>
                     @if($LoggedUserInfo->vehicle==true)
                         <div id="block7" class="col-md-6"><a href="creategroup"><button type="button" class="btn btn-perso btn-lg">Créer un groupe</button></a></div>
                         <div id="block7" class="col-md-6"><a href="mycreatedgroups"><button type="button" class="btn btn-perso btn-lg">Mes groupes crées</button></a></div>
+                    <br>
                     @endif
-                    <div id="block7" class="col-md-6"><a href="trip/trip_in_waiting"><button type="button" class="btn btn-perso btn-lg">trip in waiting</button></a></div>
+                    <br>
+                    <div id="block7" class="col-md-6"><a href="logout"><button type="button" class="btn btn-perso btn-lg">Se déconnecter</button></a></div>
                 </div>
                 <div class="col-md-4"></div>
             </div>

@@ -13,7 +13,7 @@ use App\Models\Trip;
 class tripCanceled extends Notification
 {
     use Queueable;
-    
+
     private $sender;
     private $recipient;
     private $privateTrip;

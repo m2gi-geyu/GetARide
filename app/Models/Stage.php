@@ -9,7 +9,7 @@ class Stage extends Model
 {
     use HasFactory;
 
-    protected $table = 'steges_trip';
+    protected $table = 'stages_trip';
     public $timestamps = false;
 
     protected $fillable = [

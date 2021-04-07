@@ -8,14 +8,20 @@ use App\Models\LinkUserTrip;
 use App\Models\Stage;
 use App\Models\Trip;
 use App\Models\User;
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Psr\Log\NullLogger;
+use Illuminate\Support\Facades;
+
 
 use App\Notifications\trip\newPrivateTrip;
 use App\Notifications\trip\tripRequestCanceled;
+use function GuzzleHttp\Promise\all;
 
 
 /**
@@ -49,20 +55,48 @@ class RideController extends Controller
      */
     public function create_ride_form_submission(Request $request){
 
+        //Vérification des champs du formulaire
+        $validator = $this->verification_info($request);
 
-        //vérification des champs obligatoires
-        $request->validate([
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
+
+
+        return $this->create_ride($request);
+    }
+
+    public function verification_info(Request $request){
+        $validator = Facades\Validator::make($request->all(),[
             'departure'=> 'required',
             'date'=>'required',
             'time'=>'required',
-            'final'=>'required',
+            'final'=>'required|different:departure',
+            'rdv'=>'required',
             'nb_passengers'=>'required',
             'price'=>'required',
             'privacy'=>'required',
             'group' => 'required_if:privacy,==,private',
+            'stage.*' => 'different:departure',
+            'stage.*' => 'different:final'
+        ],[
+            'departure.required'=>'Ville de départ ne peut pas être vide.',
+            'date.required'=>'La date ne peut être vide.',
+            'time.required'=>'L\'heure ne peut être vide.',
+            'final.required'=>'Ville d\'arrivée ne peut être vide',
+            'final.different'=>'Ville d\'arrivée doit être différent de la ville de départ',
+            'rdv.required'=>'Les precisions du rdv ne peuvent être vide.',
+            'nb_passengers.required'=>'Le nombre de passagers ne peut être vide.',
+            'price.required'=>'Le prix ne peut être vide.',
+            'privacy.required'=>'La confidentialité ne peut être vide.',
+            'group.required_if'=>'Il faut sélectionner un groupe pour les trajets privés',
+            'stage.*.different'=>'Les étapes doivent être diférente de la ville de départ et de la ville d\'arrivée',
         ]);
 
+        return $validator;
+    }
 
+    public function create_ride(Request $request){
         if(session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             // Récupération du nom de l'utilisateur et du tuble de la BDD correspondant à son compte
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
@@ -70,55 +104,49 @@ class RideController extends Controller
             if ($user->vehicle == 1) {
                 $ride = new Trip;
                 $ride->id_driver = $user->id;
-                $ride->starting_town = $request->departure;
-                $ride->ending_town = $request->final;
-                $ride->description = $request->info;
-                $ride->precision = $request->rdv;
-                $ride->price = $request->price;
-                $ride->number_of_seats = $request->nb_passengers;
-                $date=new \DateTime($request->date);
-                $heure = explode(':',$request->time);
-                $date->setTime($heure[0],$heure[1]);
-                $ride->date_trip = $date;
+                $ride = $this->transfer($ride,$request);
                 if ($request->privacy == 'public') {
                     $ride->private = 0;
                 } else {
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
-                }
+                    $this->notifyPrivateGroup($ride->id_group, $ride);
 
-                //$trip=Trip::latest()->where('id_driver', '=', $user->id)->first();
+                }
 
                 $query = $ride->save();
 
                 if ($query) {
-                    // $trip= Trip::where('id_driver', '=', $user->id)->last();
 
-                    $count = 1;
-                    if(!empty($request->stage)) {
-                        foreach ($request->stage as $item) {
-                            $stage = new Stage;
-                            $stage->stage = $item;
-                            $stage->id_trip = $ride->id;
-                            $stage->order = $count;
-                            $count += 1;
-                            $query = $stage->save();
-
-                            if (!$query) {
-                                return back()->with('fail', 'Something went wrong');
-                            }
-
-                            //notifyPrivateGroup($ride->id_group, $ride);
-                        }
-
-                    }
-                    return back()->with('success', 'Your trip has been successfully registered');
+                    $this->stage($request,$ride);
+                    return back()->with('success', 'Le trajet a bien été enregistré.');
                 } else {
                     return back()->with('fail', 'Something went wrong');
                 }
             } else {
-                return back()->with('not_driver', 'You are not registered as driver, change your status before create ride');
+                return back()->with('not_driver', 'Vous n\'êtes pas enregistré en tant que conducteur, modifiez votre profil avant de créer un trajet. ');
+            }
+        }
+    }
+
+    public function stage(Request $request,Trip $ride){
+        $count = 1;
+
+        if(!empty($request->stage)) {
+            foreach ($request->stage as $item) {
+                if(!is_null($item)) {
+                    $stage = new Stage;
+                    $stage->stage = $item;
+                    $stage->id_trip = $ride->id;
+                    $stage->order = $count;
+                    $count += 1;
+                    $query = $stage->save();
+
+                    if (!$query) {
+                        return back()->with('fail', 'Something went wrong');
+                    }
+                }
             }
         }
     }
@@ -129,13 +157,110 @@ class RideController extends Controller
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $id=$user->id;
-            $trips = DB::select("select * from users,trips,link_user_trip where users.id=? and
-            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip", [$id]);
+            $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
+            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
             $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id", [$id]);
+            $num_trip=0;
+            foreach ($trips as $trip) {
+                $user = User::where('id', '=', $trip->id_driver)->first();
+                $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
+                $num_trip++;
+            }
         }
         //Afficher tous les trajets en attente
         return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
+    }
+
+    public function modified_trip(Request $request){
+        //$validator = $this->verification_info($request);
+
+        $validator = Facades\Validator::make($request->all(),[
+            'departure'=> 'required',
+            'date'=>'required',
+            'time'=>'required',
+            'final'=>'required|different:departure',
+            'rdv'=>'required',
+            'nb_passengers'=>'required',
+            'price'=>'required',
+            'stage.*' => 'different:departure',
+            'stage.*' => 'different:final'
+        ],[
+            'departure.required'=>'Ville de départ ne peut pas être vide.',
+            'date.required'=>'La date ne peut être vide.',
+            'time.required'=>'L\'heure ne peut être vide.',
+            'final.required'=>'Ville d\'arrivée ne peut être vide',
+            'final.different'=>'Ville d\'arrivée doit être différent de la ville de départ',
+            'rdv.required'=>'Les precisions du rdv ne peuvent être vide.',
+            'nb_passengers.required'=>'Le nombre de passagers ne peut être vide.',
+            'price.required'=>'Le prix ne peut être vide.',
+            'stage.*.different'=>'Les étapes doivent être diférente de la ville de départ et de la ville d\'arrivée',
+        ]);
+
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator)->withInput($request->all());
+        }
+
+        // Récupération des données du compte dans la BDD
+        $id_trip =$request->id_trip;
+        $ride = Trip::where('id', '=', $id_trip)->first();
+
+        // Mise à jour des données de l'utilisateur connecté
+        //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
+        //$ride = $this->transfer($trip,$request);
+        $ride->starting_town = $request->departure;
+        $ride->ending_town = $request->final;
+        $ride->description = $request->info;
+        $ride->precision = $request->rdv;
+        $ride->price = $request->price;
+        $ride->number_of_seats = $request->nb_passengers;
+        $date=new \DateTime($request->date);
+        $heure = explode(':',$request->time);
+        $date->setTime($heure[0],$heure[1]);
+        $ride->date_trip = $date;
+
+        $query = $ride->save();
+
+        if ($query) {
+
+            $count = 1;
+            $stage = Stage::where('id_trip', '=', $id_trip);
+            $stage->delete();
+            if(!empty($request->stage)) {
+                foreach ($request->stage as $item) {
+                    if(!is_null($item)) {
+                        $stage = new Stage;
+                        $stage->stage = $item;
+                        $stage->id_trip = $ride->id;
+                        $stage->order = $count;
+                        $count += 1;
+                        $query = $stage->save();
+
+                        if (!$query) {
+                            return back()->with('fail', 'Something went wrong');
+                        }
+                    }
+                }
+            }
+            return back()->with('success', 'Le trajet a bien été modifié.');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function transfer(Trip $ride,Request $request){
+        $ride->starting_town = $request->departure;
+        $ride->ending_town = $request->final;
+        $ride->description = $request->info;
+        $ride->precision = $request->rdv;
+        $ride->price = $request->price;
+        $ride->number_of_seats = $request->nb_passengers;
+        $date=new \DateTime($request->date);
+        $heure = explode(':',$request->time);
+        $date->setTime($heure[0],$heure[1]);
+        $ride->date_trip = $date;
+
+        return $ride;
     }
 
     /**
@@ -149,14 +274,19 @@ class RideController extends Controller
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             //on enlève le tuple de utilisateur
             $trip = Trip::where('id', '=', $idRide)->first();
-            $select=DB::selectOne('select TIMESTAMPDIFF(SECOND,Now(),?) AS Diff
-            from trips where id=? ',[$trip->date_trip,$idRide]);
+            $trip_in_seconds =  strtotime($trip->date_trip);
+            $current_time = time();
+            $remaining_seconds=$trip_in_seconds - $current_time;
+            $passager=User::where('id',$id)->first();
+            $conducteur=User::where('id',$trip->id_driver)->first();
             //il reste au moin 24 h
-            if($select[0]/3600>24) {
+            if($remaining_seconds>86400) {
                 $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id, $idRide]);
                 if ($deleted) {
                     $update = DB::update('update trips set number_of_seats= number_of_seats +1 where id=?', [$idRide]);
                     if ($update) {
+                        //si le trip n'est pas encore validé,envoyer une notification
+                        $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
                         return back()->with("delete successfully");
                     } else {
                         return back()->with("delete failed ");
@@ -169,6 +299,8 @@ class RideController extends Controller
             }
         }
     }
+
+
 
     private function notifyPrivateGroup(int $idGroup, Trip $trip)
     {
@@ -199,10 +331,16 @@ class RideController extends Controller
             $user = User::where('username', '=', $username)->first();
 
             $data = DB::select('SELECT * FROM `trips` WHERE id_driver=:id_driver', ['id_driver' => $user->id]);
+            //$stages_trips = DB::select('SELECT * FROM `stages_trip` INNER JOIN `trips` ON `stages_trip.id_trip = trips.id`WHERE trips.id_driver=:id_driver', ['id_driver' => $user->id]);
+            $stages_trips = $users = DB::table('stages_trip')
+                ->join('trips', 'stages_trip.id_trip', '=', 'trips.id')
+                ->where('trips.id_driver','=',$user->id)
+                ->get();
+
         }
 
 
-        return view('trip/my_created_trips',['data'=>$data]);
+        return view('trip/my_created_trips',['data'=>$data],['stages_trips'=>$stages_trips]);
     }
 
     /**
@@ -246,7 +384,7 @@ class RideController extends Controller
                 //delete the trip
                 LinkUserTrip::where('id_trip', $id)->delete();
                 Stage::where('id_trip', $id)-> delete();
-                return back()->with('success', $trip->id);
+                return back()->with('success', 'Le trajet a bien été supprimé');
             }else{
                 return back()->with('fail', 'Trajet inexistant');
             }

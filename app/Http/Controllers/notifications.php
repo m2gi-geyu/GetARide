@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class notifications extends Controller
 {
@@ -15,9 +16,9 @@ class notifications extends Controller
         $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
         $user = User::where('username', '=', $username)->first();
 
-        
+
         return view('user/notifications',['notifications'=>$user->getNotification()]);
-        
+
     }
 
     public function deleteNotification (Request $request)
@@ -42,6 +43,16 @@ class notifications extends Controller
         return response()->json(['status'=> 'OK']);
     }
 
+    public function deleteAllNotifications (Request $request)
+    {
+        //TODO delete all notifs
 
+        return Redirect::back();
+    }
 
+    public function desactivateAllNotifications (Request $request)
+    {
+        //Todo desactivate all notifs
+        return Redirect::back();
+    }
 }

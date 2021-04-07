@@ -47,7 +47,7 @@ class newPrivateTrip extends Notification
         {
             return ['database'];
         }
-        
+
     }
 
     /**

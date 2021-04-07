@@ -37,76 +37,38 @@
             <div id="col1" class="col-md-6">
                 <div id="depart" class="row champ">
                     <h2>Depart</h2>
-                    <div  class="form-group">
+                    <div class="form-group">
                         <label for="departure">Ville</label>
-                        <input class="form-control" type="text" autocomplete="off" list="departure" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
-                        <datalist  id="departure">
+                        <input class="form-control" type="text" autocomplete="off" list="departurelist" name="departure" id="departure" placeholder="Enter departure city" value="{{old('departure')}}">
+                        <datalist  id="departurelist">
                         </datalist>
                         <span class="text-danger">@error('departure'){{$message}}@enderror</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date</label>
-                        <input type="date" class="form-control" name="date" value="{{old('date')}}">
-                        <span class="text-danger">@error('date'){{$message}}@enderror</span>
-                        <label for="time">Heure</label>
-                        <input type="time" class="form-control" id="time" name="time" value="{{old('time')}}">
-                        <span class="text-danger">@error('time'){{$message}}@enderror</span>
-                    </div>
-                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6" style="width:50%">
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{old('date')}}">
+                                <span class="text-danger">@error('date'){{$message}}@enderror</span>
+                            </div>
+                            <div class="col-xs-6" style="width:50%">
+                                <label for="time">Heure</label>
+                                <input type="time" class="form-control" id="time" name="time" value="{{old('time')}}">
+                                <span class="text-danger">@error('time'){{$message}}@enderror</span>
+                            </div>
+                        </div>
                         <label for="rdv">Précision RDV</label>
                         <textarea name="rdv"></textarea>
+                        <span class="text-danger">@error('rdv'){{$message}}@enderror</span>
+
                     </div>
                 </div>
                 <div id="arrivee" class="row champ">
                     <h2>Arrivée</h2>
                     <div class="form-group">
                         <label for="final">Ville</label>
-                        <input class="form-control" type="text" autocomplete="off" list="final" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
-                        <datalist  id="final">
+                        <input class="form-control" type="text" autocomplete="off" list="finallist" name="final" id="final" placeholder="Enter final city" value="{{old('final')}}">
+                        <datalist  id="finallist">
                         </datalist>
                         <span class="text-danger">@error('final'){{$message}}@enderror</span>
-                    </div>
-                </div>
-                <div id="etapes" class="row champ" align="center">
-                    <h2>Villes étapes</h2>
-                    <div class="table-responsive" id="table_etapes">
-                        <span id="error"></span>
-                        <table class="table " id="item_table">
-                            <tr>
-                                @if(old('stage'))
-                                    @foreach(old('stage') as $stage)
-                                        <tr>
-                                        <td><input type="text" autocomplete="off" name="stage[]" list="stage" id="stage" class="form-control stage" value={{$stage}} /></td>
-                                            <datalist  id="stage">
-                                            </datalist>
-                                        <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
-
-                                    @endforeach
-                                    @endif
-                            </tr>
-                        </table>
-                    </div>
-                    <div align="center" id="add_div">
-                        <button type="button" name="add" class="btn-rond add">+</button>
-                    </div>
-                </div>
-            </div>
-            <div id="col2" class="col-md-6">
-                <div id="trip" class="row champ">
-                    <h2>Trip</h2>
-                    <div class="form-group">
-                        <label for="nb_passengers">Nombre de places</label>
-                        <input type="number" class="form-control" name="nb_passengers" min="1" max="6" value="{{old('nb_passengers')}}">
-                        <span class="text-danger">@error('nb_passengers'){{$message}}@enderror</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Prix (€)</label>
-                        <input type="number" class="form-control"  name="price" min="1" max="10000" step="1" value="{{old('price')}}">
-                        <span class="text-danger">@error('price'){{$message}}@enderror</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="info">Contraintes / Commentaires</label>
-                        <textarea name="info"></textarea>
                     </div>
                 </div>
                 <div id="confidentialite" class="row champ">
@@ -126,151 +88,74 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div id="col2" class="col-md-6">
+                <div id="trip" class="row champ">
+                    <h2>Trip</h2>
+                    <div class="form-group">
+                        <label for="nb_passengers">Nombre de places</label>
+                        <input type="number" class="form-control" name="nb_passengers" min="1" max="6" value="{{old('nb_passengers')}}">
+                        <span class="text-danger">@error('nb_passengers'){{$message}}@enderror</span>
+                        <label for="price">Prix (€)</label>
+                        <input type="number" class="form-control"  name="price" min="1" max="10000" step="1" value="{{old('price')}}">
+                        <span class="text-danger">@error('price'){{$message}}@enderror</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="info">Contraintes / Commentaires</label>
+                        <textarea name="info"></textarea>
+                    </div>
+                </div>
+                <div id="etapes" class="row champ" align="center" style="padding-bottom: 10px ">
+                    <h2>Villes étapes</h2>
+                    <div class="col-xs-9" style="width:80%" align="center">
+                        <div class="table-responsive" id="table_etapes">
+                            <span id="error"></span>
+                            <table class="table" id="item_table" >
+                                <tr>
+                                @if(old('stage'))
+                                    @foreach(old('stage') as $stage)
+                                        <tr>
+                                            <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
+                                            <datalist  id="stagelist">
+                                            </datalist>
+                                            <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
+
+                                        @endforeach
+                                        @endif
+                                    <tr>
+                                        <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" /></td>
+                                        <datalist  id="stagelist">
+                                        </datalist>
+                                        <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    </tr>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-3" style="width:20%; vertical-align: middle" align="center" id="add_div">
+                        <button style="vertical-align: middle" type="button" name="add" class="btn-rond add">+</button>
+                    </div>
+
+                </div>
                 <div id="bouttons" class="row">
-                    <div id="back_button_div" class="col-md-6"><button type="button" class="btn-perso">Retour</button></div>
+                    <div id="back_button_div" class="col-md-6"><a href="../dashboard"><button type="button" class="btn-perso">Retour</button></a></div>
                     <div id="create_button_div" class="col-md-6"><button type="submit" class="btn-perso">Proposer ce trajet</button></div>
                 </div>
             </div>
         </div>
     </form>
-<script type="text/javascript" >
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("date")[0].setAttribute('min', today)
-
-    var pub= document.querySelectorAll("input[type=radio][name=privacy][id=public]");
-    var priv= document.querySelectorAll("input[type=radio][name=privacy][id=private]");
-    ///////////////////////////////////////
-    /// Hauteur de la textarea automatique
-    $('textarea').each(function(){
-        this.setAttribute('style','height:'+(this.scrollHeight)+'px;overflow-y:hidden;');
-    }).on('input',function(){
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    })
-    ///////////////////////////////////////
-    for (var i = 0, iLen = pub.length; i < iLen; i++) {
-        pub[i].onclick = function() {
-            showResult('group',true);
-        }
-    }
-
-    for (var i = 0, iLen = priv.length; i < iLen; i++) {
-        priv[i].onclick = function() {
-            showResult('group',false);
-        }
-    }
-
-    function showResult(name,bool) {
-        var x = document.getElementsByName(name);
-        for (var i = 0; i < x.length; i++) {
-            x[i].hidden = bool;
-        }
-        if(bool)
-            $("div[name='groups_choice']").hide();
-        else
-            $("div[name='groups_choice']").show();
-    }
-
-    $(document).ready(function(){
-
-        $(document).on('click', '.add', function(){
-            var html = '';
-            html += '<tr>';
-            html += '<td><input type="text" name="stage[]" class="form-control stage" /></td>';
-            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
-            html += '<tr>'
-            /*html += '<td><input autocomplete="off" name="stage[]" list="stage" id="ville" class="form-control stage"  /></td>'
-            html += '<datalist  id="stage">'
-            html += '</datalist>'
-            html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>'
-*/
-
-            $('#item_table').append(html);
-        });
-
-        $(document).on('click', '.remove', function(){
-            $(this).closest('tr').remove();
-        });
-
-        /*$(document).on('input', function (){
-            var vil =$('#departure').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#departure option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#departure').append(html);
-
-            }
-        });
-
-        $(document).on('input', function (){
-            var vil =$('#ville').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#stage option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#stage').append(html);
-
-            }
-        });
-
-        $(document).on('input', function (){
-            var vil =$('#ville').val();
-            console.log()
-            console.log(vil);
-            fetch("https://geo.api.gouv.fr/communes?nom="+vil+"&fields=departement&boost=population&limit=5")
-                .then((response) =>response.json())
-                .then((data) => traitement(data));
-
-            function traitement(data){
-                $('#final option').remove();
-                console.log(data);
-                var html ='';
-
-                data.forEach(ville => {
-                    html += '<option value=\"'+ville.nom+'\"/>';
-                });
-                $('#final').append(html);
-
-            }
-        });*/
-        /*$('#insert_form').on('submit', function(event){
-            event.preventDefault();
-            var error = '';
-            var count = 1;
-            $('.stage').each(function(){
-
-                if($(this).val() == '')
-                {
-                    error += "<p>Enter Stage at "+count+" Row</p>";
-                    return false;
-                }
-                count = count + 1;
-            });
-            */
-
-    });
-</script>
+    <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}"></script>
+    <script type="text/javascript">
+        ///////////////////////////////////////
+        /// Hauteur de la textarea automatique
+        $('textarea').each(function (){
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function (){
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        })
+        ///////////////////////////////////////
+    </script>
 </body>
 </html>
 @endsection

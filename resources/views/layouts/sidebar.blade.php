@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/sidebar.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -29,10 +30,15 @@
     <nav class="sidenav">
         <div class="sidebar_icon">
             <img src="{{ Session::has('avatar') ? Session::get('avatar') : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar">
-            <a class="personne" href="{{route('dashboard')}}"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
+            <a class="personne" href="javascript:void(0)" onclick="closeNav()"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
         </div>
 
         <div class="sideline"></div>
+        <div class="sidebar_icon">
+            <img src="{{ asset('/images/home.png') }}" alt="accueil" class="img_sidebar">
+            <a href="{{ url('/dashboard') }}"> Accueil</a>
+        </div>
+
         <div class="sidebar_icon">
             <img src="{{ asset('/images/infos.png') }}" alt="informations" class="img_sidebar">
             <a href="{{ url('/user/edit') }}"> Mes informations</a>
