@@ -75,7 +75,7 @@
 
                                 <!--accepter-->
                                 <div class="frame">
-                                    <form action = "{{ route('trip.acceptRequest', [$rawNotification->]) }} method="GET">
+                                    <form action = "{{ route('trip.acceptRequest', [$rawNotification]) }} method="GET">
                                         <input type="hidden" value = "{{$rawNotification->id}}" >
                                         <input type="image" src="{{ asset('images/check.png') }}" class="input-notif" border="0" alt="Submit"/>
                                     </form>

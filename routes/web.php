@@ -127,4 +127,4 @@ Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/
 Route::get('trip/acceptTripRequest/{userID)/{tripID}', [RideController::class,'acceptTripRequest']) -> name('trip.acceptRequest');
 // Refuser "userID" sur le trajet "tripID"
 Route::get('trip/refuseTripRequest/{userID)/{tripID}', [RideController::class,'refuseTripRequest']) -> name('trip.refuseRequest');
-Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'participate'])->name('trip/join_trip');
+Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripRequest'])->name('trip.joinTrip');
