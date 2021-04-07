@@ -6,7 +6,7 @@
 @section('content')<div class="panel-body">
     <h1 class="card-title" style="color: #d6d8db;font-family: 'Agency FB'">Search for a trip</h1>
 
-    <div>
+    <div style="text-align: center;">
         <input style="margin: 2% 0" type="text" name="start_town" id="start_town" class="form-control" placeholder="Ville de départ" onkeyup="fetch_trips()"/>
         <input style="margin: 2% 0" type="text" name="end_town" id="end_town" class="form-control" placeholder="Ville d'arrivée" onkeyup="fetch_trips()"/>
         <input style="margin: 2% 0" type="date" name="date" id="date" class="form-control" onchange="fetch_trips()"/>
@@ -55,7 +55,7 @@
             dataType:'json',
             success:function(data)
             {
-                $('tbody').html(data.table_data).css({"font-family": "Agency FB", "font-size": "1.2em", "color":"#43de86", "hover":"yellow"});
+                $('tbody').html(data.table_data).css({"font-family": "Agency FB", "font-size": "1.2em", "color":"#43de86", "hover":"yellow", "text-align":"center"});
                 $('#total_records').text(data.total_data).css({"font-family": "Agency FB"});
             }
         })
