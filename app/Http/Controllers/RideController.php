@@ -406,6 +406,7 @@ class RideController extends Controller
         {
             $link_trip = LinkUserTrip::where("id_trip", '=', $tripID) -> where("id_user", '=', $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
             $link_trip -> validated = 1; // Changer le champ à "confirmé"
+
             $query = $link_trip -> save();
             if ($query){
                 $trip = Trip::find($tripID); // Récupèration du trajet
@@ -416,7 +417,6 @@ class RideController extends Controller
                 return back()->with('success', "La requête a bien été acceptée");
             }
             else{
-                dd($tripID);
                 return back()->with('fail', "Echec, veuillez réessayer plus tard");
             }
         }
