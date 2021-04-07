@@ -293,15 +293,14 @@ class RideController extends Controller
                         //si le trip n'est pas encore validé,envoyer une notification
                         $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
                         return back()->with("success","Successfully deleted");
-
                     } else {
-                        return back()->with("delete failed ");
+                        return back()->with('fail',"delete failed ");
                     }
                 } else {
-                    return back()->with("delete failed ");
+                    return back()->with('fail',"delete failed ");
                 }
             } else {
-                return back()->with("delete failed ");
+                return back()->with('fail',"delete failed ");
             }
         }
     }
