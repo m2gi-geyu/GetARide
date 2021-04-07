@@ -107,6 +107,7 @@ Route::post('notificationsRead', [notifications::class, 'readNotification'])->na
 //notifications suite
 Route::get('notifications/all/delete', [notifications::class, 'deleteAllNotifications'])->name('notifications.delete')->middleware('isLogged');
 Route::get('notifications/all/desactivate', [notifications::class, 'desactivateAllNotifications'])->name('notifications.desactivate')->middleware('isLogged');
+Route::get('notifications/all/deleteAll', [notifications::class, 'deleteAllNotifications'])->name('notifications.deleteAll')->middleware('isLogged');
 
 
 //routes linked to groups
