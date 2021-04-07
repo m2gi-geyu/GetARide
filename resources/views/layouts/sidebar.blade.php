@@ -29,7 +29,7 @@
     </header>
     <nav class="sidenav">
         <div class="sidebar_icon">
-            <img src="{{ Session::has('avatar') ? Session::get('avatar') : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar">
+            <img src="{{ Session::has('LoggedUserPic') ? asset('storage/'.Session::get('LoggedUser').'/'.Session::get('LoggedUserPic')) : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar avatar_sidebar">
             <a class="personne" href="javascript:void(0)" onclick="closeNav()"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
         </div>
 
@@ -48,7 +48,10 @@
             <a href="{{route('trip/waiting')}}"> Mes trajets en attente</a>
         </div>
         <div class="sidebar_icon">
-            <img src="{{ asset('/images/notification.png') }}" alt="notifications" class="img_sidebar">
+            <div class="notification_container">
+                <img src="{{ asset('/images/notification.png') }}" alt="notifications" class="img_sidebar">
+                <div class="align-content-center notif_sidebar">0</div>
+            </div>
             <a href="{{ route('notification') }}"> Mes notifications</a>
         </div>
         <div class="sidebar_icon">

@@ -176,7 +176,7 @@ class GroupController extends Controller
 
             //Un utilisateur ne peut pas s'auto ajouter dans le groupe qu'il a crée
             if($id==$user->id){
-                return back()->with('fail','Vous ne pouvez pas vous ajouter à avotre propre groupe');
+                return back()->with('fail','Vous ne pouvez pas vous ajouter à votre propre groupe');
             }
 
             //tester s'il y a plus de 30 membres dans un groupe ou non
@@ -185,7 +185,7 @@ class GroupController extends Controller
 
             $test_30_members_count = $test_30_members->count();
             if($test_30_members_count>30){
-                return back()->with('fail','Il y a déjà 30 membres dans votre roupe! Vous avez atteint la limite');
+                return back()->with('fail','Il y a déjà 30 membres dans votre groupe! Vous avez atteint la limite');
             }
 
             //sinon tout va bien et on peut faire la requête et créer la table associée

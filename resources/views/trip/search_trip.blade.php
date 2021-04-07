@@ -26,6 +26,7 @@
                 <th style="color: #d6d8db">Date of the trip</th>
                 <th style="color: #d6d8db">Price</th>
                 <th style="color: #d6d8db">Description</th>
+                <th style="color: #d6d8db">Participer</th>
             </tr>
             </thead>
             <tbody>

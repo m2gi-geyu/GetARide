@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LinkUserTrip;
+use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,6 +69,7 @@ class TravelSearchController extends Controller
                         '<td>'.$trip->date_trip.'</td>'.
                         '<td>'.$trip->price.'</td>'.
                         '<td>'.$trip->description.'</td>'.
+                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso">Participer à ce trajet</button></a></td>'.
                         '</tr>';
                 }
             }
@@ -137,5 +141,44 @@ class TravelSearchController extends Controller
         $linkTripUser -> save();
 
         $driver -> notify(new tripRequest($passenger, $driver, $trip)); // Notification du conducteur de la demande de participation
+
+    public function participate($id){
+        if(session()->has('LoggedUser')) {
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+            $trip = Trip::where('id', '=', $id)->first();
+            /*$trip = DB::table('trips')
+                ->where('id', '=', $id)
+                ->get();*/
+            if($user->id != $trip->id_driver){
+                $ok = true;
+                $others = DB::table('link_user_trip')
+                    ->where('id_trip', '=', $trip->id)
+                    ->get();
+                foreach($others as $one){
+                    if($user->id == $one->id_user){
+                        $ok = false;
+                    }
+                }
+                if($ok){
+                    $link_user_trip = new LinkUserTrip();
+                    $link_user_trip->id_trip = $id;
+                    $link_user_trip->id_user = $user->id;
+                    $link_user_trip->validated = 0;
+                    $query = $link_user_trip ->save();
+                    if($query){
+                        return back()->with("Votre demande a bien été ajoutée à ce trajet");
+                    }else{
+                        return back()->with("Echec, veuillez réessayer plus tard");
+                    }
+                }else{
+                    return back()->with("Erreur, vous avez déjà enregistré votre participation à ce trajet");
+                }
+            }else{
+                return back()->with("Erreur, vous êtes le.a conducteur.rice de ce trajet");
+            }
+        }else{
+            return back()->with("Erreur, vous devez être connecté.e pour réaliser cette action");
+        }
     }
 }
