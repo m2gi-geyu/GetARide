@@ -7,6 +7,21 @@ use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Group;
+use App\Models\LinkUsersGroup;
+use App\Models\Stage;
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Psr\Log\NullLogger;
+use Illuminate\Support\Facades;
+
+
+use App\Notifications\trip\newPrivateTrip;
+use App\Notifications\trip\tripRequestCanceled;
+use function GuzzleHttp\Promise\all;
 
 use App\Notifications\trip\tripRequest;
 
@@ -147,32 +162,32 @@ class TravelSearchController extends Controller
                         $requestNotSent = false;
                     }
                 }
-                if($requestNotSent) // Requpete inexistante et utilisateur valide, on essaye
+                if($requestNotSent) // Requête inexistante et utilisateur valide, on envoie créé la requête
                 {
-                    $linkTripUser = new LinkTripUser; // Rajout de la requête dans la BDD
-                    $linkTripUser -> id_trip = $trip;
+                    $linkTripUser = new LinkUserTrip; // Rajout de la requête dans la BDD
+                    $linkTripUser -> id_trip = $tripID;
                     $linkTripUser -> id_user = $passenger -> id;
-                    $linkTripUser -> validated = NULL;
+                    $linkTripUser -> validated = 0; // En attente
                     $query = $linkTripUser -> save();
                     if($query) // Vérifie que la requête se déroule bien
                     {
                         $driver -> notify(new tripRequest($passenger, $driver, $trip)); // Notification du conducteur de la demande de participation
-                        return back()->with("Votre demande a bien été ajoutée à ce trajet");
+                        return back()->with('success', "Votre demande a bien été ajoutée à ce trajet");
                     }else
                     {
-                        return back()->with("Echec, veuillez réessayer plus tard");
+                        return back()->with('error', "Echec, veuillez réessayer plus tard");
                     }
                 }else
                 {
-                    return back()->with("Erreur, vous avez déjà enregistré votre participation à ce trajet");
+                    return back()->with('error', "Erreur, vous avez déjà enregistré votre participation à ce trajet");
                 }
             }else
             {
-                return back()->with("Erreur, vous êtes le.a conducteur.rice de ce trajet");
+                return back()->with('error', "Erreur, vous êtes le.a conducteur.rice de ce trajet");
             }
         }else
         {
-            return back()->with("Erreur, vous devez être connecté.e pour réaliser cette action");
+            return back()->with('error', "Erreur, vous devez être connecté.e pour réaliser cette action");
         }
     }
 }
