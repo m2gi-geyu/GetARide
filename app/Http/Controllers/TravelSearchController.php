@@ -107,7 +107,7 @@ class TravelSearchController extends Controller
                         }else{
                             $output = '
        <tr>
-        <td align="center" colspan="10">No Data Found</td>
+        <td align="center" colspan="10">Aucun trajet trouvé avec vos critères</td>
        </tr>
        ';
                         }
