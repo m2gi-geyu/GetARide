@@ -395,11 +395,10 @@ class RideController extends Controller
     /**
      * Fonction permettant au créateur d'un trajet d'accepter la requête d'un autre utilisateur pour participer à ce trajet
      */
-    function acceptTripRequest($rawNotification)
+    function acceptTripRequest($data)
     {
-        //dd($rawNotification->data);
-        $userID = $rawNotification -> data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
-        $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
+        $userID = $data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
+        $tripID = $data['id_trip']; // Récupèration de l'ID du trajet concerné
 
         $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
         $link_trip -> validated = 1; // Changer le champ à "confirmé"
@@ -415,10 +414,10 @@ class RideController extends Controller
     /**
      * Fonction permettant au créateur d'un trajet de refuser la requête d'un autre utilisateur pour participer à ce trajet
      */
-    function refuseTripRequest($rawNotification)
+    function refuseTripRequest($data)
     {
-        $userID = $rawNotification -> data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
-        $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
+        $userID = $data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
+        $tripID = $data['id_trip']; // Récupèration de l'ID du trajet concerné
 
         $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
         $link_trip -> validated = 2; // Changer le champ à "refusé"

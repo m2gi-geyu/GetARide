@@ -147,7 +147,7 @@ class TravelSearchController extends Controller
                         $requestNotSent = false;
                     }
                 }
-                if($requestNotSent) // Requpete inexistante et utilisateur valide, on essaye
+                if($requestNotSent) // Requête inexistante et utilisateur valide, on envoie créé la requête
                 {
                     $linkTripUser = new LinkUserTrip; // Rajout de la requête dans la BDD
                     $linkTripUser -> id_trip = $tripID;
