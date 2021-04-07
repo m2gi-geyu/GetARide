@@ -161,12 +161,6 @@
             <button class="btn-perso" type="button">Revenir à l'accueil</button>
         </a>
     </div>
-    <script>
-        var $th = $('#mes_trajets_table_div').find('thead th')
-        $('#mes_trajets_table_div').on('scroll',function(){
-            $th.css('transform','translateY('+this.scrollTop+'px');
-        })
-    </script>
     <script type="text/javascript" src="{{asset('js/creation_trajet.js')}}"></script>
 
 @endsection

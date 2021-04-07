@@ -107,7 +107,7 @@ class TravelSearchController extends Controller
                         }else{
                             $output = '
        <tr>
-        <td align="center" colspan="10">No Data Found</td>
+        <td align="center" colspan="10">Aucun trajet trouvé avec vos critères</td>
        </tr>
        ';
                         }
@@ -134,7 +134,7 @@ class TravelSearchController extends Controller
             $trip = Trip::find($tripID); // Trajet concerné
             $driver = User::find($trip -> id_driver); // Utilisateur créateur du trajet (conducteur)
 
-            if($user->id != $trip->id_driver) // Vérifie que l'utilisateur faisant la requête n'est pas le créateur de la requête en question
+            if($passenger->id != $trip->id_driver) // Vérifie que l'utilisateur faisant la requête n'est pas le créateur de la requête en question
             {
                 $requestNotSent = true;
                 $otherRequests = DB::table('link_user_trip')
@@ -142,7 +142,7 @@ class TravelSearchController extends Controller
                     ->get();
                 foreach($otherRequests as $request)
                 {
-                    if($user->id == $request->id_user) // Vérifie dans la DB que l'utilisateur n'a pas déjà enregistré sa participation au trajet
+                    if($passenger->id == $request->id_user) // Vérifie dans la DB que l'utilisateur n'a pas déjà enregistré sa participation au trajet
                     {
                         $requestNotSent = false;
                     }

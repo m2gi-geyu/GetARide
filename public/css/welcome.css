@@ -246,11 +246,11 @@ h4{
     border-top-left-radius: 28px;
     border-bottom-left-radius: 28px;
 }
-.before_last_cell,#table_trip_find td:last-child,#table_group_add_user td:first-child,#table_created_group td:first-child{
+.before_last_cell,#table_trip_find td:nth-last-child(2),#table_group_add_user td:first-child,#table_created_group td:first-child{
     border-top-right-radius: 28px;
     border-bottom-right-radius: 28px;
 }
-.last_cell,#table_group_add_user td:last-child{
+.last_cell,#table_group_add_user td:last-child,#table_trip_find td:last-child{
     background: #264653;
     border:0px
 }
