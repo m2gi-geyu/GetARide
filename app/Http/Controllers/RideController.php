@@ -160,25 +160,21 @@ class RideController extends Controller
             $id=$user->id;
             $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
-            $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
+            $link_trips=DB::select("select * from users,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id", [$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
                 $trip_in_seconds =  strtotime($trip->date_trip);
                 $current_time = time();
                 $remaining_seconds=$trip_in_seconds - $current_time;
+                $trips[$num_trip]->reste=$remaining_seconds;
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
-                if($remaining_seconds>=86400){
-                    $trips[$num_trip]->reste_24h=true;
-                } else {
-                    $trips[$num_trip]->reste_24h=false;
-                }
                 $num_trip++;
             }
         }
         //Afficher tous les trajets en attente
-        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
+        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips,'user'=>$user]);
     }
 
     public function modified_trip(Request $request){
@@ -296,7 +292,8 @@ class RideController extends Controller
                     if ($update) {
                         //si le trip n'est pas encore validé,envoyer une notification
                         $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
-                        return back()->with("delete successfully");
+                        return back()->with("success","Successfully deleted");
+
                     } else {
                         return back()->with("delete failed ");
                     }
@@ -420,7 +417,7 @@ class RideController extends Controller
         $passenger -> notify(new tripRequestAccepted($driver, $passenger, $trip)); // Notification du passager de l'acceptation
         return back()->with('success', "La requête a bien été acceptée");
     }
-    
+
     /**
      * Fonction permettant au créateur d'un trajet de refuser la requête d'un autre utilisateur pour participer à ce trajet
      */
