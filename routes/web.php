@@ -106,6 +106,7 @@ Route::post('notificationsRead', [notifications::class, 'readNotification'])->na
 //notifications suite
 Route::get('notifications/all/delete', [notifications::class, 'deleteAllNotifications'])->name('notifications.delete')->middleware('isLogged');
 Route::get('notifications/all/desactivate', [notifications::class, 'desactivateAllNotifications'])->name('notifications.desactivate')->middleware('isLogged');
+Route::get('notifications/all/deleteAll', [notifications::class, 'deleteAllNotifications'])->name('notifications.deleteAll')->middleware('isLogged');
 
 
 //routes linked to groups
@@ -123,7 +124,9 @@ Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/
 
 // routes liées au refus / acceptation d'une requête
 // Accepter "userID" sur le trajet "tripID"
-Route::get('trip/acceptTripRequest/{data}', [RideController::class,'acceptTripRequest']) -> name('trip.acceptRequest');
+Route::get('trip/acceptTripRequest/{userID}/{tripID}', [RideController::class,'acceptTripRequest']) -> name('trip.acceptRequest');
 // Refuser "userID" sur le trajet "tripID"
-Route::get('trip/refuseTripRequest/{data}', [RideController::class,'refuseTripRequest']) -> name('trip.refuseRequest');
+Route::get('trip/refuseTripRequest/{userID}/{tripID}', [RideController::class,'refuseTripRequest']) -> name('trip.refuseRequest');
+
+// route liée à l'envoi d'une requête de participation à un trajet
 Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripRequest'])->name('trip.joinTrip');

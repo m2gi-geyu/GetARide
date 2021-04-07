@@ -9,12 +9,17 @@
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <div class="col-md-9">
-        <div class="row">
-            <div class="col-md-5 my-auto text-right">
+        <div class="row justify-content-center">
+            <!--
+                <div class="col-md-5 my-auto text-right">
                 <a href="{{ route('notifications.desactivate') }}" type="button" class="btn-form delete_button">Désactiver toutes les notifications</a>
             </div>
+            -->
             <div class="col-md-5 my-auto text-right">
-                <a href="{{ route('notifications.delete') }}" type="button" class="btn-form delete_button">Supprimer toutes les notifications</a>
+                <form action = "{{ route('notifications.deleteAll') }}">
+                    <a href="{{ route('notifications.delete') }}" type="button" class="btn-form delete_button" alt="Submit" >Supprimer toutes les notifications</a>
+                </form>
+                
             </div>
         </div>
         <br/><br/>
@@ -67,15 +72,16 @@
                                     @endphp
                                 </span>
                         </div>
+                        <!--
                         <div class="frame">
                             <input type="image" src="{{ asset('images/triple_dot.png') }}" class="input-notif" border="0" id="defiler_{{$rawNotification->id}}" onclick="defilerNotif(this);" value="{{$rawNotification->id}} " alt="Détails"/>
-                        </div>
+                        </div>-->
                         @switch($rawNotification->type)
                             @case( Config::get('db.notificationType.trip_request') )
 
                                 <!--accepter-->
                                 <div class="frame">
-                                    <form action = "{{ route('trip.acceptRequest', [$rawNotification]) }} method="GET">
+                                    <form action = "{{ route('trip.acceptRequest', [$rawNotification->data['id_user_origin'], $rawNotification->data['id_trip']],) }}">
                                         <input type="hidden" value = "{{$rawNotification->id}}" >
                                         <input type="image" src="{{ asset('images/check.png') }}" class="input-notif" border="0" alt="Submit"/>
                                     </form>
@@ -83,21 +89,22 @@
 
                                 <!--refus-->
                                 <div class="frame">
-                                    <form action = "{{ route('trip.refuseRequest', [$rawNotification]) }}">
+                                    <form action = "{{ route('trip.refuseRequest', [$rawNotification->data['id_user_origin'], $rawNotification->data['id_trip']]) }}">
                                         <input type="hidden" value = "{{$rawNotification->id}}" >
                                         <input type="image" src="{{ asset('images/cross.png') }}" class="input-notif" border="0" alt="Submit"/>
                                     </form>
                                 </div>
                             @break
                         @endswitch
-
+                        
                         <div class="frame" style="margin-right: 1vw !important;">
                             <form action = "{{ route('notification.delete') }}" id="form-delete-js">
                                 <input type="hidden" id="delete-id-js" value = "{{$rawNotification->id}}" >
                                 <input type="image" src="{{ asset('images/poubelle.png') }}" class="input-notif" border="0" alt="Submit"/>
                             </form>
                         </div>
-
+                        
+                        <!--
                         <div class="row special_row">
                             <div class="special_col" id="special_col_{{$rawNotification->id}}">
                                 <form action = "{{--{{ route('?????') }}--}}" id="form-read-js">
@@ -105,7 +112,8 @@
                                     <input type="submit" src="{{ asset('images/check.png') }}" class="btn-form delete_button" value="Désactiver les notifications"/>
                                 </form>
                             </div>
-                        </div>
+                        </div>-->
+                        
     <!--                    code "notification lue"-->
     <!--                    <div class="col">
                             @if($rawNotification->read_at == NULL)
