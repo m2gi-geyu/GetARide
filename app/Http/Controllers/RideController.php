@@ -315,7 +315,7 @@ class RideController extends Controller
         {
             $userToNotify = User::find($user->id);
 
-            $userToNotify->notify(new newPrivateTrip(userLogged,$userToNotify,$trip));
+            $userToNotify->notify(new newPrivateTrip($userLogged,$userToNotify,$trip));
         }
 
     }
@@ -390,5 +390,44 @@ class RideController extends Controller
             }
 
         }
+    }
+
+    /**
+     * Fonction permettant au créateur d'un trajet d'accepter la requête d'un autre utilisateur pour participer à ce trajet
+     */
+    function acceptTripRequest($rawNotification)
+    {
+        //dd($rawNotification->data);
+        $userID = $rawNotification -> data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
+        $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
+
+        $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+        $link_trip -> validated = true; // Changer le champ à "confirmé"
+
+        $trip = Trip::find($tripID); // Récupèration du trajet
+        $driver = User::find($trip -> id_driver); // Récupération du conducteur
+        $passenger = User::find($userID); // Récupération de l'utilisateur passager
+
+        $passenger -> notify(new tripRequestAccepted($driver, $passenger, $trip)); // Notification du passager de l'acceptation
+        return back()->with('success', "La requête a bien été acceptée");
+    }
+    
+    /**
+     * Fonction permettant au créateur d'un trajet de refuser la requête d'un autre utilisateur pour participer à ce trajet
+     */
+    function refuseTripRequest($rawNotification)
+    {
+        $userID = $rawNotification -> data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
+        $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
+
+        $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+        $link_trip -> validated = false; // Changer le champ à "refusé"
+
+        $trip = Trip::find($tripID); // Récupèration du trajet
+        $driver = User::find($trip -> id_driver); // Récupération du conducteur
+        $passenger = User::find($userID); // Récupération de l'utilisateur passager
+
+        $passenger->notify(new tripRequestRefused($driver, $passenger, $trip)); // Notification du passager du refus
+        return back()->with('success', "La requête a bien été refusée");
     }
 }

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\User;
+use App\Models\LinkUserTrip;
+use App\Models\Trip;
+use App\Notifications\trip\tripRequest;
+
 class TravelSearchController extends Controller
 {
     public function search_trip_view()
@@ -115,5 +120,22 @@ class TravelSearchController extends Controller
 
             echo json_encode($data);
         }
+    }
+
+     /**
+     * Fonction permettant d'envoyer une requête de participation à un trajet (d'ID $tripID)
+     */
+    public function sendTripRequest(int $tripID){
+        $passenger = User::find(session()->get('LoggedUserID')); // Utilisateur passager
+        $trip = Trip::find($tripID); // Trajet concerné
+        $driver = User::find($trip -> id_driver); // Utilisateur créateur du trajet (conducteur)
+        
+        $linkTripUser = new LinkTripUser; // Rajout de la requête dans la BDD
+        $linkTripUser -> id_trip = $trip;
+        $linkTripUser -> id_user = $passenger;
+        $linkTripUser -> validated = NULL;
+        $linkTripUser -> save();
+
+        $driver -> notify(new tripRequest($passenger, $driver, $trip)); // Notification du conducteur de la demande de participation
     }
 }

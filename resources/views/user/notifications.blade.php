@@ -75,7 +75,7 @@
 
                                 <!--accepter-->
                                 <div class="frame">
-                                    <form action = "{{--{{ route('?????') }}--}}">
+                                    <form action = "{{ route('trip.acceptRequest', [$rawNotification->]) }} method="GET">
                                         <input type="hidden" value = "{{$rawNotification->id}}" >
                                         <input type="image" src="{{ asset('images/check.png') }}" class="input-notif" border="0" alt="Submit"/>
                                     </form>
@@ -83,7 +83,7 @@
 
                                 <!--refus-->
                                 <div class="frame">
-                                    <form action = "{{--{{ route('?????') }}--}}">
+                                    <form action = "{{ route('trip.refuseRequest', [$rawNotification]) }}">
                                         <input type="hidden" value = "{{$rawNotification->id}}" >
                                         <input type="image" src="{{ asset('images/cross.png') }}" class="input-notif" border="0" alt="Submit"/>
                                     </form>

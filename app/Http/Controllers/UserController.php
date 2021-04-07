@@ -43,7 +43,7 @@ class UserController extends Controller
     public function form()
     {
         // Récupération des données du compte dans la BDD
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        $user = User::find(session()->get('LoggedUserID'));
         return view('user/edit') -> with($user -> toArray()); // et accès à la page de modifications du compte avec les données de celui-ci à afficher
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'civilite' => 'required',
         ], [ // Vérification des données du formulaire
-            'civilite.required' => 'Civilité ne peut pas être non cochée',
+            'civilite.required' => 'Civilité doit être cochée.',
             'tel.regex' => 'Téléphone doit être uniquement en chiffres',
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
@@ -105,7 +105,7 @@ class UserController extends Controller
      */
     public function updateAccount(Request $request){
         // Récupération des données du compte dans la BDD
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        $user = User::find(session()->get('LoggedUserID'));
         // Mise à jour des données de l'utilisateur connecté
         //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
         $user -> surname = $request -> nom;
@@ -131,7 +131,7 @@ class UserController extends Controller
     public function deleteUserAccount()
     {
         //TODO: Afficher fenêtre de confirmation avant la suppression
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first(); // Récupération du compte dans la BDD
+        $user = User::find(session()->get('LoggedUserID')); // Récupération du compte dans la BDD
         $user -> delete(); // Suppression du compte dans la BDD
         return redirect('logout'); // Renvoyer vers la "page de déconnexion"
     }
@@ -139,7 +139,7 @@ class UserController extends Controller
 
     public function searchUser_view(){
         if(session()->has('LoggedUser')) {
-            $user = User::where('username', '=', session('LoggedUser'))->first();
+            $user = User::find(session()->get('LoggedUserID'));
             $data = [
                 'LoggedUserInfo' => $user
             ];
@@ -149,7 +149,7 @@ class UserController extends Controller
 
     public function searchUser(Request $request){
         $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
-        $user = User::where('username', '=', $username)->first();
+        $user = User::find(session()->get('LoggedUserID'));
 
         if($request->ajax())
         {
