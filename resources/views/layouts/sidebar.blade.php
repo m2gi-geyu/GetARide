@@ -50,7 +50,13 @@
         <div class="sidebar_icon">
             <div class="notification_container">
                 <img src="{{ asset('/images/notification.png') }}" alt="notifications" class="img_sidebar">
-                <div class="align-content-center notif_sidebar">0</div>
+                <div class="align-content-center notif_sidebar">
+                    @php
+                        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+                        $user = App\Models\User::where('username', '=', $username)->first();// model de l'utilisateur connecté
+                        echo count($user->unreadNotifications);
+                    @endphp
+                </div>
             </div>
             <a href="{{ route('notification') }}"> Mes notifications</a>
         </div>
