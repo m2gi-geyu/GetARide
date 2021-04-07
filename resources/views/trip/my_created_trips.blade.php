@@ -5,11 +5,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @section('content')<div class="panel-body">
-    <header class="header" style="color: #d6d8db;font-family: 'Agency FB'">
+    <header class="header">
         <h3 align="center">Mes trajets</h3>
     </header>
-    <div id="mes_trajets_table_div" class="row">
-        <table class="table-responsive table-striped" id="mes_trajets_table">
+    <div id="mes_trajets_table_div" class="table-responsive">
+        <table class="table table-striped table-bordered" id="mes_trajets_table">
             <thead >
             <tr align="center">
                 <th style="color: #d6d8db">Ville de départ</th>
@@ -30,7 +30,7 @@
                     <td><label style="color: #d6d8db" for={{$trip->date_trip}}>{{$date_hour[0]}}<br>{{$date_hour[1]}}</label></td>
                     <td><label style="color: #d6d8db" for={{$trip->number_of_seats}}>{{$trip->number_of_seats}}</label></td>
                     <td class="before_last_cell"><label style="color: #d6d8db" for={{$trip->price}}>{{$trip->price}}</label></td>
-                    <td class="last_cell"><button type="button" name="open" id="open" class="btn-perso-small open" data-toggle="modal"
+                    <td class="last_cell" style="border:0px"><button type="button" name="open" id="open" class="btn-perso-small open" data-toggle="modal"
                                 data-id-trip="{{$trip->id}}"
                                 data-starting-town="{{$trip->starting_town}}"
                                 data-ending-town="{{$trip->ending_town}}"

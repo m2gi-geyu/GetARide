@@ -6,7 +6,7 @@
             <div class="form-group row">
 
                 <div class="col-md-3 col-form-label my-auto" >
-                        <img src="{{ $profile_pic ? $profile_pic : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
+                        <img src="{{ $profile_pic ? asset('storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
                 </div>
                 <div class="custom-file col-md-9 avatar my-auto">
                     <input type="file" class="custom-file-input" id="avatar" name="avatar" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
@@ -54,9 +54,9 @@
                     </div>
                 </div>
 
-                <label class="col-md-3 col-form-label label-modif" for="tel">Téléphone </label>
+                <label class="col-md-3 col-form-label label-modif" for="phone">Téléphone </label>
                 <div class="col-md-9">
-                    <input class="form-control input-modif" type="tel" name="tel" id="tel" value="{{ old('tel', $phone) }}">
+                    <input class="form-control input-modif" type="tel" name="phone" id="phone" value="{{ old('phone', $phone) }}">
                 </div>
 
                 <label class="col-md-3 col-form-label label-modif" for="voiture_oui">Voiture </label>

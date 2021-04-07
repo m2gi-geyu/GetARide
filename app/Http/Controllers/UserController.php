@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use MongoDB\Driver\Session;
 
 class UserController extends Controller
 {
@@ -43,7 +46,7 @@ class UserController extends Controller
     public function form()
     {
         // Récupération des données du compte dans la BDD
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        $user = User::find(session()->get('LoggedUserID'));
         return view('user/edit') -> with($user -> toArray()); // et accès à la page de modifications du compte avec les données de celui-ci à afficher
     }
 
@@ -60,23 +63,26 @@ class UserController extends Controller
     }
 
     public function formCheck(Request $request){
+        $user = User::where('username', '=', session('LoggedUser'))->first();
         // Récupération des données du formulaire
         $validator = Validator::make($request->all(),[
-            'email' => 'required|max:255',
+            'email' => 'max:255|unique:users,email,'.$user->id,
             'nom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
             'prenom' => 'required|max:255|regex:/^[a-zA-Z0-9-_]+/i',
             'mdp' => 'nullable|max:255|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$/i',
-            'tel' => 'required|min:10',
+            'phone' => 'required|min:10|unique:users,phone,'.$user->id,
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'civilite' => 'required',
         ], [ // Vérification des données du formulaire
-            'civilite.required' => 'Civilité ne peut pas être non cochée',
-            'tel.regex' => 'Téléphone doit être uniquement en chiffres',
+            'email.unique' => 'Email déjà pris',
+            'phone.unique' => 'Numéro de téléphone déjà pris',
+            'civilite.required' => 'Civilité doit être cochée.',
+            'phone.regex' => 'Téléphone doit être uniquement en chiffres',
             'email.required' => 'Email ne peut pas être vide.',
             'nom.required' => 'Nom ne peut pas être vide.',
             'prenom.required' => 'Prénom ne peut pas être vide.',
             'mdp.confirmed' => 'Confirmation différente du mot de passe.',
-            'tel.required' => 'Numéro de téléphone ne peut pas être vide.',
+            'phone.required' => 'Numéro de téléphone ne peut pas être vide.',
             'email.max' => 'Email trop long.',
             'nom.max' => 'Nom trop long.',
             'prenom.max' => 'Prénom trop long.',
@@ -86,8 +92,8 @@ class UserController extends Controller
             'prenom.regex' => 'Prénom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
             'avatar.mimes' => 'Format d image incorrect.',
             'avatar.max' => 'Image trop lourde.',
-            'tel.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
-            'tel.max' => 'Numéro de téléphone trop long (il faut 10 chiffres.',
+            'phone.min' => 'Numéro de téléphone trop court (il faut 10 chiffres).',
+            'phone.max' => 'Numéro de téléphone trop long (il faut 10 chiffres.',
         ]);
 
         if($validator->fails()){ // Si formulaire erroné, message d'erreur et reste sur le formulaire
@@ -105,7 +111,7 @@ class UserController extends Controller
      */
     public function updateAccount(Request $request){
         // Récupération des données du compte dans la BDD
-        $user = User::where('username', '=', session()->get('LoggedUser')) -> first();
+        $user = User::find(session()->get('LoggedUserID'));
         // Mise à jour des données de l'utilisateur connecté
         //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
         $user -> surname = $request -> nom;
@@ -114,12 +120,19 @@ class UserController extends Controller
         if ($request -> mdp != null){ // Si il y a un nouveau mot de passe...
             $user -> password = Hash::make($request -> mdp); //... On remplace l'actuel
         }
-        $user -> phone = $request -> tel;
+        $user -> phone = $request -> phone;
         $user -> gender = $request -> civilite;
-        $user -> profile_pic = $request -> avatar;
+        if($request->hasFile('avatar')){
+            Storage::delete(($user->username.'/'.$request->session()->get('LoggedUserPic')));
+            $filename = $request->avatar->getClientOriginalName();
+            $request->avatar->storeAs($user->username,$filename,'public');
+            $user->profile_pic = $filename;
+        }
         $user -> vehicle = $request -> voiture;
 
         $user -> save(); // Sauvegarder les changements
+
+        $request->session()->put("LoggedUserPic", $user->profile_pic);
         return Redirect::back(); // Rediriger vers la même page (rafraîchir)
     }
 
@@ -130,14 +143,16 @@ class UserController extends Controller
      */
     public function deleteUserAccount()
     {
-        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page
-        return Redirect::back();
+        //TODO: Afficher fenêtre de confirmation avant la suppression
+        $user = User::find(session()->get('LoggedUserID')); // Récupération du compte dans la BDD
+        $user -> delete(); // Suppression du compte dans la BDD
+        return redirect('logout'); // Renvoyer vers la "page de déconnexion"
     }
 
 
     public function searchUser_view(){
         if(session()->has('LoggedUser')) {
-            $user = User::where('username', '=', session('LoggedUser'))->first();
+            $user = User::find(session()->get('LoggedUserID'));
             $data = [
                 'LoggedUserInfo' => $user
             ];
@@ -147,7 +162,7 @@ class UserController extends Controller
 
     public function searchUser(Request $request){
         $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
-        $user = User::where('username', '=', $username)->first();
+        $user = User::find(session()->get('LoggedUserID'));
 
         if($request->ajax())
         {

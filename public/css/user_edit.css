@@ -15,6 +15,7 @@
 
 /*avatar*/
 .resize {
+    border-radius: 100px;
     width:8vw; !important;
     height:8vw; !important;
     object-fit:cover; !important;
@@ -91,33 +92,32 @@ input {
 
 .btn-perso
 {
-	background-color:#f4a261; 
+	background-color:#f4a261;
 	border-color:#e76f51;
-	border: 3; 
-	border-top-left-radius:25px; 
-	border-top-right-radius:25px; 
+	border-top-left-radius:25px;
+	border-top-right-radius:25px;
 	border-bottom-left-radius:25px;
-	border-bottom-right-radius:25px; 
-	
+	border-bottom-right-radius:25px;
+
 }
 #showdiv
 {
-	border-top-left-radius:25px; 
-	border-top-right-radius:25px; 
+	border-top-left-radius:25px;
+	border-top-right-radius:25px;
 	border-bottom-left-radius:25px;
-	border-bottom-right-radius:25px; 
+	border-bottom-right-radius:25px;
 	color:#264653;
 	line-height:1.5;
 }
 #showdiv:hover
 {
-	background-color:#2a9d8f; 
+	background-color:#2a9d8f;
 }
 .liste_trajet
 {
 	background-color: #264653;
-	color:white; 
-	text-align:center; 
+	color:white;
+	text-align:center;
 }
 
 h3
