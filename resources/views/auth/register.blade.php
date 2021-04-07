@@ -59,7 +59,7 @@
                 </div>
                 <div class="form-group">
                     <p>Civilité :
-                    <input type="radio" id="masculin" name="gender" value="M" @if(old('gender')) checked @endif>
+                    <input type="radio" id="masculin" name="gender" value="M" checked @if(old('gender')) checked @endif>
                     <label for="oui">M</label>
                     <input type="radio" id="feminin" name="gender" value="F" @if(old('gender')) checked @endif>
                     <label for="non">F</label>
