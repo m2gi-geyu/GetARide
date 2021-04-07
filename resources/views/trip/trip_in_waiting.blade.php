@@ -71,9 +71,9 @@
                                                             @endif
                                                             <br>
                                                             @if($trip->reste>86400)
-                                                                <a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: red" >Se retirer</button></a>
+                                                                <a href="{{route("trip/quit",[$trip->id])}}"><button type="button" onclick="return confirm('Êtes-vous sûr de vouloir vous retirer de ce trajet?')" class="btn btn-perso btn-lg" style="color: red" >Se retirer</button></a>
                                                             @else
-                                                                <a href="{{route("trip/quit",[$trip->id])}}"><button type="button" class="btn btn-perso btn-lg" style="color: red" disabled="true">Se retirer</button></a>
+                                                                <a href="{{route("trip/quit",[$trip->id])}}"><button type="button" onclick="return confirm('Êtes-vous sûr de vouloir vous retirer de ce trajet?')" class="btn btn-perso btn-lg" style="color: red" disabled="true">Se retirer</button></a>
                                                             @endif
                                                         @endif
                                                     @endif

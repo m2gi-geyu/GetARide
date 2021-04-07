@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Psr\Log\NullLogger;
 use Illuminate\Support\Facades;
-
+use App\Notifications\trip\tripRequestCanceled;
 use App\Notifications\trip\tripRequestAccepted;
 use App\Notifications\trip\tripRequestRefused;
 use function GuzzleHttp\Promise\all;
