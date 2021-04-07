@@ -149,7 +149,7 @@ class TravelSearchController extends Controller
                 }
                 if($requestNotSent) // Requpete inexistante et utilisateur valide, on essaye
                 {
-                    $linkTripUser = new LinkTripUser; // Rajout de la requête dans la BDD
+                    $linkTripUser = new LinkUserTrip; // Rajout de la requête dans la BDD
                     $linkTripUser -> id_trip = $trip;
                     $linkTripUser -> id_user = $passenger -> id;
                     $linkTripUser -> validated = NULL;
