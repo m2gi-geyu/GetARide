@@ -20,10 +20,14 @@
                                 <span class="text-danger">@error('group_name'){{$message}}@enderror</span>
                             </div>
                         </fieldset>
+
+                        <div class="form-group">
+                            <button style="font-family:'Agency FB';font-size: 1.0em" type="submit" class="btn-form " >Créer le groupe</button>
+                        </div>
                     </form>
                 </div>
-                
-                <button style="font-family:'Agency FB';font-size: 1.6em" type="submit" class="btn-form delete_button" >Créer le groupe</button>
+
+
 
             </div>
 
@@ -33,5 +37,5 @@
         </div>
     </div>
 
-    
+
 @endsection

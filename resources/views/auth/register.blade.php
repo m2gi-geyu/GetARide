@@ -92,7 +92,7 @@
                     <span class="text-danger">@error('about'){{$message}}@enderror</span>
                 </div>
                     <div class="form-group">
-                        <p>Photo de profile/Avatar (optionnelle)</p>
+                        <p>Photo de profil/Avatar (optionnelle)</p>
                         <input  type="file" name="profile_pic" id="profile_pic" value="{{old('profile_pic')}}">
                         <span class="text-danger">@error('profile_pic'){{$message}}@enderror</span>
                     </div>

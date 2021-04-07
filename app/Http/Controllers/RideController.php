@@ -384,7 +384,7 @@ class RideController extends Controller
                 //delete the trip
                 LinkUserTrip::where('id_trip', $id)->delete();
                 Stage::where('id_trip', $id)-> delete();
-                return back()->with('success', $trip->id);
+                return back()->with('success', 'Le trajet a bien été supprimé');
             }else{
                 return back()->with('fail', 'Trajet inexistant');
             }
