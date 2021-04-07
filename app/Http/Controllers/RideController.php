@@ -153,23 +153,28 @@ class RideController extends Controller
 
     public function show_trip_in_waiting(){
 
+
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $id=$user->id;
             $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
-            $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
+            $link_trips=DB::select("select * from users,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id", [$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
+                $trip_in_seconds =  strtotime($trip->date_trip);
+                $current_time = time();
+                $remaining_seconds=$trip_in_seconds - $current_time;
+                $trips[$num_trip]->reste=$remaining_seconds;
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
                 $num_trip++;
             }
         }
         //Afficher tous les trajets en attente
-        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
+        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips,'user'=>$user]);
     }
 
     public function modified_trip(Request $request){
@@ -287,15 +292,15 @@ class RideController extends Controller
                     if ($update) {
                         //si le trip n'est pas encore validé,envoyer une notification
                         $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
-                        return back()->with("delete successfully");
+                        return back()->with("success","Successfully deleted");
                     } else {
-                        return back()->with("delete failed ");
+                        return back()->with('fail',"delete failed ");
                     }
                 } else {
-                    return back()->with("delete failed ");
+                    return back()->with('fail',"delete failed ");
                 }
             } else {
-                return back()->with("delete failed ");
+                return back()->with('fail',"delete failed ");
             }
         }
     }
@@ -419,7 +424,7 @@ class RideController extends Controller
             return back()->with('fail', "Erreur, vous devez être connecté.e pour réaliser cette action");
         }
     }
-    
+
     /**
      * Fonction permettant au créateur d'un trajet de refuser la requête d'un autre utilisateur pour participer à ce trajet
      */
