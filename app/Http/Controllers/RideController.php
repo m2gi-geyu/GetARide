@@ -23,8 +23,6 @@ use App\Notifications\trip\tripRequestAccepted;
 use App\Notifications\trip\tripRequestRefused;
 use function GuzzleHttp\Promise\all;
 
-
-
 /**
  * Class RideController
  * @package App\Http\Controllers
@@ -406,11 +404,11 @@ class RideController extends Controller
     {
         if(session()->has('LoggedUser'))
         {
-            $link_trip = LinkUserTrip::where("id_trip", '=', $tripID) -> where("id_user", '=', $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-            $link_trip -> validated = 1; // Changer le champ à "confirmé"
-
-            $query = $link_trip -> save();
-            if ($query){
+            $data = DB::table('link_user_trip') -> select('validated') -> where("id_user", $userID) -> where("id_trip", $tripID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+            if ($data->validated == 0)
+            {
+                $affected = DB::table('link_user_trip') -> where ('id_trip', $tripID) -> where ('id_user', $userID) -> update(['validated' => 1]); //MaJ du champ validated
+                
                 $trip = Trip::find($tripID); // Récupèration du trajet
                 $driver = User::find($trip -> id_driver); // Récupération du conducteur
                 $passenger = User::find($userID); // Récupération de l'utilisateur passager
@@ -419,7 +417,7 @@ class RideController extends Controller
                 return back()->with('success', "La requête a bien été acceptée");
             }
             else{
-                return back()->with('fail', "Echec, veuillez réessayer plus tard");
+                return back()->with('fail', "Vous avez déja répondu à cette demande");
             }
         }
         else{
@@ -434,10 +432,11 @@ class RideController extends Controller
     {
         if(session()->has('LoggedUser'))
         {
-            $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-            $link_trip -> validated = 2; // Changer le champ à "refusé"
-            $query = $link_trip -> save();
-            if ($query){
+            $data = DB::table('link_user_trip') -> select('validated') -> where("id_user", $userID) -> where("id_trip", $tripID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+            if ($data->validated == 0)
+            {
+                $affected = DB::table('link_user_trip') -> where ('id_trip', $tripID) -> where ('id_user', $userID) -> update(['validated' => 2]); //MaJ du champ validated
+
                 $trip = Trip::find($tripID); // Récupèration du trajet
                 $driver = User::find($trip -> id_driver); // Récupération du conducteur
                 $passenger = User::find($userID); // Récupération de l'utilisateur passager
@@ -446,8 +445,8 @@ class RideController extends Controller
                 return back()->with('success', "La requête a bien été refusée");
             }
             else{
-                return back()->with('fail', "Echec, veuillez réessayer plus tard");
-            }
+                return back()->with('fail', "Vous avez déja répondu à cette demande");
+                }
         }
         else{
             return back()->with('fail', "Erreur, vous devez être connecté.e pour réaliser cette action");
