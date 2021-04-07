@@ -119,5 +119,6 @@ Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])-
 Route::get('group/delete_group/{id}',[GroupController::class,'delete_group'])->name('group/delete')->middleware('isLogged');//route used to delete a group
 
 //routes linked to trips searching
-Route::get('trip/search_trip',[TravelSearchController::class,'search_trip_view'])->name('trip/search_trip');
+Route::get('trip/search_trip',[TravelSearchController::class, 'search_trip_view'])->name('trip/search_trip');
 Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/search');
+Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'participate'])->name('trip/join_trip');
