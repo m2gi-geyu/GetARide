@@ -174,17 +174,17 @@ table{
     border-collapse: collapse;
     width: 100%;
 }
-#mes_trajets_table_div{
+#mes_trajets_table_div,#table_created_group_div{
     overflow-y: auto;
     max-height: 670px;
     background: transparent;
 }
-#mes_trajets_table,#table_trip_find,#table_group_add_user{
+#mes_trajets_table,#table_trip_find,#table_group_add_user,#table_created_group{
     border-collapse: separate;
     border-spacing: 0 10px;
     width: 95%;
 }
-#mes_trajets_table th,#table_trip_find th{
+#mes_trajets_table th,#table_trip_find th,#table_created_group th{
     color:black;
     font-weight: bold;
     position: sticky;
@@ -208,10 +208,10 @@ table{
     margin: 0px 4px;
     width: 70%;
 }
-#table_etapes tr:nth-child(odd),#mes_trajets_table tr:nth-child(odd),#table_users_find tr:nth-child(odd),#table_trip_find tr:nth-child(odd),#table_group_add_user tr:nth-child(odd){
+#table_etapes tr:nth-child(odd),#mes_trajets_table tr:nth-child(odd),#table_users_find tr:nth-child(odd),#table_trip_find tr:nth-child(odd),#table_group_add_user tr:nth-child(odd),#table_created_group tr:nth-child(odd){
     background : #f4a261;
 }
-#table_etapes tr:nth-child(even),#mes_trajets_table tr:nth-child(even),#table_users_find tr:nth-child(even),#table_trip_find tr:nth-child(even),#table_group_add_user tr:nth-child(even){
+#table_etapes tr:nth-child(even),#mes_trajets_table tr:nth-child(even),#table_users_find tr:nth-child(even),#table_trip_find tr:nth-child(even),#table_group_add_user tr:nth-child(even),#table_created_group tr:nth-child(even){
     background: #e76f51;
 }
 #colored_header{
@@ -242,17 +242,17 @@ h4{
 #table_users_find td{
     border-radius: 28px;
 }
-.first_cell,#table_trip_find td:first-child,#table_group_add_user td:first-child{
+.first_cell,#table_trip_find td:first-child,#table_group_add_user td:first-child,#table_created_group td:first-child{
     border-top-left-radius: 28px;
     border-bottom-left-radius: 28px;
 }
-.before_last_cell,#table_trip_find td:last-child,#table_group_add_user td:first-child{
+.before_last_cell,#table_trip_find td:last-child,#table_group_add_user td:first-child,#table_created_group td:first-child{
     border-top-right-radius: 28px;
     border-bottom-right-radius: 28px;
 }
 .last_cell,#table_group_add_user td:last-child{
     background: #264653;
-    border:none;
+    border:0px
 }
 #table_trip_find_div{
     overflow: auto;
