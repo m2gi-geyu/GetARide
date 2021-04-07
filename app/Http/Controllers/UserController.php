@@ -143,8 +143,10 @@ class UserController extends Controller
      */
     public function deleteUserAccount()
     {
-        //TODO: Confirmer la suppression du compte (avec le mot de passe). Pour l'instant ça rafraîchit juste la page
-        return Redirect::back();
+        //TODO: Afficher fenêtre de confirmation avant la suppression
+        $user = User::where('username', '=', session()->get('LoggedUser')) -> first(); // Récupération du compte dans la BDD
+        $user -> delete(); // Suppression du compte dans la BDD
+        return redirect('logout'); // Renvoyer vers la "page de déconnexion"
     }
 
 

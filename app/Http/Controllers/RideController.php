@@ -277,12 +277,16 @@ class RideController extends Controller
             $trip_in_seconds =  strtotime($trip->date_trip);
             $current_time = time();
             $remaining_seconds=$trip_in_seconds - $current_time;
+            $passager=User::where('id',$id)->first();
+            $conducteur=User::where('id',$trip->id_driver)->first();
             //il reste au moin 24 h
             if($remaining_seconds>86400) {
                 $deleted = DB::delete('delete from link_user_trip where id_user=? And id_trip=?', [$id, $idRide]);
                 if ($deleted) {
                     $update = DB::update('update trips set number_of_seats= number_of_seats +1 where id=?', [$idRide]);
                     if ($update) {
+                        //si le trip n'est pas encore validé,envoyer une notification
+                        $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
                         return back()->with("delete successfully");
                     } else {
                         return back()->with("delete failed ");
@@ -295,6 +299,8 @@ class RideController extends Controller
             }
         }
     }
+
+
 
     private function notifyPrivateGroup(int $idGroup, Trip $trip)
     {
@@ -378,7 +384,7 @@ class RideController extends Controller
                 //delete the trip
                 LinkUserTrip::where('id_trip', $id)->delete();
                 Stage::where('id_trip', $id)-> delete();
-                return back()->with('success', $trip->id);
+                return back()->with('success', 'Le trajet a bien été supprimé');
             }else{
                 return back()->with('fail', 'Trajet inexistant');
             }
