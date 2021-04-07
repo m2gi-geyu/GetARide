@@ -8,7 +8,7 @@
 
     var pub = document.querySelectorAll("input[type=radio][name=privacy][id=public]");
     var priv = document.querySelectorAll("input[type=radio][name=privacy][id=private]");
-    
+
 
     ///////////////////////////////////////
     /// Affichage des groupes en fonction de la confidentialité
@@ -20,7 +20,7 @@
 
     for (var i = 0, iLen = priv.length; i < iLen; i++) {
         priv[i].onclick = function() {
-            showResult(' group',false);
+            showResult('group',false);
         }
     }
 
@@ -30,9 +30,9 @@
             x[i].hidden = bool;
         }
         if(bool)
-            $("div[name=' groups_choice']").hide();
+            $("div[name='groups_choice']").hide();
         else
-            $("div[name=' groups_choice']").show();
+            $("div[name='groups_choice']").show();
     }
 
     /////////////////////////////////////////////
