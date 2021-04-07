@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Psr\Log\NullLogger;
 use Illuminate\Support\Facades;
+use App\Notifications\trip\newPrivateTrip;
 use App\Notifications\trip\tripRequestCanceled;
 use App\Notifications\trip\tripRequestAccepted;
 use App\Notifications\trip\tripRequestRefused;
@@ -111,16 +112,17 @@ class RideController extends Controller
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
                     $ride->id_group = $data->id;
-                    $this->notifyPrivateGroup($ride->id_group, $ride);
-
                 }
 
                 $query = $ride->save();
+                
 
                 if ($query) {
 
                     $this->stage($request,$ride);
+                    $this->notifyPrivateGroup($ride->id_group, $ride);
                     return back()->with('success', 'Le trajet a bien été enregistré.');
+
                 } else {
                     return back()->with('fail', 'Something went wrong');
                 }
@@ -318,7 +320,7 @@ class RideController extends Controller
                     ->get();
         foreach($users as $user)
         {
-            $userToNotify = User::find($user->id);
+            $userToNotify = User::find($user->id_member);
 
             $userToNotify->notify(new newPrivateTrip($userLogged,$userToNotify,$trip));
         }
