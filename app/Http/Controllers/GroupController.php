@@ -126,7 +126,7 @@ class GroupController extends Controller
                     $output .= '
         <tr>
          <td>'.$row->username.'</td>
-         <td><a href="/group/add_member/'.$row->id.'"><button type="submit" class="btn btn-block btn-primary">Ajouter au groupe</button></td>
+         <td style="width:20%"><a href="/group/add_member/'.$row->id.'"><button type="submit" class="btn-perso">Ajouter au groupe</button></td>
         </tr>
         ';
                 }
