@@ -103,6 +103,10 @@ class UserAuthController extends Controller
             $filename = $request->profile_pic->getClientOriginalName();
             $request->profile_pic->storeAs($user->username,$filename,'public');
             $user->profile_pic = $filename;
+        }else{
+            //sinon on crée un dossier vide dans public/storage
+            $path =  'storage/'.$user->username;
+            mkdir($path, 0777, false);
         }
 
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
