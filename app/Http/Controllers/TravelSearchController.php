@@ -134,7 +134,7 @@ class TravelSearchController extends Controller
             $trip = Trip::find($tripID); // Trajet concerné
             $driver = User::find($trip -> id_driver); // Utilisateur créateur du trajet (conducteur)
 
-            if($user->id != $trip->id_driver) // Vérifie que l'utilisateur faisant la requête n'est pas le créateur de la requête en question
+            if($passenger->id != $trip->id_driver) // Vérifie que l'utilisateur faisant la requête n'est pas le créateur de la requête en question
             {
                 $requestNotSent = true;
                 $otherRequests = DB::table('link_user_trip')
@@ -142,17 +142,17 @@ class TravelSearchController extends Controller
                     ->get();
                 foreach($otherRequests as $request)
                 {
-                    if($user->id == $request->id_user) // Vérifie dans la DB que l'utilisateur n'a pas déjà enregistré sa participation au trajet
+                    if($passenger->id == $request->id_user) // Vérifie dans la DB que l'utilisateur n'a pas déjà enregistré sa participation au trajet
                     {
                         $requestNotSent = false;
                     }
                 }
                 if($requestNotSent) // Requpete inexistante et utilisateur valide, on essaye
                 {
-                    $linkTripUser = new LinkTripUser; // Rajout de la requête dans la BDD
-                    $linkTripUser -> id_trip = $trip;
+                    $linkTripUser = new LinkUserTrip; // Rajout de la requête dans la BDD
+                    $linkTripUser -> id_trip = $tripID;
                     $linkTripUser -> id_user = $passenger -> id;
-                    $linkTripUser -> validated = NULL;
+                    $linkTripUser -> validated = 0; // En attente
                     $query = $linkTripUser -> save();
                     if($query) // Vérifie que la requête se déroule bien
                     {

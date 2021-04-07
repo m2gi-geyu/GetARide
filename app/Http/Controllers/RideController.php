@@ -402,7 +402,7 @@ class RideController extends Controller
         $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
 
         $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-        $link_trip -> validated = true; // Changer le champ à "confirmé"
+        $link_trip -> validated = 1; // Changer le champ à "confirmé"
 
         $trip = Trip::find($tripID); // Récupèration du trajet
         $driver = User::find($trip -> id_driver); // Récupération du conducteur
@@ -421,7 +421,7 @@ class RideController extends Controller
         $tripID = $rawNotification -> data['id_trip']; // Récupèration de l'ID du trajet concerné
 
         $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-        $link_trip -> validated = false; // Changer le champ à "refusé"
+        $link_trip -> validated = 2; // Changer le champ à "refusé"
 
         $trip = Trip::find($tripID); // Récupèration du trajet
         $driver = User::find($trip -> id_driver); // Récupération du conducteur
