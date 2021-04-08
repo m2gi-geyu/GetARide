@@ -109,17 +109,20 @@ class RideController extends Controller
                 } else {
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
+
                     $ride->id_group = $data->id;
                 }
 
                 $query = $ride->save();
-                
+
 
                 if ($query) {
 
                     $this->stage($request,$ride);
-                    $this->notifyPrivateGroup($ride->id_group, $ride);
-                    return back()->with('success', 'Le trajet a bien été enregistré.');
+                    if ($request->privacy == 'private') {
+                        $this->notifyPrivateGroup($ride->id_group, $ride);
+                    }
+                        return back()->with('success', 'Le trajet a bien été enregistré.');
 
                 } else {
                     return back()->with('fail', 'Something went wrong');
@@ -408,7 +411,7 @@ class RideController extends Controller
             if ($data->validated == 0)
             {
                 $affected = DB::table('link_user_trip') -> where ('id_trip', $tripID) -> where ('id_user', $userID) -> update(['validated' => 1]); //MaJ du champ validated
-                
+
                 $trip = Trip::find($tripID); // Récupèration du trajet
                 $driver = User::find($trip -> id_driver); // Récupération du conducteur
                 $passenger = User::find($userID); // Récupération de l'utilisateur passager
