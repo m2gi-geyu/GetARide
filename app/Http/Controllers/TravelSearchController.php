@@ -38,8 +38,8 @@ class TravelSearchController extends Controller
         {
             $output = '';
             $query = $request->get('query');
-            if($query[0] != '' || $query[1] != '' || $query[2] != '')
-            {
+            if($query[0] != '' || $query[1] != '' || $query[2] != '')//Si au moins un des 3 champs de recherche n'est pas vide, on lance la requête
+            {//On récupère tous les trajets qui contiennent la ville de départ demandée (si vide toutes les villes sont acceptées), la ville d'arrivée demandée (idem) et la date
                 $data = DB::table('trips')
                     ->join('users', 'users.id', '=', 'trips.id_driver')
                     ->select('trips.*', 'users.username')
@@ -59,17 +59,16 @@ class TravelSearchController extends Controller
                     ->where('trips.number_of_seats', ">", 0)
                     ->orderBy('id', 'desc')
                     ->get();
-            }
-            else
-            {
+            }else{//Si aucun champ n'est rempli on récupère tous les trajets
                 $data = DB::table('trips')
                     ->join('users', 'users.id', '=', 'trips.id_driver')
                     ->select('trips.*', 'users.username')
+                    ->where('trips.number_of_seats', ">", 0)
                     ->orderBy('id', 'desc')
                     ->get();
             }
-            $total_row = $data->count();
-            if($total_row > 0)
+            $total_row = $data->count();//On récupère le nombre de lignes extraites de la BDD
+            if($total_row > 0)//Si il existe des lignes de trips, on les affiche
             {
                 foreach($data as $trip)
                 {
@@ -85,7 +84,7 @@ class TravelSearchController extends Controller
                         '</tr>';
                 }
             }
-            else {
+            else {//Sinon on vérifie que la ville de départ existe bien en BDD, si non on affiche un message d'erreur
                 $data = DB::table('trips')
                     ->whereRaw('starting_town like \''.$query[0].'%\'
                                 or
@@ -97,7 +96,7 @@ class TravelSearchController extends Controller
         <td align="center" colspan="10">Il n\'existe aucun trajet démarrant à une ville commençant par \''.$query[0].'\'</td>
        </tr>
        ';
-                } else {
+                } else {//Si la ville de départ existe, on vérifie que la ville d'arrivée existe, si non on affiche un message d'erreur
                     $data = DB::table('trips')
                         ->whereRaw('ending_town like \'' . $query[1] . '%\'
                                 or
@@ -109,7 +108,7 @@ class TravelSearchController extends Controller
         <td align="center" colspan="10">Il n\'existe aucun trajet finissant à une ville commençant par \'' . $query[1] . '\'</td>
        </tr>
        ';
-                    }else{
+                    }else{ //Si la ville d'arrivée existe on vérifie qu'il existe bien des trajets à cette date, sinon on affiche un message d'erreur
                         $data = DB::table('trips')
                             ->where('date_trip', 'like', $query[2].'%')
                             ->count();
@@ -119,7 +118,7 @@ class TravelSearchController extends Controller
         <td align="center" colspan="10">Aucun trajet trouvé pour le '.$query[2].'</td>
        </tr>
        ';
-                        }else{
+                        }else{//Si il n'existe juste aucun trajet disponible on affiche l'erreur
                             $output = '
        <tr>
         <td align="center" colspan="10">Aucun trajet trouvé avec vos critères</td>

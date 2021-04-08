@@ -8,6 +8,8 @@ use App\Models\LinkUserTrip;
 use App\Models\Stage;
 use App\Models\Trip;
 use App\Models\User;
+use App\Notifications\trip\tripCanceled;
+use App\Notifications\trip\tripRequest;
 use Dotenv\Validator;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Contracts\Validation\Rule;
@@ -392,6 +394,12 @@ class RideController extends Controller
                 //delete the trip
                 LinkUserTrip::where('id_trip', $id)->delete();
                 Stage::where('id_trip', $id)-> delete();
+
+                //on supprime les notifs
+                DB::table('notifications')
+                    ->where('data->id_trip', '=', $id)
+                    ->delete();
+
                 return back()->with('success', 'Le trajet a bien été supprimé');
             }else{
                 return back()->with('fail', 'Trajet inexistant');
