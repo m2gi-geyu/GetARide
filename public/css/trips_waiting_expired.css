@@ -1,0 +1,18 @@
+.waiting_th_td {
+    color: black;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Rubik, 'serif';
+    font-size: 0.8vw;
+}
+
+.avatar_trip {
+    width:4vw; !important;
+    height:4vw; !important;
+    object-fit:cover; !important;
+}
+
+.clear_trip {
+    display: flex;
+    align-items: center;
+}
