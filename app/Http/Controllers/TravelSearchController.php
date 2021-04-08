@@ -118,7 +118,7 @@ class TravelSearchController extends Controller
         <td align="center" colspan="10">Aucun trajet trouvé pour le '.$query[2].'</td>
        </tr>
        ';
-                        }else{//Si il n'existe juste aucun trajet on affiche l'erreur
+                        }else{//Si il n'existe juste aucun trajet disponible on affiche l'erreur
                             $output = '
        <tr>
         <td align="center" colspan="10">Aucun trajet trouvé avec vos critères</td>
