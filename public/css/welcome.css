@@ -223,20 +223,19 @@ h4{
 #table_users_find_div,#table_group_add_user_div{
     overflow: auto;
     max-height: 600px;
-
 }
 #table_users_find{
     border-collapse: separate;
     border-spacing: 4px;
 }
-#table_users_find th,#table_group_add_user th{
+#table_users_find th,#table_group_add_user th,#table_created_group th:first-child{
     background: #2a9d8f;
     font-weight: bold;
     position: sticky;
     top:0;
-    border-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius: 10px;
 }
-
 #table_users_find td{
     border-radius: 28px;
 }
@@ -250,7 +249,7 @@ h4{
 }
 .last_cell,#table_group_add_user td:last-child,#table_trip_find td:last-child{
     background: #264653;
-    border:0px;
+    border: 0px;
 }
 #table_trip_find_div{
     overflow: auto;
