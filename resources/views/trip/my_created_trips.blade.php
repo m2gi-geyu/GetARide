@@ -149,7 +149,19 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/trip/delete_trip/{{$trip->id}}"><button type="submit" class="btn-perso-small" onclick="return confirm('Êtes-vous sûr? Vous supprimez ce trajet. Une fois confirmé, le système supprimera le trajet et ce dernier ne pourra plus être récupéré.')">Supprimer</button></a>
+                        <button type="button" class="btn-perso-small" data-toggle="modal" data-target="#modalSuppression">Supprimer</button>
+                            <div class="modal fade" id="modalSuppression" tabindex="-1" role="dialog" aria-labelledby="modalSuppression" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" id="confirmation">
+                                        <div class="modal-body">
+                                            <h2>Êtes-vous sûr ?</h2>
+                                            Vous êtes sur le point de supprimer un trajet.<br>Une fois confirmé, le système supprimera le trajet et ce dernier ne pourra plus être récupéré.
+                                            <br><br><a href="/trip/delete_trip/{{$trip->id}}"><button type="submit" class="btn-perso-blue">Confirmer</button></a>
+                                            <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </td>
                 </tr>
             @endforeach
