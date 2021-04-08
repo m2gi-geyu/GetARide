@@ -48,7 +48,7 @@ Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("
 //user search edit
 Route::get('user/search', [UserController::class, 'searchUser_view'])->name('user/search');//route pour la recherche d'utilisateur
 Route::get('user/searchSubmit', [UserController::class, 'searchUser'])->name('user/searchSubmit');
-
+Route::get('user/check_user_profile/{id}',[UserController::class, 'view_profile'])->middleware('isLogged')->name('user/check_user_profile');
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 Route::get('change-password', [askForPasswordReset::class, 'form']);
