@@ -4,30 +4,23 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 @section('content')
-
-    <div class="justify-content-center col-md-8">
-        <div class="col-md-3 col-form-label justify-content-center" >
-            <img src="{{ $user->profile_pic ? asset('storage/'.$user->username.'/'.$user->profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
+<div class="panel-body container" align="center" >
+        <div class="container">
+            <h4 style="font-size: 50px; color: #f4a261">{{$user->username}}</h4>
         </div>
-
-        <div class="col-md-12 col-form-label justify-content-center" >
-            <h3>{{$user->username}}</h3>
+    <img src="{{ $user->profile_pic ? asset('storage/'.$user->username.'/'.$user->profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
+        <div class="container">
+            @if($user->ratings==null)
+                    <h3>Pas encore d'évaluation</h3>
+            @else
+                <div class="" >
+                    <h3>Note:{{$user->ratings}}</h3>
+                </div>
+            @endif
         </div>
-
-        @if($user->ratings==null)
-            <div class="col-md-12 col-form-label justify-content-center" >
-                <h4>Pas encore d'évaluation</h4>
-            </div>
-        @else
-            <div class="col-md-12 col-form-label justify-content-center" >
-                <h4>Note:{{$user->ratings}}</h4>
-            </div>
-        @endif
-
-        <div class="col-form-label justify-content-center" >
-            <a href="../search"><button class="btn-perso justify-content-center" type="button">Moteur de recherche</button></a>
+        <div class="container">
+            <a href="../search"><button class="btn-perso" type="button">Moteur de recherche</button></a>
         </div>
     </div>
-
-
+</div>
 @endsection
