@@ -1,5 +1,5 @@
 @extends('layouts.sidebar')
-<link href="{{ asset('/css/user_edit.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('/css/user.css') }}" rel="stylesheet" type="text/css" >
 @section('content')
     <form class="col-md-8" action="{{ route('editUser') }}" method="POST" enctype="multipart/form-data">
         @csrf

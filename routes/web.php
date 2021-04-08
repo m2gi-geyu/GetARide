@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TravelSearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
@@ -130,3 +131,8 @@ Route::get('trip/refuseTripRequest/{userID}/{tripID}', [RideController::class,'r
 
 // route liée à l'envoi d'une requête de participation à un trajet
 Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripRequest'])->name('trip.joinTrip');
+
+
+// routes notation trajet expiré
+Route::get('trip/note/{idRide}', [NoteController::class, 'noteTrip'])->name('note.noteTrip');
+Route::post('notation', [NoteController::class, 'notation'])->name('note.notation');

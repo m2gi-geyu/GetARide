@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="{{ asset('/css/user_edit.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('/css/user.css') }}" rel="stylesheet" type="text/css" >
 <link href="{{ asset('/css/notifs.css') }}" rel="stylesheet" type="text/css" >
 <script src="{{ asset('js/notifs.js') }}" defer></script>
 @section('content')
@@ -19,7 +19,7 @@
                 <form action = "{{ route('notifications.deleteAll') }}">
                     <a href="{{ route('notifications.delete') }}" type="button" class="btn-form delete_button" alt="Submit" >Supprimer toutes les notifications</a>
                 </form>
-                
+
             </div>
         </div>
         <br/><br/>
@@ -96,14 +96,14 @@
                                 </div>
                             @break
                         @endswitch
-                        
+
                         <div class="frame" style="margin-right: 1vw !important;">
                             <form action = "{{ route('notification.delete') }}" id="form-delete-js">
                                 <input type="hidden" id="delete-id-js" value = "{{$rawNotification->id}}" >
                                 <input type="image" src="{{ asset('images/poubelle.png') }}" class="input-notif" border="0" alt="Submit"/>
                             </form>
                         </div>
-                        
+
                         <!--
                         <div class="row special_row">
                             <div class="special_col" id="special_col_{{$rawNotification->id}}">
@@ -113,7 +113,7 @@
                                 </form>
                             </div>
                         </div>-->
-                        
+
     <!--                    code "notification lue"-->
     <!--                    <div class="col">
                             @if($rawNotification->read_at == NULL)
