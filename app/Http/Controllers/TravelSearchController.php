@@ -63,6 +63,7 @@ class TravelSearchController extends Controller
                 $data = DB::table('trips')
                     ->join('users', 'users.id', '=', 'trips.id_driver')
                     ->select('trips.*', 'users.username')
+                    ->where('trips.number_of_seats', ">", 0)
                     ->orderBy('id', 'desc')
                     ->get();
             }
