@@ -179,22 +179,22 @@ table{
     max-height: 670px;
     background: transparent;
 }
-#mes_trajets_table,#table_trip_find,#table_group_add_user,#table_created_group,#liste_trajet{
+#mes_trajets_table,#table_trip_find,#table_group_add_user,#table_created_group,#liste_trajet,#ses_trajets{
     border-collapse: separate;
     border-spacing: 0 10px;
     width: 95%;
 }
-#mes_trajets_table th,#table_trip_find th,#table_created_group th,#liste_trajet th{
+#mes_trajets_table th,#table_trip_find th,#table_created_group th,#liste_trajet th,#ses_trajets_div th{
     color:black;
     font-weight: bold;
     position: sticky;
     top:0;
     background: #2a9d8f;
 }
-#mes_trajets_table th:first-child,#table_trip_find th:first-child,#liste_trajet th:first-child{
+#mes_trajets_table th:first-child,#table_trip_find th:first-child,#liste_trajet th:first-child,#ses_trajets_div th:first-child{
     border-bottom-left-radius: 20px;
 }
-#mes_trajets_table th:last-child,#table_trip_find th:last-child,#liste_trajet th:last-child{
+#mes_trajets_table th:last-child,#table_trip_find th:last-child,#liste_trajet th:last-child,#ses_trajets_div th:last-child{
     border-bottom-right-radius: 20px;
 }
 #body-modal{
@@ -206,10 +206,10 @@ table{
     margin: 0px 4px;
     width: 70%;
 }
-#table_etapes tr:nth-child(odd),#mes_trajets_table tr:nth-child(odd),#table_users_find tr:nth-child(odd),#table_trip_find tr:nth-child(odd),#table_group_add_user tr:nth-child(odd),#table_created_group tr:nth-child(odd),#liste_trajet tr:nth-child(odd){
+#table_etapes tr:nth-child(odd),#mes_trajets_table tr:nth-child(odd),#table_users_find tr:nth-child(odd),#table_trip_find tr:nth-child(odd),#table_group_add_user tr:nth-child(odd),#table_created_group tr:nth-child(odd),#liste_trajet tr:nth-child(odd),#ses_trajets_div tr:nth-child(odd){
     background : #f4a261;
 }
-#table_etapes tr:nth-child(even),#mes_trajets_table tr:nth-child(even),#table_users_find tr:nth-child(even),#table_trip_find tr:nth-child(even),#table_group_add_user tr:nth-child(even),#table_created_group tr:nth-child(even),#liste_trajet tr:nth-child(even){
+#table_etapes tr:nth-child(even),#mes_trajets_table tr:nth-child(even),#table_users_find tr:nth-child(even),#table_trip_find tr:nth-child(even),#table_group_add_user tr:nth-child(even),#table_created_group tr:nth-child(even),#liste_trajet tr:nth-child(even),#ses_trajets_div tr:nth-child(even){
     background: #e76f51;
 }
 #colored_header{
@@ -279,4 +279,8 @@ img.resize{
     width:20%;
     height:auto;
     margin : 10px 0;
+}
+#ses_trajets_div{
+    overflow: auto;
+    max-height: 350px;
 }
