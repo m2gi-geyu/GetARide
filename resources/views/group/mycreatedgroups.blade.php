@@ -27,6 +27,10 @@
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div id="contenuModal" class="modal-content">
                                         <div id="body-modal" class="modal-body" align="center">
+                                            <!-- Input pour changer le nom du groupe-->
+                                            <!-- Récupérer ici les membres du groupes et les afficher dans une table-->
+                                            <button type="submit" class="btn-perso">Sauvegarder</button>
+                                            <button type="button" class="btn-perso" data-dismiss="modal">Retour</button>
                                         </div>
                                     </div>
                                 </div>
