@@ -74,7 +74,7 @@ class TravelSearchController extends Controller
                 {
                     $output .= '<tr>'.
                         //'<td>'.$trip->username.'</td>'.
-                        '<td><a href="/user/check_user_profile/'.$trip->id.'">'.$trip->username.'</a></td>'.
+                        '<td><a href="/user/check_user_profile/'.$trip->id_driver.'">'.$trip->username.'</a></td>'.
                         '<td>'.$trip->number_of_seats.'</td>'.
                         '<td>'.$trip->starting_town.'</td>'.
                         '<td>'.$trip->ending_town.'</td>'.

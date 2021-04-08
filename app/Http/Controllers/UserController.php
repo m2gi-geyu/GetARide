@@ -220,8 +220,12 @@ class UserController extends Controller
             ->where('id', '=', $id)
             ->first();
 
+        $created_trips = DB::table('trips')
+            ->where('id_driver','=',$id)
+            ->where('private','=',0)
+            ->get();
             //return back()->with("success", $user->username);
-            return view('user/check_user_profile', ['user'=>$user]);
+            return view('user/check_user_profile', ['user'=>$user],['created_trips'=>$created_trips]);
 
     }
 
