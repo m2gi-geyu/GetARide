@@ -89,8 +89,8 @@
                 $(".modal-body #id_trip").val(trajet_id);
                 $(".modal-body #departure").val(trajet_start);
                 $(".modal-body #final").val(trajet_end);
-                $(".modal-body #date").val(trajet_date);
-                $(".modal-body #time").val(trajet_hour);
+                $(".modal-body #date_modal").val(trajet_date);
+                $(".modal-body #time_modal").val(trajet_hour);
                 $(".modal-body #nb_passengers").val(trajet_nb_seat);
                 $(".modal-body #price").val(trajet_price);
                 $(".modal-body #rdv").val(trajet_precision);
