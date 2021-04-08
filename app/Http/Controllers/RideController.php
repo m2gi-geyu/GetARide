@@ -17,12 +17,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Psr\Log\NullLogger;
 use Illuminate\Support\Facades;
-
-
 use App\Notifications\trip\newPrivateTrip;
 use App\Notifications\trip\tripRequestCanceled;
+use App\Notifications\trip\tripRequestAccepted;
+use App\Notifications\trip\tripRequestRefused;
 use function GuzzleHttp\Promise\all;
-
 
 /**
  * Class RideController
@@ -110,17 +109,21 @@ class RideController extends Controller
                 } else {
                     $ride->private = 1;
                     $data = Group::where('name', '=', $request->group)->first();
-                    $ride->id_group = $data->id;
-                    $this->notifyPrivateGroup($ride->id_group, $ride);
 
+                    $ride->id_group = $data->id;
                 }
 
                 $query = $ride->save();
 
+
                 if ($query) {
 
                     $this->stage($request,$ride);
-                    return back()->with('success', 'Le trajet a bien été enregistré.');
+                    if ($request->privacy == 'private') {
+                        $this->notifyPrivateGroup($ride->id_group, $ride);
+                    }
+                        return back()->with('success', 'Le trajet a bien été enregistré.');
+
                 } else {
                     return back()->with('fail', 'Something went wrong');
                 }
@@ -153,23 +156,28 @@ class RideController extends Controller
 
     public function show_trip_in_waiting(){
 
+
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $id=$user->id;
             $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
-            $link_trips=DB::select("select * from users,trips,link_user_trip where users.id=? and
+            $link_trips=DB::select("select * from users,link_user_trip where users.id=? and
             link_user_trip.id_user=users.id", [$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
+                $trip_in_seconds =  strtotime($trip->date_trip);
+                $current_time = time();
+                $remaining_seconds=$trip_in_seconds - $current_time;
+                $trips[$num_trip]->reste=$remaining_seconds;
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
                 $num_trip++;
             }
         }
         //Afficher tous les trajets en attente
-        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips]);
+        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips,'user'=>$user]);
     }
 
     public function modified_trip(Request $request){
@@ -287,15 +295,15 @@ class RideController extends Controller
                     if ($update) {
                         //si le trip n'est pas encore validé,envoyer une notification
                         $conducteur->notify(new tripRequestCanceled($passager, $conducteur, $trip));
-                        return back()->with("delete successfully");
+                        return back()->with("success","Successfully deleted");
                     } else {
-                        return back()->with("delete failed ");
+                        return back()->with('fail',"delete failed ");
                     }
                 } else {
-                    return back()->with("delete failed ");
+                    return back()->with('fail',"delete failed ");
                 }
             } else {
-                return back()->with("delete failed ");
+                return back()->with('fail',"delete failed ");
             }
         }
     }
@@ -313,7 +321,7 @@ class RideController extends Controller
                     ->get();
         foreach($users as $user)
         {
-            $userToNotify = User::find($user->id);
+            $userToNotify = User::find($user->id_member);
 
             $userToNotify->notify(new newPrivateTrip($userLogged,$userToNotify,$trip));
         }
@@ -395,38 +403,56 @@ class RideController extends Controller
     /**
      * Fonction permettant au créateur d'un trajet d'accepter la requête d'un autre utilisateur pour participer à ce trajet
      */
-    function acceptTripRequest($data)
+    function acceptTripRequest($userID, $tripID)
     {
-        $userID = $data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
-        $tripID = $data['id_trip']; // Récupèration de l'ID du trajet concerné
+        if(session()->has('LoggedUser'))
+        {
+            $data = DB::table('link_user_trip') -> select('validated') -> where("id_user", $userID) -> where("id_trip", $tripID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+            if ($data->validated == 0)
+            {
+                $affected = DB::table('link_user_trip') -> where ('id_trip', $tripID) -> where ('id_user', $userID) -> update(['validated' => 1]); //MaJ du champ validated
 
-        $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-        $link_trip -> validated = 1; // Changer le champ à "confirmé"
+                $trip = Trip::find($tripID); // Récupèration du trajet
+                $driver = User::find($trip -> id_driver); // Récupération du conducteur
+                $passenger = User::find($userID); // Récupération de l'utilisateur passager
 
-        $trip = Trip::find($tripID); // Récupèration du trajet
-        $driver = User::find($trip -> id_driver); // Récupération du conducteur
-        $passenger = User::find($userID); // Récupération de l'utilisateur passager
-
-        $passenger -> notify(new tripRequestAccepted($driver, $passenger, $trip)); // Notification du passager de l'acceptation
-        return back()->with('success', "La requête a bien été acceptée");
+                $passenger -> notify(new tripRequestAccepted($driver, $passenger, $trip)); // Notification du passager de l'acceptation
+                return back()->with('success', "La requête a bien été acceptée");
+            }
+            else{
+                return back()->with('fail', "Vous avez déja répondu à cette demande");
+            }
+        }
+        else{
+            return back()->with('fail', "Erreur, vous devez être connecté.e pour réaliser cette action");
+        }
     }
-    
+
     /**
      * Fonction permettant au créateur d'un trajet de refuser la requête d'un autre utilisateur pour participer à ce trajet
      */
-    function refuseTripRequest($data)
+    function refuseTripRequest($userID, $tripID)
     {
-        $userID = $data['id_user_origin']; // Récupèration de l'ID de l'utilisateur envoyant la requête (potentiel passager)
-        $tripID = $data['id_trip']; // Récupèration de l'ID du trajet concerné
+        if(session()->has('LoggedUser'))
+        {
+            $data = DB::table('link_user_trip') -> select('validated') -> where("id_user", $userID) -> where("id_trip", $tripID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
+            if ($data->validated == 0)
+            {
+                $affected = DB::table('link_user_trip') -> where ('id_trip', $tripID) -> where ('id_user', $userID) -> update(['validated' => 2]); //MaJ du champ validated
 
-        $link_trip = LinkUserTrip::where("id_trip", $tripID) -> where("id_user", $userID) -> first(); // Récupèration du lien trajet-passager lié à la notif/requête
-        $link_trip -> validated = 2; // Changer le champ à "refusé"
+                $trip = Trip::find($tripID); // Récupèration du trajet
+                $driver = User::find($trip -> id_driver); // Récupération du conducteur
+                $passenger = User::find($userID); // Récupération de l'utilisateur passager
 
-        $trip = Trip::find($tripID); // Récupèration du trajet
-        $driver = User::find($trip -> id_driver); // Récupération du conducteur
-        $passenger = User::find($userID); // Récupération de l'utilisateur passager
-
-        $passenger->notify(new tripRequestRefused($driver, $passenger, $trip)); // Notification du passager du refus
-        return back()->with('success', "La requête a bien été refusée");
+                $passenger -> notify(new tripRequestRefused($driver, $passenger, $trip)); // Notification du passager de l'acceptation
+                return back()->with('success', "La requête a bien été refusée");
+            }
+            else{
+                return back()->with('fail', "Vous avez déja répondu à cette demande");
+                }
+        }
+        else{
+            return back()->with('fail', "Erreur, vous devez être connecté.e pour réaliser cette action");
+        }
     }
 }

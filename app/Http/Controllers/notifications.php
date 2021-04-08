@@ -43,9 +43,12 @@ class notifications extends Controller
         return response()->json(['status'=> 'OK']);
     }
 
-    public function deleteAllNotifications (Request $request)
+    public function deleteAllNotifications(Request $request)
     {
-        //TODO delete all notifs
+        $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+        $user = User::where('username', '=', $username)->first();
+
+        $user->notifications()->delete();
 
         return Redirect::back();
     }
