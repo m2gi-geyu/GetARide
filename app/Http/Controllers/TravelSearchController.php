@@ -64,6 +64,7 @@ class TravelSearchController extends Controller
                     ->join('users', 'users.id', '=', 'trips.id_driver')
                     ->select('trips.*', 'users.username')
                     ->where('trips.number_of_seats', ">", 0)
+                    ->where('trips.private', '=', 0)
                     ->orderBy('id', 'desc')
                     ->get();
             }
@@ -72,6 +73,20 @@ class TravelSearchController extends Controller
             {
                 foreach($data as $trip)
                 {
+                    $stages = DB::table('stages_trip')//On récupère les étapes du trajet
+                        ->where('id_trip', '=', $trip->id)
+                        ->orderBy('order')
+                        ->get();
+                    $stages_string = '';
+                    if($stages->count() > 0) {//Si il y a des étapes on les affiche sous forme de liste
+                        $stages_string = '<ul>';
+                        foreach ($stages as $stage) {
+                            $stages_string .= '<li>' . $stage->stage . '</li>';
+                        }
+                        $stages_string .= '</ul>';
+                    }else{//Sinon on affiche "Aucune étape"
+                        $stages_string = 'Aucune étape';
+                    }
                     $output .= '<tr>'.
                         '<td>'.$trip->username.'</td>'.
                         '<td>'.$trip->number_of_seats.'</td>'.
@@ -80,6 +95,7 @@ class TravelSearchController extends Controller
                         '<td>'.$trip->date_trip.'</td>'.
                         '<td>'.$trip->price.'</td>'.
                         '<td>'.$trip->description.'</td>'.
+                        '<td>'.$stages_string.'</td>'.
                         '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso">Participer à ce trajet</button></a></td>'.
                         '</tr>';
                 }
