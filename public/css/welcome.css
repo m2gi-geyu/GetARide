@@ -252,8 +252,9 @@ h4{
     border: 0px;
 }
 #table_trip_find_div{
-    overflow: auto;
+    overflow-y: auto;
     max-height: 500px;
+    width: 100%;
 }
 #confirmation{
     background-color: #e9c46a;

@@ -87,7 +87,7 @@ class TravelSearchController extends Controller
                         '<td>'.$trip->price.'</td>'.
                         '<td>'.$trip->description.'</td>'.
                         '<td>'.$stages_string.'</td>'.
-                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso">Participer à ce trajet</button></a></td>'.
+                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso-small">Participer</button></a></td>'.
                         '</tr>';
                 }
             }
