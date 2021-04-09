@@ -52,6 +52,11 @@
                     <input type="password" class="form-control-register" name="password" placeholder="Enter password" >
                     <span class="text-danger">@error('password'){{$message}}@enderror</span>
                 </div>
+                    <div class="form-group">
+                        <label for="password_confirmation">Confirmation du mot de passe</label>
+                        <input type="password" class="form-control-register" name="password_confirmation" placeholder="Enter password" >
+                        <span class="text-danger">@error('password_confirmation'){{$message}}@enderror</span>
+                    </div>
                 <div class="form-group">
                     <label for="phone">Numéro de téléphone</label>
                     <input type="tel" class="form-control-register" name="phone" placeholder="Enter phone number" value="{{old('phone')}}">
@@ -59,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     <p>Civilité :
-                    <input type="radio" id="masculin" name="gender" value="M" checked @if(old('gender')) checked @endif>
+                    <input type="radio" id="masculin" name="gender" value="M"  @if(old('gender')) checked @endif>
                     <label for="oui">M</label>
                     <input type="radio" id="feminin" name="gender" value="F" @if(old('gender')) checked @endif>
                     <label for="non">F</label>

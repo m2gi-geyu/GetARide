@@ -3,6 +3,11 @@
     background-color: #E9C46A !important;
     border: 3px solid #E76F51 !important;
     border-radius: 65px !important;
+    position: inherit;
+    margin-top: auto;
+    margin-bottom: auto;
+    vertical-align:middle;
+    width: 20vw;
 }
 
 .custom-alert ul {
@@ -12,7 +17,7 @@
     font-family: Sedan SC, serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 28px !important;
+    font-size: 1.3vw !important;
     color: #000000;
 }
 
@@ -20,7 +25,7 @@
     font-family: Rubik, serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 0.8vw;
     color: #000000;
 }
 
@@ -28,6 +33,9 @@
     background: #2A9D8F;
     border: 1px solid #264653;
     border-radius: 100px;
+    width: 10vw;
+    font-size: 0.7vw;
+    text-align: center;
     font-family: Roboto, serif;
     font-style: normal;
     font-weight: bold;

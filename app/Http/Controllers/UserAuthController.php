@@ -47,7 +47,8 @@ class UserAuthController extends Controller
             'surname'=> 'required|max:255|regex:/^[a-zA-Z-_]+/i',
             'name'=> 'required|max:255|regex:/^[a-zA-Z-_]+/i',
             'email' => 'required|max:255|email|unique:users',
-            'password' => 'required|min:8|max:255|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-;.]).{8,}$/i',
+            'password' => 'required|min:8|confirmed|max:255|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-;.]).{8,}$/i',
+            //'password_confirmation' => 'required|min:8|max:255|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-;.]).{8,}$/i',
             'phone' => ['required','unique:users','regex:/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/'],
             'gender' => 'required',
             'vehicle' => 'required',
@@ -66,17 +67,23 @@ class UserAuthController extends Controller
             'name.max' => 'Prénom trop long.',
             'password.max' => 'Mot de passe trop long.',
             'password.regex' => 'Mot de passe incorrect : il faut au moins 8 caractères dont au moins un caractère spécial, une majuscule et une minuscule.',
+            'password.confirmed' => 'Veuillez bien retapez le même mot de passe dans les 2 champs svp.',
+            //'password_confirmation.max' => 'Mot de passe trop long.',
+            //'password_confirmation.regex' => 'Mot de passe incorrect : il faut au moins 8 caractères dont au moins un caractère spécial, une majuscule et une minuscule.',
             'surname.regex' => 'Nom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
             'name.regex' => 'Prénom incorrect : lettres minuscules/majuscules, chiffres et tirets seulement.',
             'profile_pic.mimes' => "Format d'image incorrect.",
             'profile_pic.max' => 'Image trop lourde.',
         ]);
 
+
         $user= new User; //création d'un user et récolte des données entrées
         $user->username = $request->username;
         $user->surname = $request->surname;
         $user->name = $request->name;
         $user->email = $request->email;
+
+
         $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
         $user->gender = $request->gender;
@@ -112,9 +119,9 @@ class UserAuthController extends Controller
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
         if($query){
             event(new Registered($user));
-            return back()->with('success','You have been successfully registered');
+            return back()->with('success','Votre compte a été crée avec succès');
         }else{
-            return back()->with('fail','Something went wrong');
+            return back()->with('fail','OUPS! Il y a une erreur...');
         }
     }
 
@@ -135,6 +142,7 @@ class UserAuthController extends Controller
             //return back()->with('fail','user is null');
             $user = User::where('username','=', $request->email)->first();
         }
+
 
         if($user){
             if(Hash::check($request->password, $user->password)){
