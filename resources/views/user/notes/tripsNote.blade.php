@@ -1,5 +1,4 @@
 <link href="{{ asset('/css/flash_message.css') }}" rel="stylesheet" type="text/css" >
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @if ($users = Session::get('notation_trajet'))
         <div class="alert alert-danger custom-alert">
             <form method="POST" action = "{{ route('note.notation') }}">

@@ -29,7 +29,7 @@
                             <tr style="text-align: center;vertical-align: middle">
                                <td class="waiting_th_td">
                                    <div class="clear_trip">
-                                       <img src="{{ asset('/images/avatar_notif.png') }}" class="avatar_trip" alt="avatar">
+                                       <img src="{{ isset($trip->profile_pic) ? asset('storage/'.$trip->username.'/'.$user->profile_pic) : asset('/images/avatar_notif.png') }}" class="avatar_trip" alt="avatar">
                                        <span>{{$trip->driver_name}}</span>
                                    </div></td>
                                 <td class="waiting_th_td">{{$trip->starting_town}}->{{$trip->ending_town}}</td>

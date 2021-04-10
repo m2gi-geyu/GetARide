@@ -136,3 +136,6 @@ Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripReque
 // routes notation trajet expiré
 Route::get('trip/note/{idRide}', [NoteController::class, 'noteTrip'])->name('note.noteTrip');
 Route::post('notation', [NoteController::class, 'notation'])->name('note.notation');
+
+// routes notes attribuées
+Route::get('note/attributed', [NoteController::class, 'attributedNotes'])->name('note.attributed');

@@ -1,10 +1,10 @@
 @extends('layouts.sidebar')
 <link href="{{ asset('/css/user.css') }}" rel="stylesheet" type="text/css" >
 @section('content')
+    <script src="{{ asset('js/user.js') }}" defer></script>
     <form class="col-md-8" action="{{ route('editUser') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="form-group row">
-
                 <div class="col-md-3 col-form-label my-auto" >
                         <img src="{{ $profile_pic ? asset('storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
                 </div>
@@ -81,4 +81,14 @@
             </div>
         </div>
     </form>
+
+    <div class="note_user">
+        <label class="label-modif ma_note">Ma note</label>
+        <div class="rotate_note">
+            <!-- TODO à changer en back end -->
+            <?php $rating = 2.8; ?>
+            @include('include.rating', ['rating' => $rating])
+        </div>
+        <label class="label-modif x_notations">X notations</label>
+    </div>
 @endsection

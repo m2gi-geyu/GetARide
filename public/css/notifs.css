@@ -23,6 +23,7 @@
 }
 
 .avatar_notif {
+    border-radius: 100px;
     width:4vw; !important;
     height:4vw; !important;
     object-fit:cover; !important;
@@ -31,5 +32,4 @@
 .special_row {
     padding-top: 1.5vw !important;
     margin: auto !important;
-
 }

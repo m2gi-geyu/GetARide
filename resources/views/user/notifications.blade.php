@@ -27,7 +27,10 @@
                 <div class="label-notif" id = "row_{{$rawNotification->id}}">
                     <div class="row" >
                         <div class="col" >
-                            <img src="{{ asset('/images/avatar_notif.png') }}" class="avatar_notif" alt="avatar">
+                            @php
+                                $user = App\Models\User::find($rawNotification->data['id_user_origin']);
+                            @endphp
+                            <img src="{{ isset($user->profile_pic) ? asset('storage/'.$user->username.'/'.$user->profile_pic) : asset('/images/avatar_notif.png') }}" class="avatar_notif" alt="avatar">
                         </div>
                         <div class="col-7">
                         @switch($rawNotification->type)
