@@ -75,10 +75,6 @@
                                     @endphp
                                 </span>
                         </div>
-                        <!--
-                        <div class="frame">
-                            <input type="image" src="{{ asset('images/triple_dot.png') }}" class="input-notif" border="0" id="defiler_{{$rawNotification->id}}" onclick="defilerNotif(this);" value="{{$rawNotification->id}} " alt="Détails"/>
-                        </div>-->
                         @switch($rawNotification->type)
                             @case( Config::get('db.notificationType.trip_request') )
 
@@ -106,6 +102,9 @@
                                 <input type="image" src="{{ asset('images/poubelle.png') }}" class="input-notif" border="0" alt="Submit"/>
                             </form>
                         </div>
+<!--                        <div class="frame" style="margin-right: 1.5vw;">
+                            <input type="image" src="{{ asset('images/triple_dot.png') }}" class="input-notif" border="0" id="defiler_{{$rawNotification->id}}" onclick="defilerNotif(this);" value="{{$rawNotification->id}} " alt="Détails"/>
+                        </div>-->
 
                         <!--
                         <div class="row special_row">
