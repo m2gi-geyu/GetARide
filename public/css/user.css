@@ -14,8 +14,8 @@
 }
 
 /*avatar*/
-.resize {
-    border-radius: 100px;
+.resize_avatar {
+    border-radius: 100px; !important;
     width:8vw; !important;
     height:8vw; !important;
     object-fit:cover; !important;
@@ -153,14 +153,11 @@ h3
     color: #FFFFFF;
 }
 
-label[for=rating-none1]
+label[for=rating-none1]:not(.enabled)
 {
     display: none; !important;
 }
 
-.rating__label:not(.enabled) {
-    pointer-events: none;
-}
 
 .special_col {
     padding-top: 1.5vw !important;

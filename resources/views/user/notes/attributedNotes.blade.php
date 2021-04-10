@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link href="{{ asset('/css/notifs.css') }}" rel="stylesheet" type="text/css" >
 <link href="{{ asset('/css/user.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('/css/welcome.css') }}" rel="stylesheet" type="text/css" >
 <script src="{{ asset('js/rating.js') }}" defer></script>
 @section('content')
     <script src="{{ asset('js/user.js') }}" defer></script>
@@ -39,11 +40,43 @@
                 <div class="row special_row">
                     <div class="special_col" id="special_col_{{ $user }}_{{ $trip }}">
 <!--                        TODO nouvelles routes -->
-                        @include('include.rating_specific_user_trip', ['user' => $user, 'trip', $trip])
-                        <form action = "" id="form-read-js">
+                            @include('include.rating_specific_user_trip', ['user' => $user, 'trip', $trip])
                             <input type="hidden" value = "{{ $user }}_{{ $trip  }}" >
-                            <input type="submit" class="btn-form delete_button" value="Valider"/>
-                            <a href="" type="button" class="btn-form delete_button">Supprimer la note</a>
+                            <button type="button" class="btn-form delete_button" data-toggle="modal" data-target="#modalValidation">Valider</button>
+                            <div class="modal fade" id="modalValidation" tabindex="-1" role="dialog" aria-labelledby="modalValidation" aria-hidden="true" style="text-align: center;">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" id="confirmation">
+                                        <div class="modal-body">
+                                            <h2>Êtes-vous sûr ?</h2>
+<!--                                            TODO changer pour nom et prénom-->
+                                            Souhaitez-vous vraiment attribuer à USER cette note ?
+                                            <br><br>
+                                            <!-- TODO changer route -->
+                                            <form action = "{{ url('/dashboard') }}">
+                                                <input type="hidden">
+                                                <button type="submit" class="btn-perso-blue">Confirmer</button>
+                                            </form>
+                                            <button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn-form delete_button" data-toggle="modal" data-target="#modalSuppression">Supprimer la note</button>
+                            <div class="modal fade" id="modalSuppression" tabindex="-1" role="dialog" aria-labelledby="modalSuppression" aria-hidden="true" style="text-align: center;">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" id="confirmation">
+                                        <div class="modal-body">
+                                            <h2>Êtes-vous sûr ?</h2>
+                                            <!-- TODO changer pour nom et prénom-->
+                                            Souhaitez-vous vraiment supprimer la note attribuée à USER ?
+                                            <br><br>
+                                            <a href="" type="button" class="btn-perso-blue" style="padding-top: 0.3vw; text-decoration: none; color: white">Valider</a>
+                                            <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

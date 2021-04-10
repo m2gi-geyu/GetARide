@@ -176,7 +176,7 @@ class RideController extends Controller
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
                 $trips[$num_trip]->profile_pic=$user->profile_pic;
-                $trips[$num_trip]->profile_pic=$user->username;
+                $trips[$num_trip]->username=$user->username;
                 $num_trip++;
             }
         }
