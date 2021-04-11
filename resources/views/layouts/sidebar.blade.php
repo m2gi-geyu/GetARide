@@ -62,11 +62,11 @@
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/groupes.png') }}" alt="groupes_amis" class="img_sidebar">
-            <a href="#"> Mes groupes d'amis</a>
+            <a href="{{ route("group/addingmembers") }}"> Mes groupes d'amis</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/note.png') }}" alt="notes" class="img_sidebar">
-            <a href="#"> Mes notes attribuées</a>
+            <a href="{{ route("note.attributed") }}"> Mes notes attribuées</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/deconnexion.png') }}" alt="déconnexion" class="img_sidebar">

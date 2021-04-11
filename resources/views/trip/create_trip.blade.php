@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <label for="rdv">Précision RDV</label>
-                        <textarea name="rdv"></textarea>
+                        <textarea name="rdv" value="{{old('rdv')}}"></textarea>
                         <span class="text-danger">@error('rdv'){{$message}}@enderror</span>
 
                     </div>
@@ -114,14 +114,16 @@
                                 <tr>
                                 @if(old('stage'))
                                     @foreach(old('stage') as $stage)
-                                        <tr>
-                                            <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
-                                            <datalist  id="stagelist">
-                                            </datalist>
-                                            <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
-
+                                        @if(!empty($stage))
+                                            <tr>
+                                                <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" value={{$stage}} ></td>
+                                                <datalist  id="stagelist">
+                                                </datalist>
+                                                <td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>
+                                        @endif
                                         @endforeach
                                         @endif
+
                                     <tr>
                                         <td><input type="text" autocomplete="off" name="stage[]" list="stagelist" id="stage" class="form-control stage" /></td>
                                         <datalist  id="stagelist">

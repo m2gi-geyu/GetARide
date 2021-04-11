@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TravelSearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
@@ -45,7 +46,7 @@ Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("
 //user search edit
 Route::get('user/search', [UserController::class, 'searchUser_view'])->name('user/search');//route pour la recherche d'utilisateur
 Route::get('user/searchSubmit', [UserController::class, 'searchUser'])->name('user/searchSubmit');
-
+Route::get('user/check_user_profile/{id}',[UserController::class, 'view_profile'])->middleware('isLogged')->name('user/check_user_profile');
 
 //BEGINING OF 'CHANGE PASSWORD' ROUTES (Edit by FAUGIER Elliot 22/03/2021)
 Route::get('change-password', [askForPasswordReset::class, 'form']);
@@ -97,7 +98,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 //BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
 Route::get('notifications', [notifications::class, 'view'])->name('notification');
-Route::post('notificationsDelete', [notifications::class, 'deleteNotification'])->name('notification.delete');
+Route::get('notificationsDelete', [notifications::class, 'deleteNotification'])->name('notification.delete');
 Route::post('notificationsRead', [notifications::class, 'readNotification'])->name('notification.read');
 //END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
 
@@ -128,3 +129,11 @@ Route::get('trip/refuseTripRequest/{userID}/{tripID}', [RideController::class,'r
 
 // route liée à l'envoi d'une requête de participation à un trajet
 Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripRequest'])->name('trip.joinTrip');
+
+
+// routes notation trajet expiré
+Route::get('trip/note/{idRide}', [NoteController::class, 'noteTrip'])->name('note.noteTrip');
+Route::post('notation', [NoteController::class, 'notation'])->name('note.notation');
+
+// routes notes attribuées
+Route::get('note/attributed', [NoteController::class, 'attributedNotes'])->name('note.attributed');

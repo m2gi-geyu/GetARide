@@ -4,7 +4,9 @@
             <span class="">
                 @php
                     $user = App\Models\User::find($rawNotification->data['id_user_origin']);
-                    echo $user->name." ".$user->surname;
+                    //echo $user->name." ".$user->surname;
+                     echo '<a href="../user/check_user_profile/'.$user->id.'">'.$user->username.'</a>';
+
 
                 @endphp
 

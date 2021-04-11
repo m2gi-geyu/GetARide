@@ -19,13 +19,14 @@
         <table class="table table-striped table-bordered" id="table_trip_find">
             <thead style="font-family: 'Agency FB'; font-size: 1.2em;"; >
             <tr>
-                <th style="color: #d6d8db">Driver</th>
-                <th style="color: #d6d8db">Number of seats</th>
-                <th style="color: #d6d8db">Starting town</th>
-                <th style="color: #d6d8db">Ending town</th>
-                <th style="color: #d6d8db">Date of the trip</th>
-                <th style="color: #d6d8db">Price</th>
+                <th style="color: #d6d8db">Conducteur</th>
+                <th style="color: #d6d8db">Places disponibles</th>
+                <th style="color: #d6d8db">Ville de départ</th>
+                <th style="color: #d6d8db">Ville d'arrivée</th>
+                <th style="color: #d6d8db">Date</th>
+                <th style="color: #d6d8db">Prix</th>
                 <th style="color: #d6d8db">Description</th>
+                <th style="color: #d6d8db">Etapes</th>
             </tr>
             </thead>
             <tbody>

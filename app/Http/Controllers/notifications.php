@@ -30,7 +30,8 @@ class notifications extends Controller
             ->where('id', '=', $request->input('id'))
             ->delete();
 
-        return response()->json(['status'=> 'OK']);
+
+        return back()->with('success','notification supprimée.');
     }
 
     public function readNotification (Request $request)

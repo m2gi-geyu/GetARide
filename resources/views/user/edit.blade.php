@@ -1,12 +1,13 @@
 @extends('layouts.sidebar')
-<link href="{{ asset('/css/user_edit.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('/css/user.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('/css/welcome.css') }}" rel="stylesheet" type="text/css" >
 @section('content')
+    <script src="{{ asset('js/user.js') }}" defer></script>
     <form class="col-md-8" action="{{ route('editUser') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="form-group row">
-
                 <div class="col-md-3 col-form-label my-auto" >
-                        <img src="{{ $profile_pic ? asset('storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
+                        <img src="{{ $profile_pic ? asset('storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize_avatar" alt="avatar">
                 </div>
                 <div class="custom-file col-md-9 avatar my-auto">
                     <input type="file" class="custom-file-input" id="avatar" name="avatar" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
@@ -41,7 +42,7 @@
                 <label class="col-md-3 col-form-label label-modif" for="civilite_H">Civilité </label>
                 <div class="col-md-9 radio-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="H" @if(old('civilite', $gender) == 'H') checked @endif>
+                        <input type="radio" id="civilite_H" name="civilite" class="custom-control-input" value="M" @if(old('civilite', $gender) == 'M') checked @endif>
                         <label class="custom-control-label radio-before text-left radio-bold" for="civilite_H">Mr</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
@@ -74,11 +75,47 @@
 
         <div class="form-group row">
             <div class="col-md-8 text-right">
-                <button type="submit" class="btn-form">Enregistrer les changements</button>
             </div>
+            <button type="button" class="btn-form delete_button" data-toggle="modal" data-target="#modalModification">Valider</button>
+                <div class="modal fade" id="modalModification" tabindex="-1" role="dialog" aria-labelledby="modalModification" aria-hidden="true" style="text-align: center;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" id="confirmation">
+                            <div class="modal-body">
+                                <h2>Êtes-vous sûr ?</h2>
+                                Souhaitez-vous vraiment mettre à jour ces informations ?
+                                <br><br><input type="submit" class="btn-perso-blue" value="Valider"/>
+                                <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <div class="col text-right">
-                <a href="{{ route('deleteUser') }}" type="button" class="btn-form delete_button">Supprimer mon compte</a>
+                <button type="button" class="btn-form delete_button" data-toggle="modal" data-target="#modalSupression">Supprimer mon compte</button>
+                <div class="modal fade" id="modalSupression" tabindex="-1" role="dialog" aria-labelledby="modalSupression" aria-hidden="true" style="text-align: center;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" id="confirmation">
+                            <div class="modal-body">
+                                <h2>Êtes-vous sûr ?</h2>
+                                Souhaitez-vous vraiment supprimer votre compte ?
+                                <br><br>
+                                <a href="{{ route('deleteUser') }}" type="button" class="btn-perso-blue" style="padding-top: 0.3vw; text-decoration: none; color: white">Confirmer</a>
+                                <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
+
+    <div class="note_user">
+        <label class="label-modif ma_note">Ma note</label>
+        <div class="rotate_note">
+            <!-- TODO à changer en back end -->
+            <?php $rating = 2.8; ?>
+            @include('include.rating', ['rating' => $rating])
+        </div>
+        <label class="label-modif x_notations">X notations</label>
+    </div>
 @endsection

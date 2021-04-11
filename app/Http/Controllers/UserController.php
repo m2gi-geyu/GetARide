@@ -191,7 +191,7 @@ class UserController extends Controller
                 {
                     $output .= '
         <tr>
-         <td>'.$row->username.'</td>
+         <td><a href="/user/check_user_profile/'.$row->id.'">'.$row->username.'</a></td>
         </tr>
         ';
                 }
@@ -211,6 +211,22 @@ class UserController extends Controller
 
             echo json_encode($data);
         }
+    }
+
+
+
+    function view_profile($id){
+        $user = DB::table('users')
+            ->where('id', '=', $id)
+            ->first();
+
+        $created_trips = DB::table('trips')
+            ->where('id_driver','=',$id)
+            ->where('private','=',0)
+            ->get();
+            //return back()->with("success", $user->username);
+            return view('user/check_user_profile', ['user'=>$user],['created_trips'=>$created_trips]);
+
     }
 
 }

@@ -38,49 +38,56 @@ class TravelSearchController extends Controller
         {
             $output = '';
             $query = $request->get('query');
-            if($query[0] != '' || $query[1] != '' || $query[2] != '')//Si au moins un des 3 champs de recherche n'est pas vide, on lance la requête
-            {//On récupère tous les trajets qui contiennent la ville de départ demandée (si vide toutes les villes sont acceptées), la ville d'arrivée demandée (idem) et la date
-                $data = DB::table('trips')
-                    ->join('users', 'users.id', '=', 'trips.id_driver')
-                    ->select('trips.*', 'users.username')
-                    ->whereRAW('((trips.starting_town like \''.$query[0].'%\' and trips.ending_town like \''.$query[1].'%\')
-                                    or
-                                    (trips.starting_town like \''.$query[0].'%\' and exists(
-                                       select * from stages_trip where trips.id = stages_trip.id_trip and stage like \''.$query[1].'%\'))
-                                    or
-                                    (trips.ending_town like \''.$query[1].'%\' and exists(
-                                       select * from stages_trip where trips.id = stages_trip.id_trip and stage like \''.$query[0].'%\'))
-                                    or
-                                    (exists(
-                                       select * from stages_trip s1 where s1.id_trip = trips.id and s1.stage like \''.$query[0].'%\' and exists(
-                                           select * from stages_trip s2 where s2.id_trip = s1.id_trip and s2.stage like \''.$query[1].'%\' and s2.order > s1.order))))')
-                    ->where('trips.private', '=', 0)
-                    ->where('trips.date_trip', 'like', $query[2].'%')
-                    ->where('trips.number_of_seats', ">", 0)
-                    ->orderBy('id', 'desc')
-                    ->get();
-            }else{//Si aucun champ n'est rempli on récupère tous les trajets
-                $data = DB::table('trips')
-                    ->join('users', 'users.id', '=', 'trips.id_driver')
-                    ->select('trips.*', 'users.username')
-                    ->where('trips.number_of_seats', ">", 0)
-                    ->orderBy('id', 'desc')
-                    ->get();
-            }
+            ///On récupère tous les trajets qui contiennent la ville de départ demandée (si vide toutes les villes sont acceptées), la ville d'arrivée demandée (idem) et la date
+            $data = DB::table('trips')
+                ->join('users', 'users.id', '=', 'trips.id_driver')
+                ->select('trips.*', 'users.username')
+                ->whereRAW('((trips.starting_town like \''.$query[0].'%\' and trips.ending_town like \''.$query[1].'%\')
+                                or
+                                (trips.starting_town like \''.$query[0].'%\' and exists(
+                                   select * from stages_trip where trips.id = stages_trip.id_trip and stage like \''.$query[1].'%\'))
+                                or
+                                (trips.ending_town like \''.$query[1].'%\' and exists(
+                                   select * from stages_trip where trips.id = stages_trip.id_trip and stage like \''.$query[0].'%\'))
+                                or
+                                (exists(
+                                   select * from stages_trip s1 where s1.id_trip = trips.id and s1.stage like \''.$query[0].'%\' and exists(
+                                       select * from stages_trip s2 where s2.id_trip = s1.id_trip and s2.stage like \''.$query[1].'%\' and s2.order > s1.order))))')
+                ->where('trips.private', '=', 0)
+                ->where('trips.date_trip', 'like', $query[2].'%')
+                ->where('trips.number_of_seats', ">", 0)
+                ->orderBy('id', 'desc')
+                ->get();
             $total_row = $data->count();//On récupère le nombre de lignes extraites de la BDD
             if($total_row > 0)//Si il existe des lignes de trips, on les affiche
             {
                 foreach($data as $trip)
                 {
+                    $stages = DB::table('stages_trip')//On récupère les étapes du trajet
+                        ->where('id_trip', '=', $trip->id)
+                        ->orderBy('order')
+                        ->get();
+                    $stages_string = '';
+                    if($stages->count() > 0) {//Si il y a des étapes on les affiche sous forme de liste
+                        $stages_string = '<ul>';
+                        foreach ($stages as $stage) {
+                            $stages_string .= '<li>' . $stage->stage . '</li>';
+                        }
+                        $stages_string .= '</ul>';
+                    }else{//Sinon on affiche "Aucune étape"
+                        $stages_string = 'Aucune étape';
+                    }
                     $output .= '<tr>'.
-                        '<td>'.$trip->username.'</td>'.
+                        //'<td>'.$trip->username.'</td>'.
+                        '<td><a href="/user/check_user_profile/'.$trip->id_driver.'">'.$trip->username.'</a></td>'.
                         '<td>'.$trip->number_of_seats.'</td>'.
                         '<td>'.$trip->starting_town.'</td>'.
                         '<td>'.$trip->ending_town.'</td>'.
                         '<td>'.$trip->date_trip.'</td>'.
                         '<td>'.$trip->price.'</td>'.
                         '<td>'.$trip->description.'</td>'.
-                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso">Participer à ce trajet</button></a></td>'.
+                        '<td>'.$stages_string.'</td>'.
+                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso-small">Participer</button></a></td>'.
                         '</tr>';
                 }
             }

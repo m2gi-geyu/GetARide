@@ -175,6 +175,8 @@ class RideController extends Controller
                 $trips[$num_trip]->reste=$remaining_seconds;
                 $user = User::where('id', '=', $trip->id_driver)->first();
                 $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
+                $trips[$num_trip]->profile_pic=$user->profile_pic;
+                $trips[$num_trip]->username=$user->username;
                 $num_trip++;
             }
         }
