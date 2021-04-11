@@ -11,9 +11,7 @@ use App\Http\Controllers\RideController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
-
-
-
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 /*
@@ -65,7 +63,7 @@ Route::post('my_created_trips',[RideController::class, 'modified_trip'])->name('
 
 
 //trajet en attend
-Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting')->middleware("verified");
 //retrait de trajet
 Route::get('trip/quit_trip/{idRide}',[PassengerController::class,'deleteJoinedRide'])->name('trip/quit');
 //annulation de réponse
