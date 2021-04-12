@@ -204,7 +204,7 @@ class RideController extends Controller
             }
         }
         //Afficher tous les trajets en attente
-        return view('trip/trip_in_waiting_private',['trips'=>$trips,'user'=>$user]);
+        return view('trip/trip_in_waiting',['trips'=>$trips,'user'=>$user]);
     }
 
     public function modified_trip(Request $request){

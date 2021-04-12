@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'Illuminate\Auth\Events\Verified' => [
+        Verified::class => [
             'App\Listeners\LogVerifiedUser',
         ],
     ];

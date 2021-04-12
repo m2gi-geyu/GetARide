@@ -34,6 +34,7 @@
                                             <!-- Input pour changer le nom du groupe-->
                                             <!-- Récupérer ici les membres du groupes et les afficher dans une table-->
                                             <button type="submit" class="btn-perso" onclick="return confirm('Êtes-vous sûr de modifier le nom du group')">Sauvegarder</button>
+                                            </form>
                                             <button type="button" class="btn-perso" data-dismiss="modal">Retour</button>
                                         </div>
                                     </div>
@@ -46,7 +47,7 @@
                                         <div class="modal-body">
                                             <h2>Êtes-vous sûr ?</h2>
                                             Vous êtes sur le point de supprimer le groupe <span style="font-weight:bold">{{$group->name}}</span>.<br>Une fois confirmé, le système supprimera le groupe et ce dernier ne pourra plus être récupéré.
-                                            <br><br><a href="/group/delete_group/{{$group->id}}"><button type="submit" class="btn-perso-blue">Confirmer</button></a>
+                                            <br><br><a href="/group/delete_group/{{$group->id}}"><button type="button" class="btn-perso-blue">Confirmer</button></a>
                                             <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
                                         </div>
                                     </div>
