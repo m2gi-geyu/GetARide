@@ -37,4 +37,15 @@ class NoteController
 
         return back()->with('success', 'Personnes notées.');
     }
+
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
+     * page de vue des notes attribuées par membre par trajet
+     */
+    public function attributedNotes()
+    {
+        //TODO ajouter les membres notés par l'utilisateur par trajet
+        return view('user.notes.attributedNotes');
+    }
 }

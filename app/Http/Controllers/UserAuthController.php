@@ -24,6 +24,9 @@ class UserAuthController extends Controller
      * @return view la page/vue de connexion
      */
     function login(){
+        if(session()->has('LoggedUser')){
+            return redirect('dashboard');
+        }
         return view('auth/login');
     }
 
@@ -33,6 +36,9 @@ class UserAuthController extends Controller
      * @return view  la page/vue de connexion
      */
     function register(){
+        if(session()->has('LoggedUser')){
+            return redirect('dashboard');
+        }
         return view('auth/register');
     }
 
@@ -142,7 +148,9 @@ class UserAuthController extends Controller
             //return back()->with('fail','user is null');
             $user = User::where('username','=', $request->email)->first();
         }
-
+        /*if($user->email_verified_at==null){
+            return redirect()->route("verification.notice");
+        }*/
 
         if($user){
             if(Hash::check($request->password, $user->password)){

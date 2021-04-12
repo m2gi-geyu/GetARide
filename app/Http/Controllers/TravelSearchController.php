@@ -92,33 +92,35 @@ class TravelSearchController extends Controller
                     foreach ($data as $trip) {
                         $stages = DB::table('stages_trip')//On récupère les étapes du trajet
                         ->where('id_trip', '=', $trip->id)
-                            ->orderBy('order')
-                            ->get();
-                        $stages_string = '';
-                        if ($stages->count() > 0) {//Si il y a des étapes on les affiche sous forme de liste
-                            $stages_string = '<ul>';
-                            foreach ($stages as $stage) {
-                                $stages_string .= '<li>' . $stage->stage . '</li>';
-                            }
-                            $stages_string .= '</ul>';
-                        } else {//Sinon on affiche "Aucune étape"
-                            $stages_string = 'Aucune étape';
+                        ->orderBy('order')
+                        ->get();
+                    $stages_string = '';
+                    if($stages->count() > 0) {//Si il y a des étapes on les affiche sous forme de liste
+                        $stages_string = '<ul>';
+                        foreach ($stages as $stage) {
+                            $stages_string .= '<li>' . $stage->stage . '</li>';
                         }
-                        $output .= '<tr>' .
-                            '<td><a href="/user/check_user_profile/' . $trip->id_driver . '">' . $trip->username . '</a></td>' .
-                            '<td>' . $trip->number_of_seats . '</td>' .
-                            '<td>' . $trip->starting_town . '</td>' .
-                            '<td>' . $trip->ending_town . '</td>' .
-                            '<td>' . $trip->date_trip . '</td>' .
-                            '<td>' . $trip->price . '</td>' .
-                            '<td>' . $trip->description . '</td>' .
-                            '<td>' . $stages_string . '</td>' .
-                            '<td><a href="join_trip/' . $trip->id . '"><button type="submit" class="btn-perso">Participer à ce trajet</button></a></td>' .
-                            '</tr>';
+                        $stages_string .= '</ul>';
+                    }else{//Sinon on affiche "Aucune étape"
+                        $stages_string = 'Aucune étape';
                     }
-                } else {//Sinon on vérifie que la ville de départ existe bien en BDD, si non on affiche un message d'erreur
-                    $data = DB::table('trips')
-                        ->whereRaw('starting_town like \'' . $query[0] . '%\'
+                    $output .= '<tr>'.
+                        //'<td>'.$trip->username.'</td>'.
+                        '<td><a href="/user/check_user_profile/'.$trip->id_driver.'">'.$trip->username.'</a></td>'.
+                        '<td>'.$trip->number_of_seats.'</td>'.
+                        '<td>'.$trip->starting_town.'</td>'.
+                        '<td>'.$trip->ending_town.'</td>'.
+                        '<td>'.$trip->date_trip.'</td>'.
+                        '<td>'.$trip->price.'</td>'.
+                        '<td>'.$trip->description.'</td>'.
+                        '<td>'.$stages_string.'</td>'.
+                        '<td><a href="join_trip/'.$trip->id.'"><button type="submit" class="btn-perso-small">Participer</button></a></td>'.
+                        '</tr>';
+                }
+            }
+            else {//Sinon on vérifie que la ville de départ existe bien en BDD, si non on affiche un message d'erreur
+                $data = DB::table('trips')
+                    ->whereRaw('starting_town like \''.$query[0].'%\'
                                 or
                                 exists(select * from stages_trip where stage like \'' . $query[0] . '%\')')
                         ->count();

@@ -9,7 +9,7 @@
                 @foreach ($users->all() as $user)
                     <?php $count++; ?>
                     <li class="li-error">{{ $user->name }}</li>
-                    @include('include.rating', ['count' => $count])
+                    @include('include.rating', ['count' => $count, 'enabled' => 'enabled'])
                 @endforeach
             </ul>
             <div>
