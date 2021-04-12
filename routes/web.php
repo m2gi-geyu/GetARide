@@ -10,6 +10,7 @@ use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
 
@@ -139,3 +140,6 @@ Route::post('notation', [NoteController::class, 'notation'])->name('note.notatio
 
 // routes notes attribuées
 Route::get('note/attributed', [NoteController::class, 'attributedNotes'])->name('note.attributed');
+
+// page comment ça marche
+Route::get('help', [HelpController::class, 'help'])->name('help');

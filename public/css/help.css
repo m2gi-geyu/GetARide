@@ -1,0 +1,31 @@
+.notice {
+    font-family: Rubik, serif;
+}
+
+.notice h2 {
+    font-size: 2.5vw;
+}
+
+.notice h3 {
+    font-size: 1.5vw;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.notice p {
+    text-align: justify;
+    margin-left: 15%;
+    margin-right: 15%;
+    font-size: 1vw;
+    color: white;
+}
+
+.notice a {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 1.2vw;
+    height: auto;
+    width: 17.5%;
+}
