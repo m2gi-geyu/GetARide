@@ -64,7 +64,9 @@ Route::post('my_created_trips',[RideController::class, 'modified_trip'])->name('
 
 
 //trajet en attend
-Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting')->middleware("verified");
+Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+Route::get('trip/trip_in_waiting/private',[RideController::class,'show_trip_in_waiting_private'])->name('trip/waiting/private');
+
 //retrait de trajet
 Route::get('trip/quit_trip/{idRide}',[PassengerController::class,'deleteJoinedRide'])->name('trip/quit');
 //annulation de réponse
@@ -116,7 +118,7 @@ Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])
 Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
 Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])->name('mycreatedgroups'); //route to visualize groups which are created by the current user
 Route::get('group/delete_group/{id}',[GroupController::class,'delete_group'])->name('group/delete')->middleware('isLogged');//route used to delete a group
-
+Route::get('group/change_name/{id_group}',[GroupController::class,'change_groupe_name'])->name('group/change_name')->middleware('isLogged');
 //routes linked to trips searching
 Route::get('trip/search_trip',[TravelSearchController::class, 'search_trip_view'])->name('trip/search_trip');
 Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/search');

@@ -157,31 +157,54 @@ class RideController extends Controller
     }
 
     public function show_trip_in_waiting(){
-
-
         if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $id=$user->id;
-            $trips = DB::select("select  * from users,trips,link_user_trip where users.id=? and
-            link_user_trip.id_user=users.id and trips.id=link_user_trip.id_trip ", [$id]);
-            $link_trips=DB::select("select * from users,link_user_trip where users.id=? and
-            link_user_trip.id_user=users.id", [$id]);
+            //tous les trajets
+            $trips = DB::select("select *,t.id as t_id,u.id as u_id from trips t
+            inner join link_user_trip lt
+            on t.id=lt.id_trip
+            inner join users u
+            on lt.id_user=u.id
+            where u.id=?",[$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
                 $trip_in_seconds =  strtotime($trip->date_trip);
                 $current_time = time();
                 $remaining_seconds=$trip_in_seconds - $current_time;
                 $trips[$num_trip]->reste=$remaining_seconds;
-                $user = User::where('id', '=', $trip->id_driver)->first();
-                $trips[$num_trip]->driver_name=$user->name." ".$user->surname;
-                $trips[$num_trip]->profile_pic=$user->profile_pic;
-                $trips[$num_trip]->username=$user->username;
                 $num_trip++;
             }
         }
         //Afficher tous les trajets en attente
-        return view('trip/trip_in_waiting',['trips'=>$trips,'link_trips'=>$link_trips,'user'=>$user]);
+        return view('trip/trip_in_waiting',['trips'=>$trips,'user'=>$user]);
+    }
+
+    public function show_trip_in_waiting_private(){
+        if (session()->has('LoggedUser')) { // Si l'utilisateur est toujours connecté, on met à jour les données
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+            $id=$user->id;
+            //tous les trajets privés
+            $trips = DB::select("select *,t.id as t_id,u.id as u_id from trips t
+            inner join link_user_trip lt
+            on t.id=lt.id_trip
+            inner join users u
+            on lt.id_user=u.id
+            where u.id=?
+            and t.private=?",[$id,1]);
+            $num_trip=0;
+            foreach ($trips as $trip) {
+                $trip_in_seconds =  strtotime($trip->date_trip);
+                $current_time = time();
+                $remaining_seconds=$trip_in_seconds - $current_time;
+                $trips[$num_trip]->reste=$remaining_seconds;
+                $num_trip++;
+            }
+        }
+        //Afficher tous les trajets en attente
+        return view('trip/trip_in_waiting_private',['trips'=>$trips,'user'=>$user]);
     }
 
     public function modified_trip(Request $request){

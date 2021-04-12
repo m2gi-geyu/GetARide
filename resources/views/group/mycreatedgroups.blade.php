@@ -26,10 +26,14 @@
                             <div class=" modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div id="contenuModal" class="modal-content">
+                                        <!--TODO : Front End améliorer l'interface du renommer le nom selon CDC -->
                                         <div id="body-modal" class="modal-body" align="center">
+                                            <label style="color: #d6d8db">renommer le nom du groupe </label>
+                                            <form action="{{ route('group/change_name',[$group->id]) }}" method="GET" enctype="multipart/form-data">
+                                            Nouveau name:<input type="text" name="name"><br>
                                             <!-- Input pour changer le nom du groupe-->
                                             <!-- Récupérer ici les membres du groupes et les afficher dans une table-->
-                                            <button type="submit" class="btn-perso">Sauvegarder</button>
+                                            <button type="submit" class="btn-perso" onclick="return confirm('Êtes-vous sûr de modifier le nom du group')">Sauvegarder</button>
                                             <button type="button" class="btn-perso" data-dismiss="modal">Retour</button>
                                         </div>
                                     </div>
