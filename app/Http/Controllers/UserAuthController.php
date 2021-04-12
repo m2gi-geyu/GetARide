@@ -24,6 +24,9 @@ class UserAuthController extends Controller
      * @return view la page/vue de connexion
      */
     function login(){
+        if(session()->has('LoggedUser')){
+            return redirect('dashboard');
+        }
         return view('auth/login');
     }
 
@@ -33,6 +36,9 @@ class UserAuthController extends Controller
      * @return view  la page/vue de connexion
      */
     function register(){
+        if(session()->has('LoggedUser')){
+            return redirect('dashboard');
+        }
         return view('auth/register');
     }
 
