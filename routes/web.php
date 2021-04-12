@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TravelSearchController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +12,7 @@ use App\Http\Controllers\RideController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
+use App\Http\Middleware;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -95,7 +96,7 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+}) ->middleware(['auth','throttle:6,1'])->name('verification.send');
 
 
 //BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)

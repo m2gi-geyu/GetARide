@@ -142,7 +142,9 @@ class UserAuthController extends Controller
             //return back()->with('fail','user is null');
             $user = User::where('username','=', $request->email)->first();
         }
-
+        /*if($user->email_verified_at==null){
+            return redirect()->route("verification.notice");
+        }*/
 
         if($user){
             if(Hash::check($request->password, $user->password)){
