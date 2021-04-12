@@ -251,4 +251,36 @@ class GroupController extends Controller
         }
     }
 
+    function change_groupe_name($id_group,Request $request){
+        $name=$request->name;
+        if(session()->has('LoggedUser')) {
+            $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
+            $user = User::where('username', '=', $username)->first();
+            $group = Group::where("id", $id_group)->first();
+            $groups= DB::select('select * from `groups` where `groups`.id_creator=?',[$user->id]);
+            foreach ($groups as $g){
+               if($name==$g->name){
+                   return back()->with('fail', "Vous avez déjà crée un groupe ayant le même nom");
+               }
+            }
+            if ($name == $group->name) {
+                return back()->with('fail', "Le nouveau nom ne peut pas être le même que l'ancien");
+            }
+            if ($name == null) {
+                return back()->with('fail', 'Le nouveau nom ne peut pas être vide');
+            }
+            if ($group->id_creator = $user->id) {
+                $update = DB::update('update `groups` set name=? where id=?', [$name, $id_group]);
+                if ($update) {
+                    return back()->with('success', 'Le nom du groupe est bien changé');
+                } else {
+                    return back()->with('fail', 'modifcation du nom est échoué');
+                }
+            } else {
+                return back()->with('fail', "Vous n'êtes pas autorisé à renommer");
+            }
+        }
+
+    }
+
 }
