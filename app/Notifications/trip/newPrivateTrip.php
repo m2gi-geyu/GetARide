@@ -59,8 +59,8 @@ class newPrivateTrip extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->line($this->sender->username.' sends you a trip proposal.')
+                    ->action('Go to notifications', url('/'))
                     ->line('Thank you for using our application!');
     }
 

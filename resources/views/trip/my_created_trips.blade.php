@@ -149,14 +149,16 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn-perso-small" data-toggle="modal" data-target="#modalSuppression">Supprimer</button>
+                        <button type="button" class="btn-perso-small suppr-trajet" data-toggle="modal"
+                                data-id="{{$trip->id}}"
+                                data-target="#modalSuppression">Supprimer</button>
                             <div class="modal fade" id="modalSuppression" tabindex="-1" role="dialog" aria-labelledby="modalSuppression" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content" id="confirmation">
                                         <div class="modal-body">
                                             <h2>Êtes-vous sûr ?</h2>
                                             Vous êtes sur le point de supprimer un trajet.<br>Une fois confirmé, le système supprimera le trajet et ce dernier ne pourra plus être récupéré.
-                                            <br><br><a href="/trip/delete_trip/{{$trip->id}}"><button type="submit" class="btn-perso-blue">Confirmer</button></a>
+                                            <br><br><a id="link_suppr_trajet" ><button type="submit" class="btn-perso-blue">Confirmer</button></a>
                                             <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
                                         </div>
                                     </div>
