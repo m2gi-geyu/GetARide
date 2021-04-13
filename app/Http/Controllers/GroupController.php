@@ -257,10 +257,10 @@ class GroupController extends Controller
             $username = session()->get('LoggedUser'); // pseudo de l'utilisateur connecté
             $user = User::where('username', '=', $username)->first();
             $group = Group::where("id", $id_group)->first();
-            $groups= DB::select('select * from `groups`');
+            $groups= DB::select('select * from `groups` where `groups`.id_creator=?',[$user->id]);
             foreach ($groups as $g){
                if($name==$g->name){
-                   return back()->with('fail', "Le nom est déjà pris par un autre utilisateur");
+                   return back()->with('fail', "Vous avez déjà crée un groupe ayant le même nom");
                }
             }
             if ($name == $group->name) {
