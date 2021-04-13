@@ -19,8 +19,7 @@
         @endif
 
         <div class="mt-4 flex items-center justify-between" style="text-align: center;vertical-align: middle">
-            <form method="POST" action="{{ route('verification.send') }}">
-
+            <form method="POST" action="{{ route('verification.send',[$id]) }}">
                 <div>
                     <button type="submit" class="btn-form" style="text-align: center;vertical-align: middle">Resend Verification Email</button>
                 </div>

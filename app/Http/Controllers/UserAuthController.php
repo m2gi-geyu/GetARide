@@ -150,10 +150,11 @@ class UserAuthController extends Controller
         }
 
         if($user){
-            if($user->email_verified_at==null){
-                return redirect()->route("verification.notice",['id'=>$user->id]);
-            }
+
             if(Hash::check($request->password, $user->password)){
+                if($user->email_verified_at==null){
+                    return redirect()->route("verification.notice",['id'=>$user->id]);
+                }
                 $request->session()->put("LoggedUser", $user->username); //LoggedUser est la variable de session
                 $request->session()->put("LoggedUserPic", $user->profile_pic);
                 $request->session()->put("LoggedUserID",$user->id);
