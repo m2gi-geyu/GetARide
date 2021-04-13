@@ -106,6 +106,13 @@ class RideController extends Controller
                 $ride = new Trip;
                 $ride->id_driver = $user->id;
                 $ride = $this->transfer($ride,$request);
+                $now = new \DateTime();
+                $difference_in_seconds = $ride->date_trip->format('U') - $now->format('U');
+
+
+                if($difference_in_seconds<0){
+                    return back()->with('fail', "La date de départ de ce trajet est déjà passée, il est donc impossible de le créer.");
+                }
                 if ($request->privacy == 'public') {
                     $ride->private = 0;
                 } else {
@@ -243,6 +250,9 @@ class RideController extends Controller
         // Mise à jour des données de l'utilisateur connecté
         //* Pas besoin de vérifier si le champ a été modifié, SQL ne fera pas d'Update si la donné est la même
         //$ride = $this->transfer($trip,$request);
+
+
+
         $ride->starting_town = $request->departure;
         $ride->ending_town = $request->final;
         $ride->description = $request->info;
@@ -254,6 +264,11 @@ class RideController extends Controller
         $date->setTime($heure[0],$heure[1]);
         $ride->date_trip = $date;
 
+        $now = new \DateTime();
+        $difference_in_seconds = $ride->date_trip->format('U') - $now->format('U');
+        if($difference_in_seconds<0){
+            return back()->with('fail', "La date de départ de ce trajet est déjà passée, il est donc impossible de le créer.");
+        }
         $query = $ride->save();
 
         if ($query) {

@@ -22,37 +22,64 @@
                             <label style="color: #d6d8db" for={{$group->name}}>{{$group->name}}</label>
                         </td>
                         <td class="last_cell" style="width:30%;border:0px">
-                            <button type="button" class="btn-perso-small" data-toggle="modal" data-target="#detailsModal">+ de détails</button><br>
+                            <button type="button" class="btn-perso-small open" data-toggle="modal" name="open" id="open"
+                                    data-id-group="{{$group->id}}"
+                                    data-user="{{$participant}}"
+                                    data-name="{{$group->name}}"
+                                    data-target="#detailsModal">+ de détails</button><br>
                             <div class=" modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div id="contenuModal" class="modal-content">
                                         <!--TODO : Front End améliorer l'interface du renommer le nom selon CDC -->
                                         <div id="body-modal" class="modal-body" align="center">
-                                            <label style="color: #d6d8db">renommer le nom du groupe </label>
-                                            <form action="{{ route('group/change_name',[$group->id]) }}" method="GET" enctype="multipart/form-data">
-                                            Nouveau name:<input type="text" name="name"><br>
+                                            <label style="color: #d6d8db">Renommer le groupe </label>
+                                            <form id="form_change_group_name"  method="GET" enctype="multipart/form-data">
+                                                <label for="id_group">Groupe n°</label>
+                                                <input  type="text" readonly="readonly" id="id_group" name="id_group"><br>
+                                                Nouveau nom:<input type="text" name="name"><br>
                                             <!-- Input pour changer le nom du groupe-->
                                             <!-- Récupérer ici les membres du groupes et les afficher dans une table-->
-                                            <button type="submit" class="btn-perso" onclick="return confirm('Êtes-vous sûr de modifier le nom du group')">Sauvegarder</button>
+                                            <button type="submit" name="change" class="btn-perso change" >Sauvegarder</button>
                                             </form>
+                                                <div >
+                                                    <table class="table" id="item_table">
+                                                    </table>
+                                                </div>
                                             <button type="button" class="btn-perso" data-dismiss="modal">Retour</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn-perso-small" data-toggle="modal" data-target="#modalSuppression">Supprimer</button>
+                            <button type="button"  class="btn-perso-small open-suppr" data-toggle="modal"
+                                    data-group-name="{{$group->name}}"
+                                    data-id="{{$group->id}}"
+                                    data-target="#modalSuppression">Supprimer</button>
                             <div class="modal fade" id="modalSuppression" tabindex="-1" role="dialog" aria-labelledby="modalSuppression" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content" id="confirmation">
                                         <div class="modal-body">
                                             <h2>Êtes-vous sûr ?</h2>
-                                            Vous êtes sur le point de supprimer le groupe <span style="font-weight:bold">{{$group->name}}</span>.<br>Une fois confirmé, le système supprimera le groupe et ce dernier ne pourra plus être récupéré.
-                                            <br><br><a href="/group/delete_group/{{$group->id}}"><button type="button" class="btn-perso-blue">Confirmer</button></a>
+                                            Vous êtes sur le point de supprimer le groupe <span id="group_name_suppr" style="font-weight:bold"></span>.<br>Une fois confirmé, le système supprimera le groupe et ce dernier ne pourra plus être récupéré.
+                                            <br><br><a id="link_suppr_group"><button type="button" name="suppr_group" class="btn-perso-blue">Confirmer</button></a>
+                                            <br><br><button type="button"  class="btn-perso-blue" data-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modal_suppr_utilisateur" tabindex="-1" role="dialog" aria-labelledby="modal_suppr_utilisateur" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" id="conf">
+                                        <div  class="modal-body ">
+                                            <h2>Êtes-vous sûr ?</h2>
+                                            Vous êtes sur le point de supprimer cette utilisateur <span id="suppr_user" style="font-weight:bold"></span>.<br>Une fois confirmé, le système supprimera le groupe et ce dernier ne pourra plus être récupéré.
+                                            <br><br><a id="link_suppr_user" ><button type="button" class="btn-perso-blue">Confirmer</button></a>
                                             <br><br><button type="button" class="btn-perso-blue" data-dismiss="modal">Annuler</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </td>
                     </tr>
                 @endforeach
@@ -64,5 +91,7 @@
         </div>
 
     </div>
+    <script type="text/javascript" src="{{asset('js/groups.js')}}"></script>
+
 @endsection
 

@@ -216,10 +216,17 @@ class GroupController extends Controller
             $user = User::where('username', '=', $username)->first();
 
             $data = DB::select('SELECT * FROM `groups` WHERE id_creator=:id_creator', ['id_creator' => $user->id]);
+
+            $participant = LinkUsersGroup::join('groups','groups.id','=','link_users_groups.id_group')
+                ->join('users','users.id','=','link_users_groups.id_member')
+                ->where('id_creator','=',$user->id)
+                ->get(['users.*','link_users_groups.id_group']);
+
+
         }
 
 
-        return view('group/mycreatedgroups',['data'=>$data]);
+        return view('group/mycreatedgroups',['data'=>$data],['participant'=>$participant]);
     }
 
 
@@ -248,6 +255,14 @@ class GroupController extends Controller
                 return back()->with('fail', 'Groupe inexistant');
             }
 
+        }
+    }
+
+    function delete_user($id,$id_group){
+
+        if(session()->has('LoggedUser')) {
+            LinkUsersGroup::where([['id_group','=',$id_group],['id_member','=',$id]])->delete();
+            return back()->with('success','L\'utilisateur a bien été retiré du groupe');
         }
     }
 
