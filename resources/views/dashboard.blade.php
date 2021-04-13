@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="groupBlocks">
+                <fieldset class="groupBlocks">
                     <div class="groupBlock">
                         <div class="groupBlock__Title">
                             TRAJET
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="groupBlock">
+                    <fieldset class="groupBlock">
                         <div class="groupBlock__Title">
                             GROUPE
                         </div>
@@ -129,8 +129,8 @@
                             </div>
                             @endif
                         </div>
-                    </div>
-                </div>
+                    </fieldset>
+                </fieldset>
             </div>
 
         </div>
