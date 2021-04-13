@@ -27,3 +27,5 @@ class VerifyEmailController extends Controller
         return redirect('login')->with('status', $message); //if user is already logged in it will redirect to the dashboard page
     }
 }
+
+

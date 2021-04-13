@@ -20,7 +20,6 @@
 
         <div class="mt-4 flex items-center justify-between" style="text-align: center;vertical-align: middle">
             <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
 
                 <div>
                     <button type="submit" class="btn-form" style="text-align: center;vertical-align: middle">Resend Verification Email</button>
@@ -28,8 +27,6 @@
             </form>
 
             <form method="GET" action="{{ route('logout') }}" >
-                @csrf
-
                 <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900" style="text-align: center;vertical-align: middle">
                     {{ __('Log out') }}
                 </button>

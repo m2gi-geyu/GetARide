@@ -148,11 +148,11 @@ class UserAuthController extends Controller
             //return back()->with('fail','user is null');
             $user = User::where('username','=', $request->email)->first();
         }
-        if($user->email_verified_at==null){
-            return redirect()->route("verification.notice");
-        }
 
         if($user){
+            if($user->email_verified_at==null){
+                return redirect()->route("verification.notice",['id'=>$user->id]);
+            }
             if(Hash::check($request->password, $user->password)){
                 $request->session()->put("LoggedUser", $user->username); //LoggedUser est la variable de session
                 $request->session()->put("LoggedUserPic", $user->profile_pic);
@@ -192,8 +192,8 @@ class UserAuthController extends Controller
             session()->pull('LoggedUser');
             session()->pull("LoggedUserPic");
             session()->pull("LoggedUserID");
-            return redirect('login');
         }
+        return redirect('login');
     }
 
 
