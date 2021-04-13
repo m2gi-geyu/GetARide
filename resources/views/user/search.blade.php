@@ -43,14 +43,21 @@
                 {
                     $('tbody').html(data.table_data);
                     $('#total_records').text(data.total_data);
+                    $('.modal-body:empty').text('Cet utilisateur est déjà membre de tous vos groupes privés');
+                    main();
                 }
             })
+
+            
         }
 
         $(document).on('keyup', '#search', function(){
             var query = $(this).val();
             fetch_users(query);
         });
+
+        
     });
 </script>
+<script type="text/javascript" src="{{asset('js/add_member.js')}}"></script>
 @endsection
