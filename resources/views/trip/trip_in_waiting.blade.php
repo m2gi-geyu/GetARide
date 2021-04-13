@@ -83,8 +83,10 @@
                     </tr>
                 @endforeach
                 </tbody>
-
             </table>
+            <div class="container" align="center">
+                <a href="../dashboard"><button class="btn-perso" type="button">Revenir à l'accueil</button></a>
+            </div>
         </div>
     </div>
     <div class="flash-message">
@@ -97,5 +99,6 @@
         }
     </script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 @endsection
 
