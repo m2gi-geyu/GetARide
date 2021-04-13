@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TravelSearchController;
 use Illuminate\Support\Facades\Route;
@@ -10,11 +10,11 @@ use App\Http\Controllers\Security\askForPasswordReset;
 use App\Http\Controllers\Security\PasswordResetting;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
-
-
-
+use App\Http\Middleware;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 /*
@@ -47,6 +47,7 @@ Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUser
 Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("deleteUser");
 //user search edit
 Route::get('user/search', [UserController::class, 'searchUser_view'])->name('user/search');//route pour la recherche d'utilisateur
+Route::post('user/search/addMember', [UserController::class, 'addMember'])->name('SearchAddMember');//route pour la recherche d'utilisateur
 Route::get('user/searchSubmit', [UserController::class, 'searchUser'])->name('user/searchSubmit');
 Route::get('user/check_user_profile/{id}',[UserController::class, 'view_profile'])->middleware('isLogged')->name('user/check_user_profile');
 
@@ -67,6 +68,8 @@ Route::post('my_created_trips',[RideController::class, 'modified_trip'])->name('
 
 //trajet en attend
 Route::get('trip/trip_in_waiting',[RideController::class,'show_trip_in_waiting'])->name('trip/waiting');
+Route::get('trip/trip_in_waiting/private',[RideController::class,'show_trip_in_waiting_private'])->name('trip/waiting/private');
+
 //retrait de trajet
 Route::get('trip/quit_trip/{idRide}',[PassengerController::class,'deleteJoinedRide'])->name('trip/quit');
 //annulation de réponse
@@ -95,12 +98,12 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+}) ->middleware(['auth','throttle:6,1'])->name('verification.send');
 
 
 //BEGINING OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
 Route::get('notifications', [notifications::class, 'view'])->name('notification');
-Route::post('notificationsDelete', [notifications::class, 'deleteNotification'])->name('notification.delete');
+Route::get('notificationsDelete', [notifications::class, 'deleteNotification'])->name('notification.delete');
 Route::post('notificationsRead', [notifications::class, 'readNotification'])->name('notification.read');
 //END OF NOTIFICATIONS ROUTES (Edit by FAUGIER Elliot 29/03/2021)
 
@@ -118,7 +121,7 @@ Route::get('group/addingmembers',[GroupController::class,'adding_members_view'])
 Route::get('group/add_member/{id}',[GroupController::class,'add_member'])->name('group/add_member');//route to the function which adds a members by his id to the newest group of the user
 Route::get('mycreatedgroups',[GroupController::class,'view_my_created_groups'])->name('mycreatedgroups'); //route to visualize groups which are created by the current user
 Route::get('group/delete_group/{id}',[GroupController::class,'delete_group'])->name('group/delete')->middleware('isLogged');//route used to delete a group
-
+Route::get('group/change_name/{id_group}',[GroupController::class,'change_groupe_name'])->name('group/change_name')->middleware('isLogged');
 //routes linked to trips searching
 Route::get('trip/search_trip',[TravelSearchController::class, 'search_trip_view'])->name('trip/search_trip');
 Route::get('trip/search',[TravelSearchController::class, 'search'])->name('trip/search');
@@ -136,3 +139,9 @@ Route::get('trip/join_trip/{id}', [TravelSearchController::class, 'sendTripReque
 // routes notation trajet expiré
 Route::get('trip/note/{idRide}', [NoteController::class, 'noteTrip'])->name('note.noteTrip');
 Route::post('notation', [NoteController::class, 'notation'])->name('note.notation');
+
+// routes notes attribuées
+Route::get('note/attributed', [NoteController::class, 'attributedNotes'])->name('note.attributed');
+
+// page comment ça marche
+Route::get('help', [HelpController::class, 'help'])->name('help');

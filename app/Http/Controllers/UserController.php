@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use MongoDB\Driver\Session;
+use App\Models\LinkUsersGroup;
 
 class UserController extends Controller
 {
@@ -191,7 +192,51 @@ class UserController extends Controller
                 {
                     $output .= '
         <tr>
-         <td><a href="/user/check_user_profile/'.$row->id.'">'.$row->username.'</a></td>
+        <!-- Lien Utilisateur -->
+         <td><a href="/user/check_user_profile/'.$row->id.'">'.$row->username.'</a></td>;
+         <td>
+         <!-- Bouton Modal pour ajouter l`user dans un groupe privé -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal'.$row->id.'">
+                Ajouter à un groupe
+            </button>
+            
+            <!-- Fenetre Modale -->
+            <div class="modal fade" id="Modal'.$row->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ajouter '.$row->username.'à un groupe privé</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="Modal-body-'.$row->id.'">';
+                    $groups = $user->getGroup();
+                    foreach($user->getGroup() as $group)
+                    {
+                        $count = DB::table('link_users_groups')
+                            ->where('id_group','=',$group->id)
+                            ->where('id_member','=',$row->id)
+                            ->count();
+
+                        //Si il n'y a pas de lien group <-> user alors on peut l'ajouter dans le groupe
+                        if($count == 0)
+                        {
+                            //Formulaire pour ajouter l'utilisateur à un groupe privé, voir add_member.js
+                            $output .=' <form id="add-member-form" action="'.route('SearchAddMember').'" method="post">
+                                            <input type="hidden" id="member-id-js" value="'.$row->id.'">
+                                            <input type="hidden" id="group-id-js" value="'.$group->id.'">
+                                            <button type="submit" class = "btn btn-outline-dark">Ajouter au groupe '.$group->name.'</button>
+                                        </form>
+                            ';
+                            //$output .= '<p>'.$group->name.'</p>';
+                        }
+                    }
+    $output .= '</div>
+                </div>
+            </div>
+            </div>
+       </td>
         </tr>
         ';
                 }
@@ -229,4 +274,46 @@ class UserController extends Controller
 
     }
 
+    /*function addMember($id, $userName)
+    {
+        return 
+        '<td>
+         <!-- Modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#'.$row->username.'Modal">
+                Ajouter à un groupe
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="'.$row->username.'Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    '.$row->username.'
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+            </div>
+       <\td>';
+    }*/
+
+    public function addMember(Request $request)
+    {
+        //On fait un nouveau lien avec les infos transmises dans la requête POST venant de add_member.js
+        $link_user_group = new LinkUsersGroup;
+        $link_user_group->id_group = $request->input('idGroup');
+        $link_user_group->id_member = $request->input('idMember');
+        $query = $link_user_group ->save(); //sauvegarde des infos dans la base de données (table groups)
+        
+        return response()->json(['status'=> 'OK']);
+    }
 }

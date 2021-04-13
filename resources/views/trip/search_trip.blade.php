@@ -12,7 +12,8 @@
     <div class="form-group container" align="center">
         <input style="width: 50%; margin-bottom: 5px" type="text" name="start_town" id="start_town" class="form-control" placeholder="Ville de départ" onkeyup="fetch_trips()"/>
         <input style="width: 50%; margin-bottom: 5px" type="text" name="end_town" id="end_town" class="form-control" placeholder="Ville d'arrivée" onkeyup="fetch_trips()"/>
-        <input style="width: 50%" type="date" name="date" id="date" class="form-control" onchange="fetch_trips()"/><br>
+        <input style="width: 50%" type="date" name="date" id="date" class="form-control" onchange="fetch_trips()"/>
+        Trajet privé ?<input type="checkbox" name="chkBox" id="chkBox" class="form-control" onchange="fetch_trips()"/><br/>
         <h4 align="center">Résultats trouvés : <span id="total_records"></span></h4>
     </div>
     <div class="table-responsive container" id="table_trip_find_div">
@@ -52,6 +53,7 @@
         query[0] = $('#start_town').val();
         query[1] = $('#end_town').val();
         query[2] = $('#date').val();
+        query[3] = document.getElementById('chkBox').checked;
         $.ajax({
             url:"{{ route('trip/search') }}",
             method:'GET',

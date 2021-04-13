@@ -14,8 +14,8 @@
 }
 
 /*avatar*/
-.resize {
-    border-radius: 100px;
+.resize_avatar {
+    border-radius: 100px; !important;
     width:8vw; !important;
     height:8vw; !important;
     object-fit:cover; !important;
@@ -128,4 +128,38 @@ h3
 	text-align:center;
 	font-size: 50px;
 	font-weight:bold;
+}
+
+.note_user {
+    float: right;
+    margin-left: 3.5vw;
+}
+
+.rotate_note {
+    transform: rotate(90deg); /* Équivalent à rotateZ(45deg) */
+    transform-origin: center;
+    margin-left: -3.5vw;
+    margin-top: 5vw;
+}
+
+.x_notations {
+    margin-top: 4vw;
+    font-family: Rubik, serif;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.ma_note {
+    font-family: Sedan SC, serif;
+    color: #FFFFFF;
+}
+
+label[for=rating-none1]:not(.enabled)
+{
+    display: none; !important;
+}
+
+
+.special_col {
+    padding-top: 1.5vw !important;
+    margin: auto !important;
 }

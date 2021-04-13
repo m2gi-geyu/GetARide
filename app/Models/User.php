@@ -84,4 +84,20 @@ class User extends Authenticatable implements MustVerifyEmail
               ->update(['read' => 1]);
     }
 
+    public function getGroup()
+    {
+        $groups = [];
+
+        $results = DB::table('groups')
+              ->where('id_creator','=', $this->id)->get();
+
+        foreach($results as $group_row)
+        {
+            array_push($groups, Group::find($group_row->id));
+        }
+
+
+        return $results;
+    }
+
 }
