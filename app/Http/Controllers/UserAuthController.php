@@ -119,7 +119,7 @@ class UserAuthController extends Controller
         }else{
             //sinon on crée un dossier vide dans public/storage
             $path =  'storage/'.$user->username;
-            mkdir($path, 0777, false);
+            mkdir($path, 0777, true);
         }
 
         $query = $user ->save(); //sauvegarde des infos dans la base de données (table users)
