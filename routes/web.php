@@ -45,6 +45,7 @@ Route::post('user/edit',[UserController::class, 'formSubmit']) -> name("editUser
 Route::get('user/delete',[UserController::class, 'deleteUserAccount']) -> name("deleteUser");
 //user search edit
 Route::get('user/search', [UserController::class, 'searchUser_view'])->name('user/search');//route pour la recherche d'utilisateur
+Route::post('user/search/addMember', [UserController::class, 'addMember'])->name('SearchAddMember');//route pour la recherche d'utilisateur
 Route::get('user/searchSubmit', [UserController::class, 'searchUser'])->name('user/searchSubmit');
 Route::get('user/check_user_profile/{id}',[UserController::class, 'view_profile'])->middleware('isLogged')->name('user/check_user_profile');
 
