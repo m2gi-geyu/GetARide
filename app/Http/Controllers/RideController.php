@@ -177,10 +177,12 @@ class RideController extends Controller
             where u.id=?",[$id]);
             $num_trip=0;
             foreach ($trips as $trip) {
+                $driver= User::where('id',$trip->id_driver)->first();
                 $trip_in_seconds =  strtotime($trip->date_trip);
                 $current_time = time();
                 $remaining_seconds=$trip_in_seconds - $current_time;
                 $trips[$num_trip]->reste=$remaining_seconds;
+                $trips[$num_trip]->name_driver=$driver->surname." ".$driver->name;
                 $num_trip++;
             }
         }
@@ -203,10 +205,12 @@ class RideController extends Controller
             and t.private=?",[$id,1]);
             $num_trip=0;
             foreach ($trips as $trip) {
+                $driver= User::where('id',$trip->id_driver)->first();
                 $trip_in_seconds =  strtotime($trip->date_trip);
                 $current_time = time();
                 $remaining_seconds=$trip_in_seconds - $current_time;
                 $trips[$num_trip]->reste=$remaining_seconds;
+                $trips[$num_trip]->name_driver=$driver->surname." ".$driver->name;
                 $num_trip++;
             }
         }

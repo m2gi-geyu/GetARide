@@ -30,7 +30,7 @@
                         <td class="waiting_th_td">
                             <div class="clear_trip">
                                 <img src="{{ isset($trip->profile_pic) ? asset('storage/'.$trip->username.'/'.$user->profile_pic) : asset('/images/avatar_notif.png') }}" class="avatar_trip" alt="avatar">
-                                <span>{{$trip->surname." ".$trip->name}}</span>
+                                <a href="{{route("user/check_user_profile",[$trip->id_driver])}}"><span>{{$trip->name_driver}}</span></a>
                             </div>
                         </td>
                         <td class="waiting_th_td">{{$trip->starting_town}}->{{$trip->ending_town}}</td>
