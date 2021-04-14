@@ -7,7 +7,7 @@
         @csrf
             <div class="form-group row">
                 <div class="col-md-3 col-form-label my-auto" >
-                        <img src="{{ $profile_pic ? asset('storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize_avatar" alt="avatar">
+                        <img src="{{ $profile_pic ? asset('/storage/'.$username.'/'.$profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize_avatar" alt="avatar">
                 </div>
                 <div class="custom-file col-md-9 avatar my-auto">
                     <input type="file" class="custom-file-input" id="avatar" name="avatar" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">

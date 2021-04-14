@@ -15,7 +15,7 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\notifications;
 use Illuminate\Http\Request;
-
+use App\Providers\RouteServiceProvider;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,6 +97,9 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 
 Route::post('/email/verification-notification/{id}', function ($id) {
     $user=User::where("id",$id)->first();
+    if ($user->hasVerifiedEmail()) {
+        return redirect()->intended(RouteServiceProvider::HOME)->with('fail','email-verification est déjà envoyé,vérifier votre email svp');
+    }
     $user->sendEmailVerificationNotification();
     return back()->with('status', 'Verification link sent!');
 })->middleware(['throttle:6,1'])->name('verification.send');

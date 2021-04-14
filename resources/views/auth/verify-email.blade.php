@@ -9,7 +9,7 @@
 </head>
 <body>
         <div class="mb-4 text-sm text-gray-600" style="color:red">
-            <h3>Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.</h3>
+            <h3>Merci pour votre inscription! Avant de se connecter, pouvez-vous vérifier votre adresse e-mail en cliquant sur le lien que nous venons de vous envoyer par e-mail? Si vous n'avez pas reçu l'e-mail, nous vous en enverrons un autre avec plaisir.</h3>
         </div>
 
         @if (session('status') == 'verification-link-sent')
@@ -26,7 +26,7 @@
             </form>
 
             <form method="GET" action="{{ route('logout') }}" >
-                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900" style="text-align: center;vertical-align: middle">
+                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 btn-form" style="text-align: center;vertical-align: middle">
                     {{ __('Log out') }}
                 </button>
             </form>
