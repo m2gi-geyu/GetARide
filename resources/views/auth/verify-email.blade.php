@@ -26,7 +26,7 @@
             </form>
 
             <form method="GET" action="{{ route('logout') }}" >
-                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900" style="text-align: center;vertical-align: middle">
+                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 btn-form" style="text-align: center;vertical-align: middle">
                     {{ __('Log out') }}
                 </button>
             </form>
