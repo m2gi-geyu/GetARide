@@ -29,7 +29,7 @@
     </header>
     <nav class="sidenav">
         <div class="sidebar_icon">
-            <img src="{{ Session::has('LoggedUserPic') ? asset('storage/'.Session::get('LoggedUser').'/'.Session::get('LoggedUserPic')) : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar avatar_sidebar">
+            <img src="{{ Session::has('LoggedUserPic') ? asset('/storage/'.Session::get('LoggedUser').'/'.Session::get('LoggedUserPic')) : asset('/images/avatar.png') }}" alt="moi" class="img_sidebar avatar_sidebar">
             <a class="personne" href="javascript:void(0)" onclick="closeNav()"> @if(Session::has('LoggedUser')) {{ Session::get('LoggedUser') }}@else Moi @endif</a>
         </div>
 
@@ -56,11 +56,11 @@
                         $user = App\Models\User::where('username', '=', $username)->first();// model de l'utilisateur connecté
                         //Pour chaque nouvelle notification
                         foreach ($user->unreadNotifications as $notification) {
-                            
+
                             //On essaie de récupérer l'user expediteur et le trip concerné
                             $user = App\Models\User::find($notification->data['id_user_origin']);
                             $trip = App\Models\Trip::find($notification->data['id_trip']);
-                            
+
                             //Si l'user ou le trip est introuvable, on supprime la notifications
                             if($user == NULL || $trip == NULL)
                             {
