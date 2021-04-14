@@ -99,7 +99,7 @@ Route::post('/email/verification-notification/{id}', function ($id) {
     $user=User::where("id",$id)->first();
     $user->sendEmailVerificationNotification();
     return back()->with('status', 'Verification link sent!');
-})->middleware(['throttle:6,1'])->name('verification.send');
+})->middleware(['signed', 'throttle:6,1'])->name('verification.send');
 
 
 
