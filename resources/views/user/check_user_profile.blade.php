@@ -8,7 +8,7 @@
     <div class="container">
         <h4 style="font-size: 50px; color: #f4a261">{{$user->username}}</h4>
     </div>
-    <img src="{{ $user->profile_pic ? asset('storage/'.$user->username.'/'.$user->profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
+    <img src="{{ $user->profile_pic ? asset('/storage/'.$user->username.'/'.$user->profile_pic) : asset('/images/avatar_gros.png') }}" id="output" class="resize" alt="avatar">
     <div class="container">
         @if($user->ratings==null)
             <h4>Pas encore d'évaluation</h4>
