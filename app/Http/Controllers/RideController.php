@@ -183,6 +183,8 @@ class RideController extends Controller
                 $remaining_seconds=$trip_in_seconds - $current_time;
                 $trips[$num_trip]->reste=$remaining_seconds;
                 $trips[$num_trip]->name_driver=$driver->surname." ".$driver->name;
+                $trips[$num_trip]->profile_pic_driver=$driver->profile_pic;
+                $trips[$num_trip]->username_driver=$driver->username;
                 $num_trip++;
             }
         }
@@ -211,6 +213,8 @@ class RideController extends Controller
                 $remaining_seconds=$trip_in_seconds - $current_time;
                 $trips[$num_trip]->reste=$remaining_seconds;
                 $trips[$num_trip]->name_driver=$driver->surname." ".$driver->name;
+                $trips[$num_trip]->profile_pic_driver=$driver->profile_pic;
+                $trips[$num_trip]->username_driver=$driver->username;
                 $num_trip++;
             }
         }
