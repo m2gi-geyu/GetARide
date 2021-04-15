@@ -124,7 +124,7 @@
                                 <div class="groupBlock__Content__Item__arrow">
                                 </div>
                                 <div class="groupBlock__Content__Item__label">
-                                    <a href="{{ route("group/mycreatedgroups") }}">Mes groupes crées</a>
+                                    <a href="{{ route("mycreatedgroups") }}">Mes groupes crées</a>
                                 </div>
                             </div>
                             @endif

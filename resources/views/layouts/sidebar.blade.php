@@ -76,7 +76,7 @@
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/groupes.png') }}" alt="groupes_amis" class="img_sidebar">
-            <a href="{{ route("my_created_trips") }}"> Mes groupes d'amis</a>
+            <a href="{{ route("mycreatedgroups") }}"> Mes groupes d'amis</a>
         </div>
         <div class="sidebar_icon">
             <img src="{{ asset('/images/note.png') }}" alt="notes" class="img_sidebar">
