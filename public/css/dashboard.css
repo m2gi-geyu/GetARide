@@ -63,6 +63,9 @@
 }
 .avarImg img {
     height: 165px;
+    border-radius: 100px; width:8vw; !important;
+    height:8vw; !important;
+    object-fit:cover; !important;
 }
 .avarTitle {
     color:#f4a261;

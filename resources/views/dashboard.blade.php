@@ -33,7 +33,7 @@
             <div class="page-wrapper">
                 <div class="avatarBlock">
                     <div class="avarImg">
-                        <img src="{{URL::asset('images/avatar-ex.png')}}">
+                        <img src="{{ Session::has('LoggedUserPic') ? asset('/storage/'.Session::get('LoggedUser').'/'.Session::get('LoggedUserPic')) : asset('/images/avatar.png') }}">
                     </div>
                     <div class="avarTitle">
                     Bienvenue <b>{{$LoggedUserInfo->name}}</b>!
