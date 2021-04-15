@@ -29,7 +29,7 @@
                     <tr style="text-align: center;vertical-align: middle">
                         <td class="waiting_th_td">
                             <div class="clear_trip">
-                                <img src="{{ isset($trip->profile_pic) ? asset('storage/'.$trip->username.'/'.$user->profile_pic) : asset('/images/avatar_notif.png') }}" class="avatar_trip" alt="avatar">
+                                <img src="{{ isset($trip->profile_pic_driver) ? asset('storage/'.$trip->username_driver.'/'.$user->profile_pic_driver) : asset('/images/avatar_notif.png') }}" class="avatar_trip" alt="avatar">
                                 <a href="{{route("user/check_user_profile",[$trip->id_driver])}}"><span>{{$trip->name_driver}}</span></a>
                             </div>
                         </td>

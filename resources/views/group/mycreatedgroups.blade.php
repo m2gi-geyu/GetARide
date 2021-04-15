@@ -32,10 +32,10 @@
                                     <div id="contenuModal" class="modal-content">
                                         <!--TODO : Front End améliorer l'interface du renommer le nom selon CDC -->
                                         <div id="body-modal" class="modal-body" align="center">
-                                            <label style="color: #d6d8db">Renommer le groupe </label>
+                                            <label for="id_group">Groupe n°</label>
+                                            <input  type="text" readonly="readonly" id="id_group" name="id_group"><br>
+                                            <label >Renommer le groupe </label>
                                             <form id="form_change_group_name"  method="GET" enctype="multipart/form-data">
-                                                <label for="id_group">Groupe n°</label>
-                                                <input  type="text" readonly="readonly" id="id_group" name="id_group"><br>
                                                 Nouveau nom:<input type="text" name="name"><br>
                                             <!-- Input pour changer le nom du groupe-->
                                             <!-- Récupérer ici les membres du groupes et les afficher dans une table-->
