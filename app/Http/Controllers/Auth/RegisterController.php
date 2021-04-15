@@ -114,6 +114,7 @@ class RegisterController extends Controller
         {
             $user->vehicle = true;
         }
+        
         $user->activity_token=\Str::random(60);
         $user->activity_expire=Date::now('+1 days');
         //$this->validator($request->all())->validate();

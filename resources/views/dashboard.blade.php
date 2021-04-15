@@ -36,7 +36,7 @@
                         <img src="{{URL::asset('images/avatar-ex.png')}}">
                     </div>
                     <div class="avarTitle">
-                    Bienvenue <b>{{$LoggedUserInfo->name}}</b>!    
+                    Bienvenue <b>{{$LoggedUserInfo->name}}</b>!
                     </div>
                 </div>
                 <div class="accountBlock">
@@ -58,14 +58,14 @@
                         <div class="accountItem__arrow">
                         </div>
                         <div class="accountItem__label">
-                            <a href="#">Comment ça marche?</a>
+                            <a href="help">Comment ça marche?</a>
                         </div>
                     </div>
                     <div class="accountItem">
                         <div class="accountItem__arrow">
                         </div>
                         <div class="accountItem__label">
-                            <a href="#">Mes notes attribuées</a>
+                            <a href="{{ route("note.attributed") }}">Mes notes attribuées</a>
                         </div>
                     </div>
                     <div class="accountItem">
@@ -124,7 +124,7 @@
                                 <div class="groupBlock__Content__Item__arrow">
                                 </div>
                                 <div class="groupBlock__Content__Item__label">
-                                    <a href="mycreatedgroups">Mes groupes crées</a>
+                                    <a href="{{ route("group/mycreatedgroups") }}">Mes groupes crées</a>
                                 </div>
                             </div>
                             @endif
