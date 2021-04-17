@@ -42,9 +42,9 @@ _GNU General Public License v3.0_
     ![param_mails](https://user-images.githubusercontent.com/62764644/115121813-fa778a80-9fb4-11eb-8de0-8495abf2f95f.png)
     
 11. Dans le terminal, toujours dans le dossier cloné, créer les Tables de bases de données :
-    **php artisan migrate**
-12. Et enfin, toujous dans le terminal et dans le dossier cloné, lancer le serveur:
-    **php artisan serve**
+    * **php artisan migrate**
+12. Et enfin, toujours dans le terminal et dans le dossier cloné, lancer le serveur:
+    * **php artisan serve**
     
     
 _Enjoy!_
