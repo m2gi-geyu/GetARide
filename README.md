@@ -1,9 +1,9 @@
-#Projet "GET A RIDE"
+# Projet "GET A RIDE"
 Ce projet a été développé
-##Licence du projet
+## Licence du projet
 [![license]](https://github.com/1907ns/getARide/blob/master/LICENSE)
 
-##Prérequis
+## Prérequis
 * PHP >= 7.3.21
 * MySql >= 8.0.21
 * Composer
@@ -12,7 +12,7 @@ Ce projet a été développé
 * Git
 
 
-##Installation du projet
+## Installation du projet
 
 1. Cloner le projet
 2. Dans le terminal, se déplacer dans le répertoire cloné
@@ -33,9 +33,11 @@ Ce projet a été développé
     1. Configurer la base de donnée (Une base de donnée vierge doit déjà avoir été créé au préalable) Les lignes à modifier concernées:
     ![lignes_à_modifs](https://user-images.githubusercontent.com/62764644/115121730-86d57d80-9fb4-11eb-8aff-7adcc2a467a4.png)
     2. Configurer le serveur SMTP pour l’envoi de mail.  Nous avons utilisé nos adresses mail Google personnelle pour travailler. Pour la partie SMTP il faut conserver et modifier SEULEMENT ces lignes:
+   
     ![lignes_à_modifs2](https://user-images.githubusercontent.com/62764644/115121782-d1ef9080-9fb4-11eb-9801-57905685cddc.png)
 
-10. Dans vos paramètres de compte Google, dans l’onglet sécurité, il faut activer les accès moins sécurisé des applications.
+10. Dans vos paramètres de compte Google, dans l’onglet sécurité, il faut activer les accès moins sécurisé des applications
+
     ![param_mails](https://user-images.githubusercontent.com/62764644/115121813-fa778a80-9fb4-11eb-8de0-8495abf2f95f.png)
     
 11. Dans le terminal, toujours dans le dossier cloné, créer les Tables de bases de données :
@@ -44,6 +46,6 @@ Ce projet a été développé
     **php artisan serve**
     
     
-Enjoy!
+_Enjoy!_
    
 
