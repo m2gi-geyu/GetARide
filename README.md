@@ -32,7 +32,10 @@ _GNU General Public License v3.0_
 
 8. Configurer les variables d’environnement :
     1. Configurer la base de donnée (Une base de donnée vierge doit déjà avoir été créé au préalable) Les lignes à modifier concernées:
+    
     ![lignes_à_modifs](https://user-images.githubusercontent.com/62764644/115121730-86d57d80-9fb4-11eb-8aff-7adcc2a467a4.png)
+    
+    
     2. Configurer le serveur SMTP pour l’envoi de mail.  Nous avons utilisé nos adresses mail Google personnelle pour travailler. Pour la partie SMTP il faut conserver et modifier SEULEMENT ces lignes:
    
     ![lignes_à_modifs2](https://user-images.githubusercontent.com/62764644/115121782-d1ef9080-9fb4-11eb-9801-57905685cddc.png)
