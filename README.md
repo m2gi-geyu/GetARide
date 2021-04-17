@@ -1,7 +1,8 @@
 # Projet "GET A RIDE"
-Ce projet a été développé
+Ce projet a été développé avec le framework Laravel dans le cadre d'un enseignement universitaire.
+
 ## Licence du projet
-[![license]](https://github.com/1907ns/getARide/blob/master/LICENSE)
+_GNU General Public License v3.0_
 
 ## Prérequis
 * PHP >= 7.3.21
