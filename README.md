@@ -14,6 +14,7 @@ _GNU General Public License v3.0_
 
 
 ## Installation du projet
+Commandes à exécuter dans un terminal
 
 1. Cloner le projet
 2. Dans le terminal, se déplacer dans le répertoire cloné
