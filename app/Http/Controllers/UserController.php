@@ -144,8 +144,20 @@ class UserController extends Controller
      */
     public function deleteUserAccount()
     {
-        //TODO: Afficher fenêtre de confirmation avant la suppression
         $user = User::find(session()->get('LoggedUserID')); // Récupération du compte dans la BDD
+        $id = $user->id; // Pour avoir l'ID plus rapidement
+        $path = $user->username;
+        Storage::deleteDirectory(public_path('$path')); // Supression du dossier de l'utilisateur
+        //Supression de chaque tuple de la BDD référençant l'utilisateur
+        DB::table('ratings') -> where('id_rater', $id) -> delete(); // Supression des notes déposées 
+        DB::table('ratings') -> where('id_rated', $id) -> delete(); // Supression des notes déposées
+        DB::table('trips') -> where('id_driver', $id) -> delete(); // Supression des trajets créés par l'utilisateur
+        // TODO: Suppression de chaque lien 'link_user_trip' où les trajets supprimées apparaissent
+        DB::table('groups') -> where('id_creator', $id) -> delete(); // Supression des groupes créées par l'utilisateur
+        // TODO: Suppression de chaque lien 'link_user_groups' où les groupes supprimées apparaissent
+        DB::table('link_users_groups') -> where('id_member', $id) -> delete(); // Supression de l'appartenance à des groupes
+        DB::table('link_user_trip') -> where('id_user', $id) -> delete(); // Suppression de l'appartenance à des trajets
+        //DB::table('notifications') -> where('id_driver', $id) -> delete(); // Suppression des notifications concernant l'utilisateur
         $user -> delete(); // Suppression du compte dans la BDD
         return redirect('logout'); // Renvoyer vers la "page de déconnexion"
     }
